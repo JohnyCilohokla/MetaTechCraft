@@ -9,6 +9,7 @@ public class MetaOreItem extends ItemBlock {
 
 	public MetaOreItem(int par1) {
 		super(par1);
+		setHasSubtypes(true);
 	}
 	
 	@Override
