@@ -24,7 +24,7 @@ public class InventoryLinkBlock extends BlockContainer {
 	}
 
 	protected InventoryLinkBlock(int par1) {
-		this(par1, Material.wood);
+		this(par1, Material.iron);
 		setUnlocalizedName("InventoryLink");
 		// this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F,
 		// 0.9375F);

@@ -21,8 +21,9 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 
 		if (block.getRenderType() != MetaLiquids.metaLiquidModel)
 			return true;
-
+		
 		Tessellator tessellator = Tessellator.instance;
+		
 		int l = block.colorMultiplier(world, x, y, z);
 		float f = (float) (l >> 16 & 255) / 255.0F;
 		float f1 = (float) (l >> 8 & 255) / 255.0F;
@@ -98,6 +99,11 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 			tessellator.addVertexWithUV((double) (x + 0), (double) y + d3, (double) (z + 1), d7, d11);
 			tessellator.addVertexWithUV((double) (x + 1), (double) y + d4, (double) (z + 1), d10, d14);
 			tessellator.addVertexWithUV((double) (x + 1), (double) y + d5, (double) (z + 0), d9, d13);
+			
+			tessellator.addVertexWithUV((double) (x + 1), (double) y + d5, (double) (z + 0), d9, d13);
+			tessellator.addVertexWithUV((double) (x + 1), (double) y + d4, (double) (z + 1), d10, d14);
+			tessellator.addVertexWithUV((double) (x + 0), (double) y + d3, (double) (z + 1), d7, d11);
+			tessellator.addVertexWithUV((double) (x + 0), (double) y + d2, (double) (z + 0), d8, d12);
 		}
 
 		if (renderer.renderAllFaces || flag1) {
@@ -186,6 +192,11 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 				tessellator.addVertexWithUV(d18, (double) y + d17, d20, (double) f8, (double) f12);
 				tessellator.addVertexWithUV(d18, (double) (y + 0), d20, (double) f8, (double) f13);
 				tessellator.addVertexWithUV(d16, (double) (y + 0), d19, (double) f11, (double) f13);
+				
+				tessellator.addVertexWithUV(d16, (double) (y + 0), d19, (double) f11, (double) f13);
+				tessellator.addVertexWithUV(d18, (double) (y + 0), d20, (double) f8, (double) f13);
+				tessellator.addVertexWithUV(d18, (double) y + d17, d20, (double) f8, (double) f12);
+				tessellator.addVertexWithUV(d16, (double) y + d15, d19, (double) f11, (double) f7);
 			}
 
 			renderer.renderMinY = d0;

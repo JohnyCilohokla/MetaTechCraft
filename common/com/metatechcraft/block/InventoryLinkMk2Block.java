@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 public class InventoryLinkMk2Block extends InventoryLinkBlock {
 
 	protected InventoryLinkMk2Block(int par1) {
-		super(par1, Material.wood);
+		super(par1, Material.iron);
 		setUnlocalizedName("InventoryLinkMk2");
 		setCreativeTab(MetaTechCraft.tabs);
 	}

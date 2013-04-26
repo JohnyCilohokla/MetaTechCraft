@@ -9,6 +9,7 @@ public class MaterialMetaLiquid extends Material
     {
         super(par1MapColor);
         this.setNoPushMobility();
+        this.setReplaceable();
     }
 
     /**
