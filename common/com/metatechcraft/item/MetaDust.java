@@ -99,7 +99,7 @@ public class MetaDust extends Item {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(int id, CreativeTabs creativeTab, List list) {
-		for (int meta = 0; meta < (MetaDust.DUST_NUMBER + 1); ++meta) {
+		for (int meta = 0; meta < (MetaDust.DUST_NUMBER + 1); meta++) {
 			list.add(new ItemStack(id, 1, meta));
 		}
 	}
