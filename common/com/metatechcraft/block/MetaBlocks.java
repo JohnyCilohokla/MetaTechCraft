@@ -23,11 +23,10 @@ public class MetaBlocks {
 		GameRegistry.registerBlock(MetaBlocks.metaOreBlock, MetaOreItem.class, "MetaOreBlock");
 		LanguageRegistry.addName(MetaBlocks.metaOreBlock, "MetaOre Block");
 		
-		/*for (int ix = 0; ix < MetaOreBlock.ORE_NUMBER; ix++) {
+		for (int ix = 0; ix < MetaOreBlock.ORE_NUMBER; ix++) {
 			ItemStack multiBlockStack = new ItemStack(MetaBlocks.metaOreBlock, 1, ix);
-			GameRegistry.registerBlock(MetaBlocks.metaOreBlock, "MetaOreBlock");
 			LanguageRegistry.addName(multiBlockStack, MetaOreBlock.getItemDisplayName(multiBlockStack));
-		}*/
+		}
 		
 	}
 }
