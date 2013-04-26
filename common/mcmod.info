@@ -1,0 +1,19 @@
+[
+{
+  "modid": "MetaTechCraft",
+  "name": "MetaTechCraft",
+  "description": "MetaTechCraft",
+  "version": "0.0.1",
+  "url": "metatechcraft.com",
+  "updateUrl": "",
+  "authorList": [
+    "JohnyCilohokla"
+  ],
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]
