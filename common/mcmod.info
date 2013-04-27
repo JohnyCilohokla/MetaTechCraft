@@ -3,7 +3,7 @@
   "modid": "MetaTechCraft",
   "name": "MetaTechCraft",
   "description": "MetaTechCraft",
-  "version": "0.0.8",
+  "version": "@VERSION@.@PATCH@.@REVISION@",
   "url": "metatechcraft.com",
   "updateUrl": "",
   "authorList": [
