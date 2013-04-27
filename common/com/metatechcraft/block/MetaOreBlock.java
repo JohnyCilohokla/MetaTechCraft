@@ -25,7 +25,7 @@ public class MetaOreBlock extends Block {
 
 	protected MetaOreBlock(int par1) {
 		super(par1, Material.iron);
-		setUnlocalizedName("InventoryLink");
+		setUnlocalizedName("MetaOreBlock");
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 

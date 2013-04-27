@@ -2,6 +2,8 @@ package com.metatechcraft.block;
 
 import java.util.List;
 
+import com.metatechcraft.item.MetaDust;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,6 +17,12 @@ public class MetaOreItem extends ItemBlock {
 	public MetaOreItem(int par1) {
 		super(par1);
 		setHasSubtypes(true);
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack itemStack) {
+		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaOreBlock.ORE_NUMBER);
+		return super.getUnlocalizedName() + MetaOreBlock.ORE_NAMES[meta];
 	}
 	
 	@Override
