@@ -16,11 +16,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 
 public class MetaOreBlock extends Block {
 
 	public static final String[] ORE_NAMES = new String[] { "White", "Black", "Red", "Green", "Blue" };
-	public static final int ORE_NUMBER = MetaOreBlock.ORE_NAMES.length - 1;
+	public static final int ORE_COUNT = MetaOreBlock.ORE_NAMES.length;
+	private static final int ORE_SIZE = MetaOreBlock.ORE_COUNT - 1;
 	private Icon[] icons;
 
 	protected MetaOreBlock(int par1) {
@@ -38,22 +41,26 @@ public class MetaOreBlock extends Block {
 		}
 	}
 
-	
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
+		return new ItemStack(this, 1, world.getBlockMetadata(x, y, z));
+	}
+
 	// {"DOWN", "UP", "NORTH", "SOUTH", "WEST", "EAST"};
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int par1, int par2) {
-		int meta = MathHelper.clamp_int(par2, 0, MetaOreBlock.ORE_NUMBER);
+		int meta = MathHelper.clamp_int(par2, 0, MetaOreBlock.ORE_SIZE);
 		return this.icons[meta];
 	}
-	
+
 	@Override
 	public String getUnlocalizedName() {
 		return super.getUnlocalizedName();
 	}
-	
+
 	public static String getItemDisplayName(ItemStack itemStack) {
-		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaOreBlock.ORE_NUMBER);
+		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaOreBlock.ORE_SIZE);
 		switch (meta) {
 		case 0:
 			return EnumChatFormatting.AQUA + "Meta Ore";
@@ -69,11 +76,12 @@ public class MetaOreBlock extends Block {
 			return EnumChatFormatting.WHITE + "Meta Ore(undefined?)";
 		}
 	}
+
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int id, CreativeTabs creativeTab, List list) {
-		for (int meta = 0; meta < (MetaOreBlock.ORE_NUMBER + 1); meta++) {
+		for (int meta = 0; meta < (MetaOreBlock.ORE_SIZE + 1); meta++) {
 			list.add(new ItemStack(id, 1, meta));
 		}
 	}

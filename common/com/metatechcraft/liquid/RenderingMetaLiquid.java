@@ -19,15 +19,16 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 
-		if (block.getRenderType() != MetaLiquids.metaLiquidModel)
+		if (block.getRenderType() != MetaLiquids.metaLiquidModel) {
 			return true;
-		
+		}
+
 		Tessellator tessellator = Tessellator.instance;
-		
+
 		int l = block.colorMultiplier(world, x, y, z);
-		float f = (float) (l >> 16 & 255) / 255.0F;
-		float f1 = (float) (l >> 8 & 255) / 255.0F;
-		float f2 = (float) (l & 255) / 255.0F;
+		float f = ((l >> 16) & 255) / 255.0F;
+		float f1 = ((l >> 8) & 255) / 255.0F;
+		float f2 = (l & 255) / 255.0F;
 		boolean flag = block.shouldSideBeRendered(world, x, y + 1, z, 1);
 		boolean flag1 = block.shouldSideBeRendered(world, x, y - 1, z, 0);
 		boolean[] aboolean = new boolean[] { block.shouldSideBeRendered(world, x, y, z - 1, 2), block.shouldSideBeRendered(world, x, y, z + 1, 3),
@@ -41,10 +42,10 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 		double d1 = 1.0D;
 		Material material = block.blockMaterial;
 		int i1 = world.getBlockMetadata(x, y, z);
-		double d2 = (double) renderer.getFluidHeight(x, y, z, material);
-		double d3 = (double) renderer.getFluidHeight(x, y, z + 1, material);
-		double d4 = (double) renderer.getFluidHeight(x + 1, y, z + 1, material);
-		double d5 = (double) renderer.getFluidHeight(x + 1, y, z, material);
+		double d2 = renderer.getFluidHeight(x, y, z, material);
+		double d3 = renderer.getFluidHeight(x, y, z + 1, material);
+		double d4 = renderer.getFluidHeight(x + 1, y, z + 1, material);
+		double d5 = renderer.getFluidHeight(x + 1, y, z, material);
 		double d6 = 0.0010000000474974513D;
 		float f7;
 		float f8;
@@ -71,46 +72,46 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 			double d14;
 
 			if (f9 < -999.0F) {
-				d8 = (double) icon.getInterpolatedU(0.0D);
-				d12 = (double) icon.getInterpolatedV(0.0D);
+				d8 = icon.getInterpolatedU(0.0D);
+				d12 = icon.getInterpolatedV(0.0D);
 				d7 = d8;
-				d11 = (double) icon.getInterpolatedV(16.0D);
-				d10 = (double) icon.getInterpolatedU(16.0D);
+				d11 = icon.getInterpolatedV(16.0D);
+				d10 = icon.getInterpolatedU(16.0D);
 				d14 = d11;
 				d9 = d10;
 				d13 = d12;
 			} else {
 				f8 = MathHelper.sin(f9) * 0.25F;
 				f7 = MathHelper.cos(f9) * 0.25F;
-				d8 = (double) icon.getInterpolatedU((double) (8.0F + (-f7 - f8) * 16.0F));
-				d12 = (double) icon.getInterpolatedV((double) (8.0F + (-f7 + f8) * 16.0F));
-				d7 = (double) icon.getInterpolatedU((double) (8.0F + (-f7 + f8) * 16.0F));
-				d11 = (double) icon.getInterpolatedV((double) (8.0F + (f7 + f8) * 16.0F));
-				d10 = (double) icon.getInterpolatedU((double) (8.0F + (f7 + f8) * 16.0F));
-				d14 = (double) icon.getInterpolatedV((double) (8.0F + (f7 - f8) * 16.0F));
-				d9 = (double) icon.getInterpolatedU((double) (8.0F + (f7 - f8) * 16.0F));
-				d13 = (double) icon.getInterpolatedV((double) (8.0F + (-f7 - f8) * 16.0F));
+				d8 = icon.getInterpolatedU(8.0F + ((-f7 - f8) * 16.0F));
+				d12 = icon.getInterpolatedV(8.0F + ((-f7 + f8) * 16.0F));
+				d7 = icon.getInterpolatedU(8.0F + ((-f7 + f8) * 16.0F));
+				d11 = icon.getInterpolatedV(8.0F + ((f7 + f8) * 16.0F));
+				d10 = icon.getInterpolatedU(8.0F + ((f7 + f8) * 16.0F));
+				d14 = icon.getInterpolatedV(8.0F + ((f7 - f8) * 16.0F));
+				d9 = icon.getInterpolatedU(8.0F + ((f7 - f8) * 16.0F));
+				d13 = icon.getInterpolatedV(8.0F + ((-f7 - f8) * 16.0F));
 			}
 
 			tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 			f8 = 1.0F;
 			tessellator.setColorOpaque_F(f4 * f8 * f, f4 * f8 * f1, f4 * f8 * f2);
-			tessellator.addVertexWithUV((double) (x + 0), (double) y + d2, (double) (z + 0), d8, d12);
-			tessellator.addVertexWithUV((double) (x + 0), (double) y + d3, (double) (z + 1), d7, d11);
-			tessellator.addVertexWithUV((double) (x + 1), (double) y + d4, (double) (z + 1), d10, d14);
-			tessellator.addVertexWithUV((double) (x + 1), (double) y + d5, (double) (z + 0), d9, d13);
-			
-			tessellator.addVertexWithUV((double) (x + 1), (double) y + d5, (double) (z + 0), d9, d13);
-			tessellator.addVertexWithUV((double) (x + 1), (double) y + d4, (double) (z + 1), d10, d14);
-			tessellator.addVertexWithUV((double) (x + 0), (double) y + d3, (double) (z + 1), d7, d11);
-			tessellator.addVertexWithUV((double) (x + 0), (double) y + d2, (double) (z + 0), d8, d12);
+			tessellator.addVertexWithUV(x + 0, y + d2, z + 0, d8, d12);
+			tessellator.addVertexWithUV(x + 0, y + d3, z + 1, d7, d11);
+			tessellator.addVertexWithUV(x + 1, y + d4, z + 1, d10, d14);
+			tessellator.addVertexWithUV(x + 1, y + d5, z + 0, d9, d13);
+
+			tessellator.addVertexWithUV(x + 1, y + d5, z + 0, d9, d13);
+			tessellator.addVertexWithUV(x + 1, y + d4, z + 1, d10, d14);
+			tessellator.addVertexWithUV(x + 0, y + d3, z + 1, d7, d11);
+			tessellator.addVertexWithUV(x + 0, y + d2, z + 0, d8, d12);
 		}
 
 		if (renderer.renderAllFaces || flag1) {
 			tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y - 1, z));
 			float f10 = 1.0F;
 			tessellator.setColorOpaque_F(f3 * f10, f3 * f10, f3 * f10);
-			renderer.renderBottomFace(block, (double) x, (double) y + d6, (double) z, renderer.getBlockIconFromSide(block, 0));
+			renderer.renderBottomFace(block, x, y + d6, z, renderer.getBlockIconFromSide(block, 0));
 		}
 
 		for (int j1 = 0; j1 < 4; ++j1) {
@@ -146,31 +147,31 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 				if (j1 == 0) {
 					d15 = d2;
 					d17 = d5;
-					d16 = (double) x;
-					d18 = (double) (x + 1);
-					d19 = (double) z + d6;
-					d20 = (double) z + d6;
+					d16 = x;
+					d18 = x + 1;
+					d19 = z + d6;
+					d20 = z + d6;
 				} else if (j1 == 1) {
 					d15 = d4;
 					d17 = d3;
-					d16 = (double) (x + 1);
-					d18 = (double) x;
-					d19 = (double) (z + 1) - d6;
-					d20 = (double) (z + 1) - d6;
+					d16 = x + 1;
+					d18 = x;
+					d19 = z + 1 - d6;
+					d20 = z + 1 - d6;
 				} else if (j1 == 2) {
 					d15 = d3;
 					d17 = d2;
-					d16 = (double) x + d6;
-					d18 = (double) x + d6;
-					d19 = (double) (z + 1);
-					d20 = (double) z;
+					d16 = x + d6;
+					d18 = x + d6;
+					d19 = z + 1;
+					d20 = z;
 				} else {
 					d15 = d5;
 					d17 = d4;
-					d16 = (double) (x + 1) - d6;
-					d18 = (double) (x + 1) - d6;
-					d19 = (double) z;
-					d20 = (double) (z + 1);
+					d16 = x + 1 - d6;
+					d18 = x + 1 - d6;
+					d19 = z;
+					d20 = z + 1;
 				}
 
 				float f11 = icon1.getInterpolatedU(0.0D);
@@ -188,15 +189,15 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 				}
 
 				tessellator.setColorOpaque_F(f4 * f14 * f, f4 * f14 * f1, f4 * f14 * f2);
-				tessellator.addVertexWithUV(d16, (double) y + d15, d19, (double) f11, (double) f7);
-				tessellator.addVertexWithUV(d18, (double) y + d17, d20, (double) f8, (double) f12);
-				tessellator.addVertexWithUV(d18, (double) (y + 0), d20, (double) f8, (double) f13);
-				tessellator.addVertexWithUV(d16, (double) (y + 0), d19, (double) f11, (double) f13);
-				
-				tessellator.addVertexWithUV(d16, (double) (y + 0), d19, (double) f11, (double) f13);
-				tessellator.addVertexWithUV(d18, (double) (y + 0), d20, (double) f8, (double) f13);
-				tessellator.addVertexWithUV(d18, (double) y + d17, d20, (double) f8, (double) f12);
-				tessellator.addVertexWithUV(d16, (double) y + d15, d19, (double) f11, (double) f7);
+				tessellator.addVertexWithUV(d16, y + d15, d19, f11, f7);
+				tessellator.addVertexWithUV(d18, y + d17, d20, f8, f12);
+				tessellator.addVertexWithUV(d18, y + 0, d20, f8, f13);
+				tessellator.addVertexWithUV(d16, y + 0, d19, f11, f13);
+
+				tessellator.addVertexWithUV(d16, y + 0, d19, f11, f13);
+				tessellator.addVertexWithUV(d18, y + 0, d20, f8, f13);
+				tessellator.addVertexWithUV(d18, y + d17, d20, f8, f12);
+				tessellator.addVertexWithUV(d16, y + d15, d19, f11, f7);
 			}
 
 			renderer.renderMinY = d0;

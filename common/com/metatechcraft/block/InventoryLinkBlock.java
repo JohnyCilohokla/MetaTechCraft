@@ -11,6 +11,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Facing;
@@ -95,5 +96,30 @@ public class InventoryLinkBlock extends BlockContainer {
 	public TileEntity createNewTileEntity(World world) {
 		return new InventoryLinkTile();
 	}
+	
+	
+    /**
+     * If this returns true, then comparators facing away from this block will use the value from
+     * getComparatorInputOverride instead of the actual redstone signal strength.
+     */
+	@Override
+    public boolean hasComparatorInputOverride()
+    {
+        return true;
+    }
 
+    /**
+     * If hasComparatorInputOverride returns true, the return value from this is used instead of the redstone signal
+     * strength when this block inputs to a comparator.
+     */
+	@Override
+    public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
+    {
+        return Container.func_94526_b(this.getLinkTile(par1World, par2, par3, par4));
+    }
+
+	private InventoryLinkTile getLinkTile(World par1World, int par2, int par3, int par4) {
+		return (InventoryLinkTile)par1World.getBlockTileEntity(par2, par3, par4);
+	}
+    
 }

@@ -30,8 +30,8 @@ public class MetaTechCraft {
 		MetaBlocks.initize();
 		MetaItems.initize();
 		MetaLiquids.initize();
-		
-		proxy.initizeRendering();
+
+		MetaTechCraft.proxy.initizeRendering();
 	}
 
 	@PostInit

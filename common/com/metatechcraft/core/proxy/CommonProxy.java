@@ -7,10 +7,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class CommonProxy {
 
-	public void initizeRendering(){
-		//Client only!
+	public void initizeRendering() {
+		// Client only!
 	}
-	
+
 	public void registerTileEntities() {
 		GameRegistry.registerTileEntity(InventoryLinkTile.class, "InventoryLinkTile");
 		GameRegistry.registerTileEntity(InventoryLinkMk2Tile.class, "InventoryLinkMk2Tile");

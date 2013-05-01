@@ -10,25 +10,23 @@ import net.minecraftforge.liquids.ILiquid;
 
 public class GreenLiquidStill extends MetaLiquidStill implements ILiquid {
 
-	protected GreenLiquidStill(int par1) {
-		super(par1, MetaLiquids.greenLiquidMaterial);
+	protected GreenLiquidStill(int id) {
+		super(id, MetaLiquids.greenLiquidMaterial);
 		this.blockHardness = 100.0F;
 		setLightOpacity(3);
 		disableStats();
 	}
-	
+
 	@Override
 	public int getRenderType() {
 		return MetaLiquids.metaLiquidModel;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		this.theIcon = new Icon[] { 
-				iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/green"),
-				iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/green_flow") 
-				};
+		this.theIcon = new Icon[] { iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/green"),
+				iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/green_flow") };
 	}
 
 	@Override

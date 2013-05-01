@@ -91,7 +91,7 @@ public class InventoryLinkTile extends TileEntity implements ISidedInventory/*, 
 				return null;
 			}
 			linkPass++;
-			if (linkPass >= getMaxPass()) {
+			if (linkPass >= linkInventory.getMaxPass()) {
 				return null;
 			}
 		}

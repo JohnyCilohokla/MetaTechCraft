@@ -1,15 +1,10 @@
 package com.metatechcraft.block;
 
-import java.util.List;
-
-import com.metatechcraft.item.MetaDust;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 
 public class MetaOreItem extends ItemBlock {
@@ -17,29 +12,24 @@ public class MetaOreItem extends ItemBlock {
 	public MetaOreItem(int par1) {
 		super(par1);
 		setHasSubtypes(true);
+		setMaxDamage(0);
+		this.maxStackSize = 64;
 	}
-	
+
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
-		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaOreBlock.ORE_NUMBER);
+		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaOreBlock.ORE_COUNT - 1);
 		return super.getUnlocalizedName() + MetaOreBlock.ORE_NAMES[meta];
 	}
-	
+
 	@Override
-	public String getItemDisplayName(ItemStack itemStack) {
-		return MetaOreBlock.getItemDisplayName(itemStack);
+	@SideOnly(Side.CLIENT)
+	public Icon getIconFromDamage(int par1) {
+		return MetaBlocks.metaOreBlock.getIcon(0, par1);
 	}
-	
+
 	@Override
 	public int getMetadata(int damageValue) {
 		return damageValue;
-	}
-	@Override
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@SideOnly(Side.CLIENT)
-	public void getSubItems(int id, CreativeTabs creativeTab, List list) {
-		for (int meta = 0; meta < (MetaOreBlock.ORE_NUMBER + 1); meta++) {
-			list.add(new ItemStack(id, 1, meta));
-		}
 	}
 }
