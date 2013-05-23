@@ -52,11 +52,11 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 
 		if (renderer.renderAllFaces || flag) {
 			Icon icon = renderer.getBlockIconFromSideAndMetadata(block, 1, i1);
-			float f9 = (float) BlockFluid.getFlowDirection(world, x, y, z, Material.water);
+			//float f9 = (float) BlockFluid.getFlowDirection(world, x, y, z, Material.water);
 
-			if (f9 > -999.0F) {
-				icon = renderer.getBlockIconFromSideAndMetadata(block, 2, i1);
-			}
+			//if (f9 > -999.0F) {
+			//	icon = renderer.getBlockIconFromSideAndMetadata(block, 2, i1);
+			//}
 
 			d2 -= d6;
 			d3 -= d6;
@@ -71,7 +71,7 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 			double d13;
 			double d14;
 
-			if (f9 < -999.0F) {
+			//if (f9 < -999.0F) {
 				d8 = icon.getInterpolatedU(0.0D);
 				d12 = icon.getInterpolatedV(0.0D);
 				d7 = d8;
@@ -80,7 +80,7 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 				d14 = d11;
 				d9 = d10;
 				d13 = d12;
-			} else {
+			/*} else {
 				f8 = MathHelper.sin(f9) * 0.25F;
 				f7 = MathHelper.cos(f9) * 0.25F;
 				d8 = icon.getInterpolatedU(8.0F + ((-f7 - f8) * 16.0F));
@@ -91,8 +91,8 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 				d14 = icon.getInterpolatedV(8.0F + ((f7 - f8) * 16.0F));
 				d9 = icon.getInterpolatedU(8.0F + ((f7 - f8) * 16.0F));
 				d13 = icon.getInterpolatedV(8.0F + ((-f7 - f8) * 16.0F));
-			}
-
+			}*/
+				
 			tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y, z));
 			f8 = 1.0F;
 			tessellator.setColorOpaque_F(f4 * f8 * f, f4 * f8 * f1, f4 * f8 * f2);
@@ -134,7 +134,7 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 				++k1;
 			}
 
-			Icon icon1 = renderer.getBlockIconFromSideAndMetadata(block, j1 + 2, i1);
+			Icon icon1 = renderer.getBlockIconFromSideAndMetadata(block, 1, i1);
 
 			if (renderer.renderAllFaces || aboolean[j1]) {
 				double d15;

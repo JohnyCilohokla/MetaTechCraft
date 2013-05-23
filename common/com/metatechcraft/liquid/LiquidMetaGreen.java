@@ -1,6 +1,7 @@
 package com.metatechcraft.liquid;
 
 import com.metatechcraft.lib.ModInfo;
+import com.metatechcraft.mod.MetaTechCraft;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -8,13 +9,15 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.util.Icon;
 import net.minecraftforge.liquids.ILiquid;
 
-public class GreenLiquidFlowing extends MetaLiquidFlowing implements ILiquid {
+public class LiquidMetaGreen extends MetaLiquidStill implements ILiquid {
 
-	protected GreenLiquidFlowing(int id) {
+	protected LiquidMetaGreen(int id) {
 		super(id, MetaLiquids.greenLiquidMaterial);
+		setUnlocalizedName("LiquidMetaGreen");
 		this.blockHardness = 100.0F;
 		setLightOpacity(3);
 		disableStats();
+		setCreativeTab(MetaTechCraft.tabs);
 	}
 
 	@Override
@@ -25,8 +28,7 @@ public class GreenLiquidFlowing extends MetaLiquidFlowing implements ILiquid {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		this.theIcon = new Icon[] { iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/green"),
-				iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/green_flow") };
+		this.theIcon = new Icon[] { iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/green")};
 	}
 
 	@Override

@@ -10,32 +10,35 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 public class MetaLiquids {
 
 	public static Material greenLiquidMaterial = new MaterialMetaLiquid(MapColor.grassColor);
+	public static Material blueLiquidMaterial = new MaterialMetaLiquid(MapColor.waterColor);
+	public static Material redLiquidMaterial = new MaterialMetaLiquid(MapColor.tntColor);
 
-	public static GreenLiquidStill greenLiquidStill;
-	public static GreenLiquidFlowing greenLiquidFlowing;
+	public static LiquidMetaGreen liquidMetaGreen;
+	public static LiquidMetaBlue liquidMetaBlue;
+	public static LiquidMetaRed liquidMetaRed;
 
 	public static int metaLiquidModel;
 	
 	public static LiquidStack greenLiquidStack;
+	public static LiquidStack blueLiquidStack;
+	public static LiquidStack redLiquidStack;
 
 	public static void initize() {
 
-		MetaLiquids.greenLiquidFlowing = new GreenLiquidFlowing(2668);
-		GameRegistry.registerBlock(MetaLiquids.greenLiquidFlowing, "GreenLiquidFlowing");
-		LanguageRegistry.addName(MetaLiquids.greenLiquidFlowing, "Green Liquid Flowing");
+		MetaLiquids.liquidMetaGreen = new LiquidMetaGreen(2700);
+		GameRegistry.registerBlock(MetaLiquids.liquidMetaGreen, "LiquidMetaGreen");
+		LanguageRegistry.addName(MetaLiquids.liquidMetaGreen, "Liquid MetaGreen");
 
-		MetaLiquids.greenLiquidStill = new GreenLiquidStill(2669);
-		GameRegistry.registerBlock(MetaLiquids.greenLiquidStill, "GreenLiquidStill");
-		LanguageRegistry.addName(MetaLiquids.greenLiquidStill, "Green Liquid Still");
-		/*
-		MetaLiquids.oilFlowing = new BlockOilFlowing(2670);
-		GameRegistry.registerBlock(MetaLiquids.oilFlowing, "oilFlowing");
-		LanguageRegistry.addName(MetaLiquids.oilFlowing, "oilFlowing");
+		MetaLiquids.liquidMetaBlue = new LiquidMetaBlue(2701);
+		GameRegistry.registerBlock(MetaLiquids.liquidMetaBlue, "LiquidMetaBlue");
+		LanguageRegistry.addName(MetaLiquids.liquidMetaBlue, "Liquid MetaBlue");
 		
-		MetaLiquids.oilStill = new BlockOilStill(2671);
-		GameRegistry.registerBlock(MetaLiquids.oilStill, "oilStill");
-		LanguageRegistry.addName(MetaLiquids.oilStill, "oilStill");
-		*/
-		greenLiquidStack = LiquidDictionary.getOrCreateLiquid("MetaGreenLiquid", new LiquidStack(greenLiquidStill, 1));
+		MetaLiquids.liquidMetaRed = new LiquidMetaRed(2702);
+		GameRegistry.registerBlock(MetaLiquids.liquidMetaRed, "LiquidMetaRed");
+		LanguageRegistry.addName(MetaLiquids.liquidMetaRed, "Liquid MetaRed");
+
+		greenLiquidStack = LiquidDictionary.getOrCreateLiquid("LiquidMetaGreen", new LiquidStack(liquidMetaGreen, 1));
+		blueLiquidStack = LiquidDictionary.getOrCreateLiquid("LiquidMetaBlue", new LiquidStack(liquidMetaBlue, 1));
+		redLiquidStack = LiquidDictionary.getOrCreateLiquid("LiquidMetaRed", new LiquidStack(liquidMetaRed, 1));
 	}
 }
