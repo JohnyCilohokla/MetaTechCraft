@@ -10,6 +10,8 @@ public class MetaBlocks {
 	public static InventoryLinkMk2Block inventoryLinkMk2Block;
 	public static MetaOreBlock metaOreBlock;
 	public static MetaOreItem metaOreItem;
+	
+	public static MetaPortalBlock metaPortalBlock;
 
 	public static void initize() {
 		MetaBlocks.inventoryLinkBlock = new InventoryLinkBlock(2666);
@@ -24,6 +26,10 @@ public class MetaBlocks {
 		GameRegistry.registerBlock(MetaBlocks.metaOreBlock, MetaOreItem.class, "MetaOreBlock");
 		LanguageRegistry.addName(MetaBlocks.metaOreBlock, "MetaOre Block");
 
+		MetaBlocks.metaPortalBlock = new MetaPortalBlock(2905);
+		GameRegistry.registerBlock(MetaBlocks.metaPortalBlock, "MetaPortalBlock");
+		LanguageRegistry.addName(MetaBlocks.metaPortalBlock, "MetaPortal Block");
+		
 		/*metaOreItem = new MetaOreItem(2805);
 		GameRegistry.registerItem(metaOreItem, "MetaOreItem");*/
 

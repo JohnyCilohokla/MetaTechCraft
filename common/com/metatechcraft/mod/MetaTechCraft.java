@@ -1,9 +1,13 @@
 package com.metatechcraft.mod;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
+import net.minecraftforge.common.DimensionManager;
 
 import com.metatechcraft.block.MetaBlocks;
 import com.metatechcraft.core.proxy.CommonProxy;
+import com.metatechcraft.dimension.MetaDimension;
 import com.metatechcraft.item.MetaItems;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.liquid.MetaLiquids;
@@ -16,6 +20,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.VERSION)
 public class MetaTechCraft {
@@ -25,6 +30,8 @@ public class MetaTechCraft {
 
 	public static final CreativeTabs tabs = new CreativeTabs("MetaTechCraft");
 
+	public static final int metaDimID = 17;
+
 	@Init
 	public void init(FMLInitializationEvent event) {
 		MetaBlocks.initize();
@@ -32,6 +39,9 @@ public class MetaTechCraft {
 		MetaLiquids.initize();
 
 		MetaTechCraft.proxy.initizeRendering();
+		
+		DimensionManager.registerProviderType(metaDimID, MetaDimension.class, false);
+		DimensionManager.registerDimension(metaDimID, metaDimID);
 	}
 
 	@PostInit
