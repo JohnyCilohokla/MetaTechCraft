@@ -7,7 +7,6 @@ import java.util.Random;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -103,13 +102,13 @@ public class MetaPortalBlock extends BlockBreakable {
 		byte b0 = 0;
 		byte b1 = 0;
 
-		if ((par1World.getBlockId(par2 - 1, par3 + 1, par4) == Block.netherBrick.blockID)
-				|| (par1World.getBlockId(par2 + 1, par3 + 1, par4) == Block.netherBrick.blockID)) {
+		if ((par1World.getBlockId(par2 - 1, par3 + 1, par4) == MetaBlocks.strangeObsidianBlock.blockID)
+				|| (par1World.getBlockId(par2 + 1, par3 + 1, par4) == MetaBlocks.strangeObsidianBlock.blockID)) {
 			b0 = 1;
 		}
 
-		if ((par1World.getBlockId(par2, par3 + 1, par4 - 1) == Block.netherBrick.blockID)
-				|| (par1World.getBlockId(par2, par3 + 1, par4 + 1) == Block.netherBrick.blockID)) {
+		if ((par1World.getBlockId(par2, par3 + 1, par4 - 1) == MetaBlocks.strangeObsidianBlock.blockID)
+				|| (par1World.getBlockId(par2, par3 + 1, par4 + 1) == MetaBlocks.strangeObsidianBlock.blockID)) {
 			b1 = 1;
 		}
 
@@ -132,7 +131,7 @@ public class MetaPortalBlock extends BlockBreakable {
 						int j1 = par1World.getBlockId(par2 + (b0 * l), par3 + 1 + i1, par4 + (b1 * l));
 
 						if (flag) {
-							if (j1 != Block.netherBrick.blockID) {
+							if (j1 != MetaBlocks.strangeObsidianBlock.blockID) {
 								return false;
 							}
 						}/* else if ((j1 != 0) && (j1 != Block.fire.blockID)) {
@@ -173,7 +172,7 @@ public class MetaPortalBlock extends BlockBreakable {
 			;
 		}
 
-		if (par1World.getBlockId(par2, i1 - 1, par4) != Block.netherBrick.blockID) {
+		if (par1World.getBlockId(par2, i1 - 1, par4) != MetaBlocks.strangeObsidianBlock.blockID) {
 			par1World.setBlockToAir(par2, par3, par4);
 		} else {
 			int j1;
@@ -182,15 +181,15 @@ public class MetaPortalBlock extends BlockBreakable {
 				;
 			}
 
-			if ((j1 == 3) && (par1World.getBlockId(par2, i1 + j1, par4) == Block.netherBrick.blockID)) {
+			if ((j1 == 3) && (par1World.getBlockId(par2, i1 + j1, par4) == MetaBlocks.strangeObsidianBlock.blockID)) {
 				boolean flag = (par1World.getBlockId(par2 - 1, par3, par4) == this.blockID) || (par1World.getBlockId(par2 + 1, par3, par4) == this.blockID);
 				boolean flag1 = (par1World.getBlockId(par2, par3, par4 - 1) == this.blockID) || (par1World.getBlockId(par2, par3, par4 + 1) == this.blockID);
 
 				if (flag && flag1) {
 					par1World.setBlockToAir(par2, par3, par4);
 				} else {
-					if (((par1World.getBlockId(par2 + b0, par3, par4 + b1) != Block.netherBrick.blockID) || (par1World.getBlockId(par2 - b0, par3, par4 - b1) != this.blockID))
-							&& ((par1World.getBlockId(par2 - b0, par3, par4 - b1) != Block.netherBrick.blockID) || (par1World.getBlockId(par2 + b0, par3, par4
+					if (((par1World.getBlockId(par2 + b0, par3, par4 + b1) != MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2 - b0, par3, par4 - b1) != this.blockID))
+							&& ((par1World.getBlockId(par2 - b0, par3, par4 - b1) != MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2 + b0, par3, par4
 									+ b1) != this.blockID))) {
 						par1World.setBlockToAir(par2, par3, par4);
 					}

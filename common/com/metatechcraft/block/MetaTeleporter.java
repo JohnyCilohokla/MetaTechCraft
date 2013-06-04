@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.LongHashMap;
@@ -63,7 +62,7 @@ public class MetaTeleporter extends Teleporter {
 	                                         boolean flag = j1 < 0;
 	                                        
 	                                         /** change this block **/
-	                                         this.worldServerInstance.setBlock(k1, l1, i2, flag ? Block.netherBrick.blockID : 0);
+	                                         this.worldServerInstance.setBlock(k1, l1, i2, flag ? MetaBlocks.strangeObsidianBlock.blockID : 0);
 	                                 }
 	                         }
 	                 }
@@ -409,7 +408,7 @@ public class MetaTeleporter extends Teleporter {
 	                                         flag = l2 < 0;
 	                                        
 	                                         /** change this block **/
-	                                         this.worldServerInstance.setBlock(k3, j3, i4, flag ? Block.netherBrick.blockID : 0);
+	                                         this.worldServerInstance.setBlock(k3, j3, i4, flag ? MetaBlocks.strangeObsidianBlock.blockID : 0);
 	                                 }
 	                         }
 	                 }
@@ -426,7 +425,7 @@ public class MetaTeleporter extends Teleporter {
 	                                 flag = i3 == 0 || i3 == 3 || l2 == -1 || l2 == 3;
 	                                
 	                                 /** change these blocks **/
-	                                 this.worldServerInstance.setBlock(k3, j3, i4, flag ? Block.netherBrick.blockID : MetaBlocks.metaPortalBlock.blockID, 0, 2);
+	                                 this.worldServerInstance.setBlock(k3, j3, i4, flag ? MetaBlocks.strangeObsidianBlock.blockID : MetaBlocks.metaPortalBlock.blockID, 0, 2);
 	                         }
 	                 }
 	                 for (i3 = 0; i3 < 4; ++i3)

@@ -23,7 +23,7 @@ public class MetaDimension extends WorldProvider {
 	
 	@Override
 	public IChunkProvider createChunkGenerator() {
-		return new MetaDimensionChunkProvider(this.worldObj, this.getSeed(), true, "2;7,2x3,2;1;village");
+		return new MetaDimensionChunkProvider(this.worldObj, this.getSeed(), true, "2;32x0,49,10x1;1;village");
 	}
 	
 	@Override
@@ -40,7 +40,7 @@ public class MetaDimension extends WorldProvider {
 	@Override
     public boolean isSurfaceWorld()
     {
-        return true;
+        return false;
     }
 	
 
@@ -96,6 +96,8 @@ public class MetaDimension extends WorldProvider {
     {
         return 8.0F;
     }
+    
+    
 
 	@Override
     public boolean canCoordinateBeSpawn(int par1, int par2)
