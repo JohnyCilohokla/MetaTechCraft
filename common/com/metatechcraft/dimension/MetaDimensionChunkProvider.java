@@ -283,4 +283,10 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 	@Override
 	public void recreateStructures(int par1, int par2) {
 	}
+
+	@Override
+	public void func_104112_b() {
+		// TODO Auto-generated method stub
+		
+	}
 }

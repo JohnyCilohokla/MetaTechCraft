@@ -130,7 +130,7 @@ public class MetaDust extends Item {
 	@Override
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8,
 			float par9, float par10) {
-		if (itemStack.getItemDamage() == 2) {
+		/*if (itemStack.getItemDamage() == 2) {
 			if ((par2EntityPlayer.ridingEntity == null) && (par2EntityPlayer.riddenByEntity == null) && ((par2EntityPlayer instanceof EntityPlayerMP))) {
 				EntityPlayerMP thePlayer = (EntityPlayerMP) par2EntityPlayer;
 				if (thePlayer.timeUntilPortal > 0) {
@@ -147,7 +147,7 @@ public class MetaDust extends Item {
 			}
 		}else if (itemStack.getItemDamage() == 1){
 			MetaBlocks.metaPortalBlock.tryToCreatePortal(par3World, par4, par5, par6);
-		}
+		}*/
 		// Create new TagCompound
 		if (itemStack.getTagCompound() == null) {
 			itemStack.setTagCompound(new NBTTagCompound());
@@ -165,7 +165,7 @@ public class MetaDust extends Item {
 	@SuppressWarnings("unchecked")
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
+	public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, @SuppressWarnings("rawtypes") List par3List, boolean par4) {
 		
 		if (itemStack.getTagCompound() == null) {
 			itemStack.setTagCompound(new NBTTagCompound());

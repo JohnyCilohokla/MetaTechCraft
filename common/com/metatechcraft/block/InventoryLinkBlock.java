@@ -10,7 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -41,13 +41,13 @@ public class InventoryLinkBlock extends BlockContainer {
 		int j1 = Facing.oppositeSide[par5];
 		return j1;
 	}
-
+	
 	/**
 	 * Called when the block is placed in the world.
 	 */
 	@Override
-	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLiving par5EntityLiving, ItemStack par6ItemStack) {
-		super.onBlockPlacedBy(par1World, par2, par3, par4, par5EntityLiving, par6ItemStack);
+	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack) {
+		super.onBlockPlacedBy(par1World, par2, par3, par4, par5EntityLivingBase, par6ItemStack);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -71,12 +71,12 @@ public class InventoryLinkBlock extends BlockContainer {
 		this.topIcon = iconRegister.registerIcon("furnace_top");
 		this.frontIcon = iconRegister.registerIcon("dropper_front");
 		this.frontVerticalIcon = iconRegister.registerIcon("dropper_front_vertical");*/
-		this.blockIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName2() + "_side1");
-		this.side2Icon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName2() + "_side2");
-		this.side3Icon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName2() + "_side3");
-		this.side4Icon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName2() + "_side4");
-		this.frontIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName2() + "_front");
-		this.backIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName2() + "_sideBack");
+		this.blockIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName() + "_side1");
+		this.side2Icon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName() + "_side2");
+		this.side3Icon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName() + "_side3");
+		this.side4Icon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName() + "_side4");
+		this.frontIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName() + "_front");
+		this.backIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName() + "_sideBack");
 		this.icons = new Icon[][] { { this.frontIcon, this.backIcon, this.side4Icon, this.side4Icon, this.side4Icon, this.side4Icon },
 				{ this.backIcon, this.frontIcon, this.side3Icon, this.side3Icon, this.side3Icon, this.side3Icon },
 				{ this.side3Icon, this.side3Icon, this.frontIcon, this.backIcon, this.blockIcon, this.side2Icon },
@@ -115,7 +115,7 @@ public class InventoryLinkBlock extends BlockContainer {
 	@Override
     public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
     {
-        return Container.func_94526_b(this.getLinkTile(par1World, par2, par3, par4));
+        return Container.calcRedstoneFromInventory(this.getLinkTile(par1World, par2, par3, par4));
     }
 
 	private InventoryLinkTile getLinkTile(World par1World, int par2, int par3, int par4) {

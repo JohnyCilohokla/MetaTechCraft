@@ -1,12 +1,10 @@
 package com.metatechcraft.liquid;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFluid;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Icon;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
@@ -111,7 +109,7 @@ public class RenderingMetaLiquid implements ISimpleBlockRenderingHandler {
 			tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y - 1, z));
 			float f10 = 1.0F;
 			tessellator.setColorOpaque_F(f3 * f10, f3 * f10, f3 * f10);
-			renderer.renderBottomFace(block, x, y + d6, z, renderer.getBlockIconFromSide(block, 0));
+			renderer.renderFaceYNeg(block, x, y + d6, z, renderer.getBlockIconFromSide(block, 0));
 		}
 
 		for (int j1 = 0; j1 < 4; ++j1) {

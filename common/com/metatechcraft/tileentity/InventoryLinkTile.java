@@ -163,12 +163,6 @@ public class InventoryLinkTile extends TileEntity implements ISidedInventory/*, 
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-		IInventory inventory = getLinkedInventory();
-		return inventory != null ? inventory.isStackValidForSlot(i, itemstack) : false;
-	}
-
-	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
 		IInventory inventory = getLinkedInventory();
 		return inventory != null ? inventory.isUseableByPlayer(entityplayer) : false;
@@ -192,42 +186,45 @@ public class InventoryLinkTile extends TileEntity implements ISidedInventory/*, 
 
 	@Override
 	public void readFromNBT(NBTTagCompound par1nbtTagCompound) {
-		// TODO Auto-generated method stub
 		super.readFromNBT(par1nbtTagCompound);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound par1nbtTagCompound) {
-		// TODO Auto-generated method stub
 		super.writeToNBT(par1nbtTagCompound);
 	}
 
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		IInventory inventory = getLinkedInventory();
+		return inventory != null ? inventory.isItemValidForSlot(i, itemstack) : false;
+	}
+
 	int[] nullIntArray = {};
-
 	@Override
-	public int[] getSizeInventorySide(int var1) {
-		ISidedInventory sidedInventory = getLinkedSidedInventory();
-		if (sidedInventory != null) {
-			return sidedInventory.getSizeInventorySide(var1);
-		}
-
-		IInventory inventory = getLinkedInventory();
-		if (inventory != null) {
-			int size = inventory.getSizeInventory();
-			int[] slots = new int[size];
-			for (int i = 0; i < size; i++) {
-				slots[i] = i;
+	public int[] getAccessibleSlotsFromSide(int var1) {
+			ISidedInventory sidedInventory = getLinkedSidedInventory();
+			if (sidedInventory != null) {
+				return sidedInventory.getAccessibleSlotsFromSide(var1);
 			}
-			return slots;
-		}
-		return this.nullIntArray;
+
+			IInventory inventory = getLinkedInventory();
+			if (inventory != null) {
+				int size = inventory.getSizeInventory();
+				int[] slots = new int[size];
+				for (int i = 0; i < size; i++) {
+					slots[i] = i;
+				}
+				return slots;
+			}
+			return this.nullIntArray;
 	}
 
 	@Override
-	public boolean func_102007_a(int i, ItemStack itemstack, int j) {
+	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
 		ISidedInventory sidedInventory = getLinkedSidedInventory();
 		if (sidedInventory != null) {
-			return sidedInventory.func_102007_a(i, itemstack, j);
+			return sidedInventory.canInsertItem(i, itemstack, j);
 		}
 
 		IInventory inventory = getLinkedInventory();
@@ -238,10 +235,10 @@ public class InventoryLinkTile extends TileEntity implements ISidedInventory/*, 
 	}
 
 	@Override
-	public boolean func_102008_b(int i, ItemStack itemstack, int j) {
+	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
 		ISidedInventory sidedInventory = getLinkedSidedInventory();
 		if (sidedInventory != null) {
-			return sidedInventory.func_102008_b(i, itemstack, j);
+			return sidedInventory.canExtractItem(i, itemstack, j);
 		}
 
 		IInventory inventory = getLinkedInventory();
@@ -250,33 +247,4 @@ public class InventoryLinkTile extends TileEntity implements ISidedInventory/*, 
 		}
 		return false;
 	}
-	/*
-	@Deprecated
-	private net.minecraftforge.common.ISidedInventory getLinkedOldSidedInventory() {
-		try{
-			TileEntity tile = getWorldObj().getBlockTileEntity(this.xCoord+orientation.offsetX, this.yCoord+orientation.offsetY, this.zCoord+orientation.offsetZ);
-			if ((tile != null) && (tile instanceof net.minecraftforge.common.ISidedInventory)) {
-				return (net.minecraftforge.common.ISidedInventory) tile;
-			} else {
-				return null;
-			}
-		}catch (StackOverflowError e){
-			return null;
-		}
-	}
-	
-	@Override
-	@Deprecated
-	public int getStartInventorySide(ForgeDirection side) {
-		net.minecraftforge.common.ISidedInventory inventory = getLinkedOldSidedInventory();
-		return inventory != null ? inventory.getSizeInventorySide(side) : 0;
-	}
-
-	@Override
-	@Deprecated
-	public int getSizeInventorySide(ForgeDirection side) {
-		net.minecraftforge.common.ISidedInventory inventory = getLinkedOldSidedInventory();
-		return inventory != null ? inventory.getSizeInventorySide(side) : 0;
-	}
-	*/
 }
