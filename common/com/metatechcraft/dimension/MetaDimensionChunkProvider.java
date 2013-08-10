@@ -45,18 +45,13 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 		if (parZ) {
 			Map<?, ?> map = this.flatGeneratorInfo.getWorldFeatures();
 			/*
-			if (map.containsKey("village"))
-			{
-			    Map<String, String> map1 = (Map<String, String>)map.get("village");
-
-			    if (!map1.containsKey("size"))
-			    {
-			        map1.put("size", "1");
-			    }
-
-			    this.structureGenerators.add(new MapGenVillage(map1));
-			}
-			*/
+			 * if (map.containsKey("village")) { Map<String, String> map1 =
+			 * (Map<String, String>)map.get("village");
+			 * 
+			 * if (!map1.containsKey("size")) { map1.put("size", "1"); }
+			 * 
+			 * this.structureGenerators.add(new MapGenVillage(map1)); }
+			 */
 
 			if (map.containsKey("biome_1")) {
 				this.structureGenerators.add(new MapGenScatteredFeature((Map<?, ?>) map.get("biome_1")));
@@ -287,6 +282,5 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 	@Override
 	public void func_104112_b() {
 		// TODO Auto-generated method stub
-		
 	}
 }

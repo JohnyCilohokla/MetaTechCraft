@@ -8,13 +8,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class InventoryLinkMk2Block extends InventoryLinkBlockBase {
+public class InventoryLinkMk1Block extends InventoryLinkBlockBase {
 
-	protected InventoryLinkMk2Block(int par1) {
+	protected InventoryLinkMk1Block(int par1) {
 		super(par1, Material.iron);
-		setUnlocalizedName("InventoryLinkMk2");
-		GameRegistry.registerBlock(MetaBlocks.inventoryLinkBlock, "InventoryLinkMk2");
-		LanguageRegistry.addName(MetaBlocks.inventoryLinkBlock, "Inventory Link Mk2");
+		setUnlocalizedName("InventoryLinkMk1");
+		GameRegistry.registerBlock(this, "InventoryLinkMk1");
+		LanguageRegistry.addName(this, "Inventory Link");
 	}
 
 	@Override

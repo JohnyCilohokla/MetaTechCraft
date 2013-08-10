@@ -19,7 +19,16 @@ import net.minecraft.util.Facing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public class InventoryLinkTile extends TileEntity implements ISidedInventory/*, net.minecraftforge.common.ISidedInventory*/{
+public class InventoryLinkTile extends TileEntity implements ISidedInventory/*
+ * ,
+ * net
+ * .
+ * minecraftforge
+ * .
+ * common
+ * .
+ * ISidedInventory
+ */{
 	private ForgeDirection orientation;
 
 	public InventoryLinkTile() {
@@ -201,23 +210,24 @@ public class InventoryLinkTile extends TileEntity implements ISidedInventory/*, 
 	}
 
 	int[] nullIntArray = {};
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1) {
-			ISidedInventory sidedInventory = getLinkedSidedInventory();
-			if (sidedInventory != null) {
-				return sidedInventory.getAccessibleSlotsFromSide(var1);
-			}
+		ISidedInventory sidedInventory = getLinkedSidedInventory();
+		if (sidedInventory != null) {
+			return sidedInventory.getAccessibleSlotsFromSide(var1);
+		}
 
-			IInventory inventory = getLinkedInventory();
-			if (inventory != null) {
-				int size = inventory.getSizeInventory();
-				int[] slots = new int[size];
-				for (int i = 0; i < size; i++) {
-					slots[i] = i;
-				}
-				return slots;
+		IInventory inventory = getLinkedInventory();
+		if (inventory != null) {
+			int size = inventory.getSizeInventory();
+			int[] slots = new int[size];
+			for (int i = 0; i < size; i++) {
+				slots[i] = i;
 			}
-			return this.nullIntArray;
+			return slots;
+		}
+		return this.nullIntArray;
 	}
 
 	@Override

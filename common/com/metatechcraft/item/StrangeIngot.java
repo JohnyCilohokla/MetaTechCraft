@@ -13,7 +13,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class StrangeIngot extends Item {
 
-
 	@SideOnly(Side.CLIENT)
 	private Icon[] icons;
 

@@ -34,7 +34,7 @@ public class MetaTechCraft {
 		MetaLiquids.initize();
 
 		MetaTechCraft.proxy.initizeRendering();
-		
+
 		DimensionManager.registerProviderType(metaDimID, MetaDimension.class, false);
 		DimensionManager.registerDimension(metaDimID, metaDimID);
 	}

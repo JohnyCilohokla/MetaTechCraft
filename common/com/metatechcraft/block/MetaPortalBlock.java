@@ -1,5 +1,7 @@
 package com.metatechcraft.block;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Random;
@@ -19,7 +21,10 @@ import net.minecraft.world.World;
 public class MetaPortalBlock extends BlockBreakable {
 	public MetaPortalBlock(int par1) {
 		super(par1, ModInfo.MOD_ID.toLowerCase() + ":" + "portal/meta", Material.portal, false);
+		setUnlocalizedName("MetaPortalBlock");
 		setTickRandomly(true);
+		GameRegistry.registerBlock(this, "MetaPortalBlock");
+		LanguageRegistry.addName(this, "MetaPortal Block");
 	}
 
 	/**
@@ -134,9 +139,10 @@ public class MetaPortalBlock extends BlockBreakable {
 							if (j1 != MetaBlocks.strangeObsidianBlock.blockID) {
 								return false;
 							}
-						}/* else if ((j1 != 0) && (j1 != Block.fire.blockID)) {
-							return false;
-						}*/
+						}/*
+							* else if ((j1 != 0) && (j1 != Block.fire.blockID)) {
+							* return false; }
+							*/
 					}
 				}
 			}
@@ -188,9 +194,10 @@ public class MetaPortalBlock extends BlockBreakable {
 				if (flag && flag1) {
 					par1World.setBlockToAir(par2, par3, par4);
 				} else {
-					if (((par1World.getBlockId(par2 + b0, par3, par4 + b1) != MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2 - b0, par3, par4 - b1) != this.blockID))
-							&& ((par1World.getBlockId(par2 - b0, par3, par4 - b1) != MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2 + b0, par3, par4
-									+ b1) != this.blockID))) {
+					if (((par1World.getBlockId(par2 + b0, par3, par4 + b1) != MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2 - b0,
+							par3, par4 - b1) != this.blockID))
+							&& ((par1World.getBlockId(par2 - b0, par3, par4 - b1) != MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2
+									+ b0, par3, par4 + b1) != this.blockID))) {
 						par1World.setBlockToAir(par2, par3, par4);
 					}
 				}

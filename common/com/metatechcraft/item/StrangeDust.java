@@ -13,7 +13,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class StrangeDust extends Item {
 
-
 	@SideOnly(Side.CLIENT)
 	private Icon[] icons;
 

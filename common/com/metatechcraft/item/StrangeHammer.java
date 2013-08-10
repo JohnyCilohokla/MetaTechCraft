@@ -16,7 +16,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class StrangeHammer extends Item {
 
-
 	@SideOnly(Side.CLIENT)
 	private Icon[] icons;
 

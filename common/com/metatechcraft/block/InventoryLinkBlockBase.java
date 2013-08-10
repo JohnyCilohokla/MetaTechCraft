@@ -18,17 +18,14 @@ import net.minecraft.util.Facing;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
-public class InventoryLinkBlock extends BlockContainer {
+public class InventoryLinkBlockBase extends BlockContainer {
 
-	public InventoryLinkBlock(int id, Material material) {
+	public InventoryLinkBlockBase(int id, Material material) {
 		super(id, material);
 	}
 
-	protected InventoryLinkBlock(int par1) {
+	protected InventoryLinkBlockBase(int par1) {
 		this(par1, Material.iron);
-		setUnlocalizedName("InventoryLink");
-		// this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F,
-		// 0.9375F);
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 
@@ -41,7 +38,7 @@ public class InventoryLinkBlock extends BlockContainer {
 		int j1 = Facing.oppositeSide[par5];
 		return j1;
 	}
-	
+
 	/**
 	 * Called when the block is placed in the world.
 	 */
@@ -67,10 +64,13 @@ public class InventoryLinkBlock extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		/*this.blockIcon = iconRegister.registerIcon("furnace_side");
-		this.topIcon = iconRegister.registerIcon("furnace_top");
-		this.frontIcon = iconRegister.registerIcon("dropper_front");
-		this.frontVerticalIcon = iconRegister.registerIcon("dropper_front_vertical");*/
+		/*
+		 * this.blockIcon = iconRegister.registerIcon("furnace_side");
+		 * this.topIcon = iconRegister.registerIcon("furnace_top");
+		 * this.frontIcon = iconRegister.registerIcon("dropper_front");
+		 * this.frontVerticalIcon =
+		 * iconRegister.registerIcon("dropper_front_vertical");
+		 */
 		this.blockIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName() + "_side1");
 		this.side2Icon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName() + "_side2");
 		this.side3Icon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName() + "_side3");
@@ -96,30 +96,29 @@ public class InventoryLinkBlock extends BlockContainer {
 	public TileEntity createNewTileEntity(World world) {
 		return new InventoryLinkTile();
 	}
-	
-	
-    /**
-     * If this returns true, then comparators facing away from this block will use the value from
-     * getComparatorInputOverride instead of the actual redstone signal strength.
-     */
-	@Override
-    public boolean hasComparatorInputOverride()
-    {
-        return true;
-    }
 
-    /**
-     * If hasComparatorInputOverride returns true, the return value from this is used instead of the redstone signal
-     * strength when this block inputs to a comparator.
-     */
+	/**
+	 * If this returns true, then comparators facing away from this block will
+	 * use the value from getComparatorInputOverride instead of the actual
+	 * redstone signal strength.
+	 */
 	@Override
-    public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5)
-    {
-        return Container.calcRedstoneFromInventory(this.getLinkTile(par1World, par2, par3, par4));
-    }
+	public boolean hasComparatorInputOverride() {
+		return true;
+	}
+
+	/**
+	 * If hasComparatorInputOverride returns true, the return value from this is
+	 * used instead of the redstone signal strength when this block inputs to a
+	 * comparator.
+	 */
+	@Override
+	public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5) {
+		return Container.calcRedstoneFromInventory(this.getLinkTile(par1World, par2, par3, par4));
+	}
 
 	private InventoryLinkTile getLinkTile(World par1World, int par2, int par3, int par4) {
-		return (InventoryLinkTile)par1World.getBlockTileEntity(par2, par3, par4);
+		return (InventoryLinkTile) par1World.getBlockTileEntity(par2, par3, par4);
 	}
-    
+
 }

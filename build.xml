@@ -11,9 +11,9 @@
 </target>
 	
 <target name="clean">
-<delete file="${buildConfig.dir.development}\mcp\src\minecraft\mcmod.info" />
-<delete dir="${buildConfig.dir.development}\mcp\src\minecraft\com\metatechcraft" />
-<delete dir="${buildConfig.dir.development}\mcp\reobf\minecraft" />
+<delete file="${buildConfig.dir.mcp}\src\minecraft\mcmod.info" />
+<delete dir="${buildConfig.dir.mcp}\src\minecraft\com\metatechcraft" />
+<delete dir="${buildConfig.dir.mcp}\reobf\minecraft" />
 </target>
 
 <target name="increment-version">
@@ -38,31 +38,34 @@
 	
 
 <target name="prep">
-<copy todir="${buildConfig.dir.development}\mcp\src\minecraft">
-<fileset dir="${buildConfig.dir.development}\source\MetaTechCraft\common\" />
+<copy todir="${buildConfig.dir.mcp}\src\minecraft">
+<fileset dir="${buildConfig.dir.development}\common\" />
 </copy>
 </target>
 
 <target name="replace_tokens">
-<replace dir="${buildConfig.dir.development}\mcp\src\minecraft" token="@VERSION@" value="${build.version.number}" />
-<replace dir="${buildConfig.dir.development}\mcp\src\minecraft" token="@PATCH@" value="${build.patch.number}" />
-<replace dir="${buildConfig.dir.development}\mcp\src\minecraft" token="@REVISION@" value="${build.revision.number}" />
+<replace file="${buildConfig.dir.mcp}\src\minecraft\mcmod.info" token="@VERSION@" value="${build.version.number}" />
+<replace file="${buildConfig.dir.mcp}\src\minecraft\mcmod.info" token="@PATCH@" value="${build.patch.number}" />
+<replace file="${buildConfig.dir.mcp}\src\minecraft\mcmod.info" token="@REVISION@" value="${build.revision.number}" />
+<replace file="${buildConfig.dir.mcp}\src\minecraft\com\metatechcraft\lib\ModInfo.java" token="@VERSION@" value="${build.version.number}" />
+<replace file="${buildConfig.dir.mcp}\src\minecraft\com\metatechcraft\lib\ModInfo.java" token="@PATCH@" value="${build.patch.number}" />
+<replace file="${buildConfig.dir.mcp}\src\minecraft\com\metatechcraft\lib\ModInfo.java" token="@REVISION@" value="${build.revision.number}" />
 </target>
 
 <target name="recompile">
-<exec dir="${buildConfig.dir.development}\mcp" executable="cmd" osfamily="windows">
+<exec dir="${buildConfig.dir.mcp}" executable="cmd" osfamily="windows">
 <arg line="/c recompile.bat" />
 </exec>
-<exec dir="${buildConfig.dir.development}\mcp" executable="bash" osfamily="unix">
+<exec dir="${buildConfig.dir.mcp}" executable="bash" osfamily="unix">
 <arg line="recompile.sh" />
 </exec>
 </target>
 
 <target name="reobfuscate">
-<exec dir="${buildConfig.dir.development}\mcp" executable="cmd" osfamily="windows">
+<exec dir="${buildConfig.dir.mcp}" executable="cmd" osfamily="windows">
 <arg line="/c reobfuscate_srg.bat" />
 </exec>
-<exec dir="${buildConfig.dir.development}\mcp" executable="bash" osfamily="unix">
+<exec dir="${buildConfig.dir.mcp}" executable="bash" osfamily="unix">
 <arg line="reobfuscate_srg.sh" />
 </exec>
 </target>
@@ -80,9 +83,9 @@
 <mkdir dir="${buildConfig.dir.release}" />
 <mkdir dir="${buildConfig.dir.release}\${build.version.number}.${build.patch.number}" />
 <jar destfile="${buildConfig.dir.release}\${build.version.number}.${build.patch.number}\metatechcraft-${build.version.number}.${build.patch.number}.${build.revision.number}-universal.jar">
-<fileset dir="${buildConfig.dir.development}\mcp\src\minecraft\" includes="mcmod.info" />
-<fileset dir="${buildConfig.dir.development}\mcp\reobf\minecraft" />
-<fileset dir="${buildConfig.dir.development}\source\MetaTechCraft\resource" excludes="**/xcf/**" />
+<fileset dir="${buildConfig.dir.mcp}\src\minecraft\" includes="mcmod.info" />
+<fileset dir="${buildConfig.dir.mcp}\reobf\minecraft" />
+<fileset dir="${buildConfig.dir.development}\resource" excludes="**/xcf/**" />
 </jar>
 
 <!-- Clean up the MCP source now that we are done -->
@@ -103,9 +106,9 @@
 <mkdir dir="${buildConfig.dir.release}" />
 <mkdir dir="${buildConfig.dir.release}\${build.version.number}.${build.patch.number}" />
 <jar destfile="${buildConfig.dir.release}\${build.version.number}.${build.patch.number}\metatechcraft-${build.version.number}.${build.patch.number}.${build.revision.number}-universal.jar">
-<fileset dir="${buildConfig.dir.development}\mcp\src\minecraft\" includes="mcmod.info" />
-<fileset dir="${buildConfig.dir.development}\mcp\reobf\minecraft" />
-<fileset dir="${buildConfig.dir.development}\source\MetaTechCraft\resources" excludes="**/xcf/**" />
+<fileset dir="${buildConfig.dir.mcp}\src\minecraft\" includes="mcmod.info" />
+<fileset dir="${buildConfig.dir.mcp}\reobf\minecraft" />
+<fileset dir="${buildConfig.dir.development}\resources" excludes="**/xcf/**" />
 </jar>
 
 <!-- Clean up the MCP source now that we are done -->
