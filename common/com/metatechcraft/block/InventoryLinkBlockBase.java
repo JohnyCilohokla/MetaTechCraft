@@ -22,10 +22,6 @@ public class InventoryLinkBlockBase extends BlockContainer {
 
 	public InventoryLinkBlockBase(int id, Material material) {
 		super(id, material);
-	}
-
-	protected InventoryLinkBlockBase(int par1) {
-		this(par1, Material.iron);
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 

@@ -20,18 +20,18 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class MetaDust extends Item {
+public class MetaChunk extends Item {
 
-	private static final String[] DUST_NAMES = new String[] { "White", "Black", "Red", "Green", "Blue" };
-	private static final int DUST_NUMBER = MetaDust.DUST_NAMES.length - 1;
+	private static final String[] CHUNK_NAMES = new String[] { "White", "Black", "Red", "Green", "Blue" };
+	private static final int CHUNK_NUMBER = MetaChunk.CHUNK_NAMES.length - 1;
 
 	@SideOnly(Side.CLIENT)
 	private Icon[] icons;
 
-	public MetaDust(int id) {
+	public MetaChunk(int id) {
 		super(id);
-		setUnlocalizedName("Meta Dust");
-		LanguageRegistry.addName(this, "Meta Dust");
+		setUnlocalizedName("Meta Chunk");
+		LanguageRegistry.addName(this, "Meta Chunk");
 		setHasSubtypes(true);
 		this.maxStackSize = 64;
 		setCreativeTab(MetaTechCraft.tabs);
@@ -40,8 +40,8 @@ public class MetaDust extends Item {
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
 
-		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaDust.DUST_NUMBER);
-		return super.getUnlocalizedName() + MetaDust.DUST_NAMES[meta];
+		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaChunk.CHUNK_NUMBER);
+		return super.getUnlocalizedName() + MetaChunk.CHUNK_NAMES[meta];
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class MetaDust extends Item {
 	 */
 	public Icon getIconFromDamage(int meta) {
 
-		int j = MathHelper.clamp_int(meta, 0, MetaDust.DUST_NUMBER);
+		int j = MathHelper.clamp_int(meta, 0, MetaChunk.CHUNK_NUMBER);
 		return this.icons[j];
 	}
 
@@ -59,10 +59,10 @@ public class MetaDust extends Item {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 
-		this.icons = new Icon[MetaDust.DUST_NAMES.length];
+		this.icons = new Icon[MetaChunk.CHUNK_NAMES.length];
 
-		for (int i = 0; i < MetaDust.DUST_NAMES.length; ++i) {
-			this.icons[i] = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "dust/meta" + MetaDust.DUST_NAMES[i]);
+		for (int i = 0; i < MetaChunk.CHUNK_NAMES.length; ++i) {
+			this.icons[i] = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "chunk/meta" + MetaChunk.CHUNK_NAMES[i]);
 		}
 	}
 
@@ -70,9 +70,9 @@ public class MetaDust extends Item {
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack stack) {
 
-		int meta = MathHelper.clamp_int(stack.getItemDamage(), 0, MetaDust.DUST_NUMBER);
+		int meta = MathHelper.clamp_int(stack.getItemDamage(), 0, MetaChunk.CHUNK_NUMBER);
 
-		if (meta <= MetaDust.DUST_NUMBER) {
+		if (meta <= MetaChunk.CHUNK_NUMBER) {
 			return true;
 		} else {
 			return false;
@@ -82,21 +82,21 @@ public class MetaDust extends Item {
 	@Override
 	public String getItemDisplayName(ItemStack itemStack) {
 
-		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaDust.DUST_NUMBER);
+		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaChunk.CHUNK_NUMBER);
 
 		switch (meta) {
 		case 0:
-			return EnumChatFormatting.AQUA + "Meta Dust";
+			return EnumChatFormatting.AQUA + "Meta Chunk";
 		case 1:
-			return EnumChatFormatting.DARK_GRAY + "Meta Dust";
+			return EnumChatFormatting.DARK_GRAY + "Meta Chunk";
 		case 2:
-			return EnumChatFormatting.RED + "Meta Dust";
+			return EnumChatFormatting.RED + "Meta Chunk";
 		case 3:
-			return EnumChatFormatting.GREEN + "Meta Dust";
+			return EnumChatFormatting.GREEN + "Meta Chunk";
 		case 4:
-			return EnumChatFormatting.BLUE + "Meta Dust";
+			return EnumChatFormatting.BLUE + "Meta Chunk";
 		default:
-			return EnumChatFormatting.WHITE + "Meta Dust(undefined?)";
+			return EnumChatFormatting.WHITE + "Meta Chunk(undefined?)";
 		}
 	}
 
@@ -104,7 +104,7 @@ public class MetaDust extends Item {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(int id, CreativeTabs creativeTab, List list) {
-		for (int meta = 0; meta < (MetaDust.DUST_NUMBER + 1); meta++) {
+		for (int meta = 0; meta < (MetaChunk.CHUNK_NUMBER + 1); meta++) {
 			list.add(new ItemStack(id, 1, meta));
 		}
 	}

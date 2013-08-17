@@ -1,6 +1,7 @@
 package com.metatechcraft.liquid;
 
 import com.metatechcraft.lib.ModInfo;
+import com.metatechcraft.lib.registry.FluidDescriptor;
 import com.metatechcraft.mod.MetaTechCraft;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -14,10 +15,10 @@ import net.minecraftforge.fluids.Fluid;
 public class MetaLiquid extends BlockFluidFinite {
 
 	String unlocalizedName;
-	Fluid fluid;
+	FluidDescriptor fluid;
 
-	protected MetaLiquid(int id, Fluid fluid, String name) {
-		super(id, fluid, MetaLiquids.metaLiquidMaterial);
+	protected MetaLiquid(int id, FluidDescriptor fluid, String name) {
+		super(id, fluid.getFluid(), MetaLiquids.metaLiquidMaterial);
 		this.fluid = fluid;
 		// props
 		this.blockHardness = 100.0F;
@@ -36,10 +37,12 @@ public class MetaLiquid extends BlockFluidFinite {
 	public void registerIcons(IconRegister iconRegister) {
 		this.blockIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/" + unlocalizedName);
 	}
+	
+	
 
 	@Override
 	public Fluid getFluid() {
-		return fluid;
+		return fluid.getFluid();
 	}
 
 }

@@ -1,12 +1,6 @@
 package com.metatechcraft.dimension;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.ChunkPosition;
@@ -15,43 +9,45 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
-import net.minecraft.world.gen.FlatGeneratorInfo;
-import net.minecraft.world.gen.FlatLayerInfo;
-import net.minecraft.world.gen.feature.MapGenScatteredFeature;
-import net.minecraft.world.gen.feature.WorldGenDungeons;
-import net.minecraft.world.gen.feature.WorldGenLakes;
-import net.minecraft.world.gen.structure.MapGenMineshaft;
-import net.minecraft.world.gen.structure.MapGenStronghold;
-import net.minecraft.world.gen.structure.MapGenStructure;
-import net.minecraft.world.gen.structure.MapGenVillage;
 
 public class MetaDimensionChunkProvider implements IChunkProvider {
 	private World worldObj;
-	private Random random;
-	private final byte[] generatorLayerBlockID = new byte[256];
-	private final byte[] generatorLayerBlockMeta = new byte[256];
-	private final FlatGeneratorInfo flatGeneratorInfo;
-	private final List<MapGenStructure> structureGenerators = new ArrayList<MapGenStructure>();
-	private final boolean generatorDecorations;
-	private final boolean generatorDungeons;
-	private WorldGenLakes waterLakeGenerator;
-	private WorldGenLakes lavaLakeGenerator;
+	//private Random random;
+	private final int[] generatorLayerBlockID = new int[256];
+	private final int[] generatorLayerBlockMeta = new int[256];
+	//private final FlatGeneratorInfo flatGeneratorInfo;
+	//private final List<MapGenStructure> structureGenerators = new ArrayList<MapGenStructure>();
+
+	// private final boolean generatorDecorations;
+	// private final boolean generatorDungeons;
+	// private WorldGenLakes waterLakeGenerator;
+	// private WorldGenLakes lavaLakeGenerator;
 
 	public MetaDimensionChunkProvider(World parWorld, long parX, boolean parZ, String generatorString) {
 		this.worldObj = parWorld;
-		this.random = new Random(parX);
+
+		for (int k = 0; k < 16; ++k) {
+			generatorLayerBlockID[k]=0;
+			generatorLayerBlockMeta[k]=0;
+		}
+		for (int k = 16; k < 17; ++k) {
+			generatorLayerBlockID[k]=49;
+			generatorLayerBlockMeta[k]=0;
+		}
+		/*for (int k = 17; k < 50; ++k) {
+			generatorLayerBlockID[k]=2805;
+			generatorLayerBlockMeta[k]=0;
+		}*/
+		/*for (int k = 45; k < 50; ++k) {
+			generatorLayerBlockID[k]=2805;
+			generatorLayerBlockMeta[k]=k-44;
+		}*/
+		
+		/*this.random = new Random(parX);
 		this.flatGeneratorInfo = FlatGeneratorInfo.createFlatGeneratorFromString(generatorString);
 
 		if (parZ) {
 			Map<?, ?> map = this.flatGeneratorInfo.getWorldFeatures();
-			/*
-			 * if (map.containsKey("village")) { Map<String, String> map1 =
-			 * (Map<String, String>)map.get("village");
-			 * 
-			 * if (!map1.containsKey("size")) { map1.put("size", "1"); }
-			 * 
-			 * this.structureGenerators.add(new MapGenVillage(map1)); }
-			 */
 
 			if (map.containsKey("biome_1")) {
 				this.structureGenerators.add(new MapGenScatteredFeature((Map<?, ?>) map.get("biome_1")));
@@ -64,8 +60,8 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 			if (map.containsKey("stronghold")) {
 				this.structureGenerators.add(new MapGenStronghold((Map<?, ?>) map.get("stronghold")));
 			}
-		}
-
+		}*/
+		/*
 		this.generatorDecorations = this.flatGeneratorInfo.getWorldFeatures().containsKey("decoration");
 
 		if (this.flatGeneratorInfo.getWorldFeatures().containsKey("lake")) {
@@ -77,16 +73,18 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 		}
 
 		this.generatorDungeons = this.flatGeneratorInfo.getWorldFeatures().containsKey("dungeon");
-		Iterator<?> iterator = this.flatGeneratorInfo.getFlatLayers().iterator();
+		*/
+		
+		/*Iterator<?> iterator = this.flatGeneratorInfo.getFlatLayers().iterator();
 
 		while (iterator.hasNext()) {
 			FlatLayerInfo flatlayerinfo = (FlatLayerInfo) iterator.next();
-
+			
 			for (int j = flatlayerinfo.getMinY(); j < (flatlayerinfo.getMinY() + flatlayerinfo.getLayerCount()); ++j) {
 				this.generatorLayerBlockID[j] = (byte) (flatlayerinfo.getFillBlock() & 255);
 				this.generatorLayerBlockMeta[j] = (byte) flatlayerinfo.getFillBlockMeta();
 			}
-		}
+		}*/
 	}
 
 	/**
@@ -117,8 +115,18 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 
 			for (int i1 = 0; i1 < 16; ++i1) {
 				for (int j1 = 0; j1 < 16; ++j1) {
-					extendedblockstorage.setExtBlockID(i1, k & 15, j1, this.generatorLayerBlockID[k] & 255);
+					if (k>15){
+					extendedblockstorage.setExtBlockID(i1, k & 15, j1, this.generatorLayerBlockID[k]);
 					extendedblockstorage.setExtBlockMetadata(i1, k & 15, j1, this.generatorLayerBlockMeta[k]);
+					}else{
+						if ((i1/4)%4==1&&(j1/4)%4==1){
+							extendedblockstorage.setExtBlockID(i1, k & 15, j1, 2805);
+							extendedblockstorage.setExtBlockMetadata(i1, k & 15, j1, 0);
+						}else{
+							extendedblockstorage.setExtBlockID(i1, k & 15, j1, 0);
+							extendedblockstorage.setExtBlockMetadata(i1, k & 15, j1, 0);
+						}
+					}
 				}
 			}
 		}
@@ -131,12 +139,12 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 			abyte[k1] = (byte) abiomegenbase[k1].biomeID;
 		}
 
-		Iterator<MapGenStructure> iterator = this.structureGenerators.iterator();
+		/*Iterator<MapGenStructure> iterator = this.structureGenerators.iterator();
 
 		while (iterator.hasNext()) {
 			MapGenStructure mapgenstructure = iterator.next();
 			mapgenstructure.generate(this, this.worldObj, parX, parZ, (byte[]) null);
-		}
+		}*/
 
 		chunk.generateSkylightMap();
 		return chunk;
@@ -155,7 +163,7 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 	 */
 	@Override
 	public void populate(IChunkProvider par1IChunkProvider, int par2, int par3) {
-		int k = par2 * 16;
+		/*int k = par2 * 16;
 		int l = par3 * 16;
 		BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(k + 16, l + 16);
 		boolean flag = false;
@@ -206,7 +214,7 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 
 		if (this.generatorDecorations) {
 			biomegenbase.decorate(this.worldObj, this.random, k, l);
-		}
+		}*/
 	}
 
 	/**
@@ -255,7 +263,7 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 	 */
 	@Override
 	public ChunkPosition findClosestStructure(World par1World, String par2Str, int par3, int par4, int par5) {
-		if ("Stronghold".equals(par2Str)) {
+		/*if ("Stronghold".equals(par2Str)) {
 			Iterator<MapGenStructure> iterator = this.structureGenerators.iterator();
 
 			while (iterator.hasNext()) {
@@ -265,7 +273,7 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 					return mapgenstructure.getNearestInstance(par1World, par3, par4, par5);
 				}
 			}
-		}
+		}*/
 
 		return null;
 	}

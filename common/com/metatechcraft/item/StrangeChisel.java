@@ -17,15 +17,15 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class StrangeHammer extends MetaTool {
+public class StrangeChisel extends MetaTool {
 
 	@SideOnly(Side.CLIENT)
 	private Icon[] icons;
 
-	public StrangeHammer(int id) {
+	public StrangeChisel(int id) {
 		super(id, MetaBlocks.metaMaterial);
-		setUnlocalizedName("Strange Hammer");
-		LanguageRegistry.addName(this, "Strange Hammer");
+		setUnlocalizedName("Strange Chisel");
+		LanguageRegistry.addName(this, "Strange Chisel");
 		setCreativeTab(MetaTechCraft.tabs);
 		setMaxDamage(5000);
 		setOnDestroyItem(MetaItems.strangeDust);
@@ -34,7 +34,7 @@ public class StrangeHammer extends MetaTool {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		this.itemIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "tool/hammer");
+		this.itemIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "tool/chisel");
 	}
 
 	@Override
@@ -46,16 +46,14 @@ public class StrangeHammer extends MetaTool {
 	@Override
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8,
 			float par9, float par10) {
-		if (MetaBlocks.metaPortalBlock.tryToCreatePortal(par3World, par4, par5, par6)){
-			ItemUtilities.damageItemOrDestroy(itemStack, itemStack.itemID, 1000, par2EntityPlayer);
-		}
+		ItemUtilities.damageItemOrDestroy(itemStack, itemStack.itemID, 10, par2EntityPlayer);
 		return true;
 	}
 	
 	@Override
 	public float getStrVsBlock(ItemStack itemstack, Block block, int metadata) {
 		if (block.blockMaterial == MetaBlocks.metaMaterial){
-			return 10f;
+			return 1f;
 		}else{
 			return 0;
 		}

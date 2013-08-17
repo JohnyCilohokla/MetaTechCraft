@@ -3,23 +3,23 @@ package com.metatechcraft.block;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.world.World;
+
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.world.World;
+public class StrangeBricks extends Block {
 
-public class StrangeObsidianBlock extends Block {
-
-	protected StrangeObsidianBlock(int par1) {
+	protected StrangeBricks(int par1) {
 		super(par1, MetaBlocks.metaMaterial);
-		setUnlocalizedName("StrangeObsidianBlock");
+		setUnlocalizedName("Strange Bricks");
 		setCreativeTab(MetaTechCraft.tabs);
-		GameRegistry.registerBlock(this, "StrangeObsidianBlock");
-		LanguageRegistry.addName(this, "StrangeObsidian Block");
+		GameRegistry.registerBlock(this, "StrangeBricks");
+		LanguageRegistry.addName(this, "Strange Bricks");
 	}
 
 	@Override
@@ -30,6 +30,6 @@ public class StrangeObsidianBlock extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "strangeObsidian");
+		this.blockIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "strangeBricks");
 	}
 }

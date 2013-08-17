@@ -2,6 +2,7 @@ package com.metatechcraft.liquid;
 
 import java.util.List;
 
+import com.metatechcraft.lib.ItemUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -9,8 +10,8 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
@@ -19,12 +20,12 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class MetaBucket extends ItemBucket {
+public class MetaLiquidContainer extends Item{
 
-	public MetaBucket(int id) {
-		super(id, 0);
-		setUnlocalizedName("bucket");
-		setContainerItem(Item.bucketEmpty);
+	public MetaLiquidContainer(int id) {
+		super(id);
+		setUnlocalizedName("liquidContainer");
+		setContainerItem(this);
 		this.setHasSubtypes(true);
 		setCreativeTab(MetaTechCraft.tabs);
 	}
@@ -74,14 +75,19 @@ public class MetaBucket extends ItemBucket {
 					return stack;
 				}
 				if (stack.getItemDamage() == 0) {
-					if (world.getBlockMaterial(clickX, clickY, clickZ) == MetaLiquids.metaLiquidMaterial && world.getBlockMetadata(clickX, clickY, clickZ) == 7) {
-						int meta = world.getBlockId(clickX, clickY, clickZ) - 2700;
-						world.setBlockToAir(clickX, clickY, clickZ);
-						return new ItemStack(MetaLiquids.metaBuckets, 1, meta);
+					if (world.getBlockMaterial(clickX, clickY, clickZ) == MetaLiquids.metaLiquidMaterial) {
+						int meta = world.getBlockMetadata(clickX, clickY, clickZ);
+						int id = world.getBlockId(clickX, clickY, clickZ) - 2700;
+						if (world.getBlockMetadata(clickX, clickY, clickZ) <= 0) {
+							world.setBlockToAir(clickX, clickY, clickZ);
+						} else {
+							world.setBlockMetadataWithNotify(clickX, clickY, clickZ, meta - 1, 3);
+						}
+						return ItemUtilities.replaceSingleItemOrDropAndReturn(world, player, stack, new ItemStack(MetaLiquids.metaLiquidContainer, 1, id));
 					}
 				} else {
 					if (this.tryPlaceContainedLiquid(world, clickX, clickY, clickZ, stack.getItemDamage()) && !player.capabilities.isCreativeMode) {
-						return new ItemStack(MetaLiquids.metaBuckets, 1, 0);
+						return ItemUtilities.replaceSingleItemOrDropAndReturn(world, player, stack, new ItemStack(MetaLiquids.metaLiquidContainer, 1, 0));
 					}
 				}
 			}
@@ -90,13 +96,24 @@ public class MetaBucket extends ItemBucket {
 		}
 	}
 
-	public boolean tryPlaceContainedLiquid(World world, int clickX, int clickY, int clickZ, int meta) {
+	public boolean tryPlaceContainedLiquid(World world, int clickX, int clickY, int clickZ, int liquidID) {
+		int id = world.getBlockId(clickX, clickY, clickZ);
+
+		// try to merge first
+		if (world.getBlockMaterial(clickX, clickY, clickZ) == MetaLiquids.metaLiquidMaterial) {
+			int meta = world.getBlockMetadata(clickX, clickY, clickZ);
+			if (id != MetaLiquids.metaFluids[liquidID - 1].blockID || meta >= 7) {
+				return false;
+			} else {
+				world.setBlockMetadataWithNotify(clickX, clickY, clickZ, meta + 1, 3);
+				return true;
+			}
+		}
+		// then try to replace
 		if (!world.isAirBlock(clickX, clickY, clickZ) && world.getBlockMaterial(clickX, clickY, clickZ).isSolid()) {
 			return false;
 		} else {
-			int id = 0;
-			world.setBlock(clickX, clickY, clickZ, MetaLiquids.fluidBlocks[meta - 1].blockID, 7, 3); // TODO: Merge liquids
-
+			world.setBlock(clickX, clickY, clickZ,MetaLiquids.metaFluids[liquidID - 1].blockID, 0, 3);
 			return true;
 		}
 	}
@@ -106,7 +123,7 @@ public class MetaBucket extends ItemBucket {
 	public void getSubItems(int id, CreativeTabs tab, List list) {
 		// empty
 		list.add(new ItemStack(id, 1, 0));
-		for (int i = 0; i < MetaLiquids.fluidNames.length; i++)
+		for (int i = 0; i < MetaLiquids.metaFluidNames.length; i++)
 			list.add(new ItemStack(id, 1, i + 1));
 	}
 
@@ -119,11 +136,11 @@ public class MetaBucket extends ItemBucket {
 
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		this.icons = new Icon[MetaLiquids.fluidNames.length + 1];
+		this.icons = new Icon[MetaLiquids.metaFluidNames.length + 1];
 
-		this.icons[0] = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/Empty_bucket");
-		for (int i = 0; i < (MetaLiquids.fluidNames.length); ++i) {
-			this.icons[i + 1] = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/" + MetaLiquids.fluidNames[i] + "_bucket");
+		this.icons[0] = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/container_Empty");
+		for (int i = 0; i < (MetaLiquids.metaFluidNames.length); ++i) {
+			this.icons[i + 1] = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/container_" + MetaLiquids.metaFluidNames[i]);
 		}
 	}
 
@@ -131,8 +148,17 @@ public class MetaBucket extends ItemBucket {
 		if (stack.getItemDamage() == 0) {
 			return getUnlocalizedName() + ".empty";
 		}
-		int arr = MathHelper.clamp_int(stack.getItemDamage() - 1, 0, MetaLiquids.fluidNames.length);
-		return getUnlocalizedName() + "." + MetaLiquids.fluidNames[arr];
+		int arr = MathHelper.clamp_int(stack.getItemDamage() - 1, 0, MetaLiquids.metaFluidNames.length);
+		return getUnlocalizedName() + "." + MetaLiquids.metaFluidNames[arr];
+	}
+	
+	public static String getDisplayName(ItemStack itemStack) {
+		int rawMeta = itemStack.getItemDamage();
+		if (rawMeta==0){
+			return EnumChatFormatting.WHITE + "Meta Container (Empty)";
+		}
+		int meta = MathHelper.clamp_int(rawMeta-1, 0, MetaLiquids.metaFluidNames.length);
+		return EnumChatFormatting.AQUA + "Meta Container ("+MetaLiquids.metaFluidNames[meta]+")";
 	}
 
 }

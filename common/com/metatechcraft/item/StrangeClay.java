@@ -12,22 +12,22 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class StrangeDust extends Item {
+public class StrangeClay extends Item {
 
 	@SideOnly(Side.CLIENT)
 	private Icon[] icons;
 
-	public StrangeDust(int id) {
+	public StrangeClay(int id) {
 		super(id);
-		setUnlocalizedName("Strange Dust");
-		LanguageRegistry.addName(this, "Strange Dust");
+		setUnlocalizedName("Strange Clay");
+		LanguageRegistry.addName(this, "Strange Clay");
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		this.itemIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "strangeDust");
+		this.itemIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "strangeClay");
 	}
 
 	@Override

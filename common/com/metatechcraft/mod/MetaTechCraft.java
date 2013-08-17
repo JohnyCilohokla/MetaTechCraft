@@ -6,6 +6,7 @@ import net.minecraftforge.common.DimensionManager;
 import com.metatechcraft.block.MetaBlocks;
 import com.metatechcraft.core.proxy.CommonProxy;
 import com.metatechcraft.dimension.MetaDimension;
+import com.metatechcraft.generators.MetaGenerator;
 import com.metatechcraft.item.MetaItems;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.liquid.MetaLiquids;
@@ -26,12 +27,11 @@ public class MetaTechCraft {
 	public static final CreativeTabs tabs = new CreativeTabs("MetaTechCraft");
 
 	public static final int metaDimID = 17;
+	
+	public static MetaGenerator metaGenerator;
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		MetaBlocks.initize();
-		MetaItems.initize();
-		MetaLiquids.initize();
 
 		MetaTechCraft.proxy.initizeRendering();
 
@@ -46,6 +46,12 @@ public class MetaTechCraft {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-
+		
+		MetaBlocks.initize();
+		MetaItems.initize();
+		MetaLiquids.initize();
+		
+		metaGenerator = new MetaGenerator();
+		metaGenerator.preInit();
 	}
 }

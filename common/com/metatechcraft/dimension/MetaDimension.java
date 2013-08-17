@@ -84,7 +84,7 @@ public class MetaDimension extends WorldProvider {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public float getCloudHeight() {
-		return 8.0F;
+		return 208.0F;
 	}
 
 	@Override
