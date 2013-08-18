@@ -1,5 +1,7 @@
 package com.metatechcraft.lib.registry;
 
+import com.metatechcraft.mod.MetaTechCraft;
+
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -25,8 +27,8 @@ public class FluidDescriptor extends BlockDescriptor {
 		return ObjectDescriptorType.FLUID;
 	}
 
-	public void registerFluid(ItemStack blockLiquidStack){
-		register(blockLiquidStack.getItem().getUnlocalizedName(blockLiquidStack),blockLiquidStack.getDisplayName(),blockLiquidStack);
+	public void registerFluid(String unlocalizedName, ItemStack blockLiquidStack){
+		register(unlocalizedName,blockLiquidStack.getDisplayName(),blockLiquidStack);
 	}
 	
 	protected void register(String unlocalizedName, String name, ItemStack blockLiquidStack) {
@@ -34,6 +36,7 @@ public class FluidDescriptor extends BlockDescriptor {
 		FluidRegistry.registerFluid(this.getFluid());
 		fluid.setBlockID(getBlock());
 		this.blockID = fluid.getBlockID();
+		MetaTechCraft.registry.addObject(unlocalizedName, this);
 	}
 
 	public Fluid getFluid() {

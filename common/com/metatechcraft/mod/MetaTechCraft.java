@@ -9,6 +9,7 @@ import com.metatechcraft.dimension.MetaDimension;
 import com.metatechcraft.generators.MetaGenerator;
 import com.metatechcraft.item.MetaItems;
 import com.metatechcraft.lib.ModInfo;
+import com.metatechcraft.lib.registry.MetaTechRegistry;
 import com.metatechcraft.liquid.MetaLiquids;
 
 import cpw.mods.fml.common.Mod;
@@ -29,6 +30,8 @@ public class MetaTechCraft {
 	public static final int metaDimID = 17;
 	
 	public static MetaGenerator metaGenerator;
+
+	public static MetaTechRegistry registry = new MetaTechRegistry();
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {

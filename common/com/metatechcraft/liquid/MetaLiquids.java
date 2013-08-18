@@ -33,7 +33,9 @@ public class MetaLiquids {
 			MetaLiquids.metaFluids[i] = FluidDescriptor.newFluid(MetaLiquids.metaFluidNames[i],12,3000,6000);
 			Block liquid = new MetaLiquid(2701 + i, MetaLiquids.metaFluids[i], MetaLiquids.metaFluidNames[i]);
 			ItemStack metaLiquidStack = new ItemStack(liquid);
-			MetaLiquids.metaFluids[i].registerFluid(metaLiquidStack);
+
+			String unlocalizedName = MetaLiquids.metaFluidNames[i].replaceAll("[^a-zA-Z]", "");
+			MetaLiquids.metaFluids[i].registerFluid("metatech.fluid."+unlocalizedName, metaLiquidStack);
 			
 			FluidContainerRegistry.registerFluidContainer(new FluidContainerData(new FluidStack(MetaLiquids.metaFluids[i].getFluid(), 125), new ItemStack(
 					MetaLiquids.metaLiquidContainer, 1, i + 1), new ItemStack(MetaLiquids.metaLiquidContainer, 1, 0)));
@@ -43,4 +45,6 @@ public class MetaLiquids {
 		}
 
 	}
+	
+	
 }
