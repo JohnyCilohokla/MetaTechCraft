@@ -5,10 +5,10 @@ public enum ObjectDescriptorType {
 	Class<?> objectDescpriptClass;
 
 	private ObjectDescriptorType(Class<?> objectDescpriptClass) {
-		this.objectDescpriptClass=objectDescpriptClass;
+		this.objectDescpriptClass = objectDescpriptClass;
 	}
-	
+
 	public Class<?> getObjectDescpriptClass() {
-		return objectDescpriptClass;
+		return this.objectDescpriptClass;
 	}
 }

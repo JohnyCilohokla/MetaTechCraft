@@ -11,7 +11,7 @@ public class FluidDescriptor extends BlockDescriptor {
 	int boilingPoint;
 	Fluid fluid;
 	public int blockID;
-	
+
 	public FluidDescriptor(Fluid fluid) {
 		this.fluid = fluid;
 	}
@@ -27,19 +27,20 @@ public class FluidDescriptor extends BlockDescriptor {
 		return ObjectDescriptorType.FLUID;
 	}
 
-	public void registerFluid(String unlocalizedName, ItemStack blockLiquidStack){
-		register(unlocalizedName,blockLiquidStack.getDisplayName(),blockLiquidStack);
+	public void registerFluid(String unlocalizedName, ItemStack blockLiquidStack) {
+		register(unlocalizedName, blockLiquidStack.getDisplayName(), blockLiquidStack);
 	}
-	
+
+	@Override
 	protected void register(String unlocalizedName, String name, ItemStack blockLiquidStack) {
 		super.register(unlocalizedName, name, blockLiquidStack);
-		FluidRegistry.registerFluid(this.getFluid());
-		fluid.setBlockID(getBlock());
-		this.blockID = fluid.getBlockID();
+		FluidRegistry.registerFluid(getFluid());
+		this.fluid.setBlockID(getBlock());
+		this.blockID = this.fluid.getBlockID();
 		MetaTechCraft.registry.addObject(unlocalizedName, this);
 	}
 
 	public Fluid getFluid() {
-		return fluid;
+		return this.fluid;
 	}
 }

@@ -10,14 +10,15 @@ import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.FMLLog;
 
 /**
-* This class is used for storing ore generation data. If you are too lazy to generate your own
-* ores, you can do {@link #OreGenerator.addOre()} to add your ore to the list of ores to generate.
-* 
-* 
-*
-* @author Calclavia, JohnyCilohokla
-*
-*/
+ * This class is used for storing ore generation data. If you are too lazy to
+ * generate your own ores, you can do {@link #OreGenerator.addOre()} to add your
+ * ore to the list of ores to generate.
+ * 
+ * 
+ * 
+ * @author Calclavia, JohnyCilohokla
+ * 
+ */
 public abstract class OreGenBase {
 	public MineableBlockDescriptior ore;
 	public boolean shouldGenerate = false;
@@ -29,12 +30,14 @@ public abstract class OreGenBase {
 			FMLLog.severe("Ore is null while registering ore generation!");
 		}
 	}
+
 	public OreGenBase enable(boolean enable) {
 		this.shouldGenerate = enable;
 		return this;
 	}
+
 	public OreGenBase enable(Configuration config) {
-		this.shouldGenerate = shouldGenerateOre(config, this.ore.name);
+		this.shouldGenerate = OreGenBase.shouldGenerateOre(config, this.ore.name);
 		return this;
 	}
 

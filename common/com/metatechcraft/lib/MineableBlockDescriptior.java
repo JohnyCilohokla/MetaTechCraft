@@ -33,17 +33,17 @@ public class MineableBlockDescriptior {
 			FMLLog.severe("ItemStack is null while registering MineableBlockDescriptior!");
 		}
 	}
-	
-	public MineableBlockDescriptior setTool(String harvestTool, int harvestLevel){
-		this.harvestTool=harvestTool;
-		this.harvestLevel=harvestLevel;
+
+	public MineableBlockDescriptior setTool(String harvestTool, int harvestLevel) {
+		this.harvestTool = harvestTool;
+		this.harvestLevel = harvestLevel;
 		return this;
 	}
-	
-	public MineableBlockDescriptior registerToolAndOreDictionary(){
-		OreDictionary.registerOre(oreDictionaryName, oreStack);
-		MinecraftForge.setBlockHarvestLevel(Block.blocksList[this.oreStack.itemID], this.oreStack.getItemDamage(), harvestTool, harvestLevel);
+
+	public MineableBlockDescriptior registerToolAndOreDictionary() {
+		OreDictionary.registerOre(this.oreDictionaryName, this.oreStack);
+		MinecraftForge.setBlockHarvestLevel(Block.blocksList[this.oreStack.itemID], this.oreStack.getItemDamage(), this.harvestTool, this.harvestLevel);
 		return this;
 	}
-	
+
 }

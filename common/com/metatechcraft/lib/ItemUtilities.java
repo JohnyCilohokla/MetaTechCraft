@@ -10,41 +10,41 @@ import net.minecraftforge.common.FakePlayer;
 
 public class ItemUtilities {
 
-	public static void damageItemOrDestroy(ItemStack item, int itemID, int damage, EntityLivingBase entity, World world, int x, int y, int z, Item onDestroyItem, int itemCount, int itemMeta){
-		if (onDestroyItem==null||((item.getMaxDamage()-item.getItemDamage()+1)>(int)(damage))){
-			item.damageItem((int)(damage), entity);
-		}else{
-			//destroy item!!!
-			item.damageItem((int)(damage*100), entity);
-			//!client
-			if (!world.isRemote){
-	            EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(onDestroyItem, itemCount, itemMeta));
-	            world.spawnEntityInWorld(entityitem);
+	public static void damageItemOrDestroy(ItemStack item, int itemID, int damage, EntityLivingBase entity, World world, int x, int y, int z, Item onDestroyItem, int itemCount, int itemMeta) {
+		if ((onDestroyItem == null) || (((item.getMaxDamage() - item.getItemDamage()) + 1) > (damage))) {
+			item.damageItem((damage), entity);
+		} else {
+			// destroy item!!!
+			item.damageItem(damage * 100, entity);
+			// !client
+			if (!world.isRemote) {
+				EntityItem entityitem = new EntityItem(world, x, y, z, new ItemStack(onDestroyItem, itemCount, itemMeta));
+				world.spawnEntityInWorld(entityitem);
 			}
 		}
 	}
 
-	public static void damageItemOrDestroy(ItemStack item, int itemID, int damage, EntityLivingBase entity, World world, int x, int y, int z, Item onDestroyItem){
-		damageItemOrDestroy(item, itemID, damage, entity, world, x, y, z, onDestroyItem, 1, 0);
+	public static void damageItemOrDestroy(ItemStack item, int itemID, int damage, EntityLivingBase entity, World world, int x, int y, int z, Item onDestroyItem) {
+		ItemUtilities.damageItemOrDestroy(item, itemID, damage, entity, world, x, y, z, onDestroyItem, 1, 0);
 	}
 
-	public static void damageItemOrDestroy(ItemStack item, int itemID, int damage, EntityLivingBase entity, World world, int x, int y, int z){
-		if (item.getItem() instanceof MetaTool){
-			MetaTool tool = (MetaTool)item.getItem();
-			damageItemOrDestroy(item, itemID, damage, entity, world, x, y, z, tool.onDestroyItem, tool.onDestroyItemCount, tool.onDestroyItemMeta);
-		}else{
-			damageItemOrDestroy(item, itemID, damage, entity, world, x, y, z, null, 0, 1);
+	public static void damageItemOrDestroy(ItemStack item, int itemID, int damage, EntityLivingBase entity, World world, int x, int y, int z) {
+		if (item.getItem() instanceof MetaTool) {
+			MetaTool tool = (MetaTool) item.getItem();
+			ItemUtilities.damageItemOrDestroy(item, itemID, damage, entity, world, x, y, z, tool.onDestroyItem, tool.onDestroyItemCount, tool.onDestroyItemMeta);
+		} else {
+			ItemUtilities.damageItemOrDestroy(item, itemID, damage, entity, world, x, y, z, null, 0, 1);
 		}
 	}
 
-	public static void damageItemOrDestroy(ItemStack item, int itemID, int damage, EntityLivingBase entity){
-		if (item.getItem() instanceof MetaTool){
-			
+	public static void damageItemOrDestroy(ItemStack item, int itemID, int damage, EntityLivingBase entity) {
+		if (item.getItem() instanceof MetaTool) {
+
 		}
-		damageItemOrDestroy(item, itemID, damage, entity, entity.worldObj, entity.chunkCoordX, entity.chunkCoordY, entity.chunkCoordZ);
+		ItemUtilities.damageItemOrDestroy(item, itemID, damage, entity, entity.worldObj, entity.chunkCoordX, entity.chunkCoordY, entity.chunkCoordZ);
 	}
 
-	public static ItemStack replaceSingleItemOrDropAndReturn( World world, EntityPlayer player, ItemStack stack, ItemStack replaced) {
+	public static ItemStack replaceSingleItemOrDropAndReturn(World world, EntityPlayer player, ItemStack stack, ItemStack replaced) {
 		if (stack.stackSize > 1) {
 			if (!world.isRemote) {
 				EntityItem entityitem = new EntityItem(world, player.posX, player.posY - 1.0D, player.posZ, replaced);
@@ -59,6 +59,5 @@ public class ItemUtilities {
 			return replaced;
 		}
 	}
-	
 
 }

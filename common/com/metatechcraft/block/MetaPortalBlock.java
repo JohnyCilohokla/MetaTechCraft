@@ -107,13 +107,11 @@ public class MetaPortalBlock extends BlockBreakable {
 		byte b0 = 0;
 		byte b1 = 0;
 
-		if ((par1World.getBlockId(par2 - 1, par3 + 1, par4) == MetaBlocks.strangeObsidianBlock.blockID)
-				|| (par1World.getBlockId(par2 + 1, par3 + 1, par4) == MetaBlocks.strangeObsidianBlock.blockID)) {
+		if ((par1World.getBlockId(par2 - 1, par3 + 1, par4) == MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2 + 1, par3 + 1, par4) == MetaBlocks.strangeObsidianBlock.blockID)) {
 			b0 = 1;
 		}
 
-		if ((par1World.getBlockId(par2, par3 + 1, par4 - 1) == MetaBlocks.strangeObsidianBlock.blockID)
-				|| (par1World.getBlockId(par2, par3 + 1, par4 + 1) == MetaBlocks.strangeObsidianBlock.blockID)) {
+		if ((par1World.getBlockId(par2, par3 + 1, par4 - 1) == MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2, par3 + 1, par4 + 1) == MetaBlocks.strangeObsidianBlock.blockID)) {
 			b1 = 1;
 		}
 
@@ -194,10 +192,8 @@ public class MetaPortalBlock extends BlockBreakable {
 				if (flag && flag1) {
 					par1World.setBlockToAir(par2, par3, par4);
 				} else {
-					if (((par1World.getBlockId(par2 + b0, par3, par4 + b1) != MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2 - b0,
-							par3, par4 - b1) != this.blockID))
-							&& ((par1World.getBlockId(par2 - b0, par3, par4 - b1) != MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2
-									+ b0, par3, par4 + b1) != this.blockID))) {
+					if (((par1World.getBlockId(par2 + b0, par3, par4 + b1) != MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2 - b0, par3, par4 - b1) != this.blockID))
+							&& ((par1World.getBlockId(par2 - b0, par3, par4 - b1) != MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2 + b0, par3, par4 + b1) != this.blockID))) {
 						par1World.setBlockToAir(par2, par3, par4);
 					}
 				}
@@ -217,14 +213,10 @@ public class MetaPortalBlock extends BlockBreakable {
 		if (par1IBlockAccess.getBlockId(par2, par3, par4) == this.blockID) {
 			return false;
 		} else {
-			boolean flag = (par1IBlockAccess.getBlockId(par2 - 1, par3, par4) == this.blockID)
-					&& (par1IBlockAccess.getBlockId(par2 - 2, par3, par4) != this.blockID);
-			boolean flag1 = (par1IBlockAccess.getBlockId(par2 + 1, par3, par4) == this.blockID)
-					&& (par1IBlockAccess.getBlockId(par2 + 2, par3, par4) != this.blockID);
-			boolean flag2 = (par1IBlockAccess.getBlockId(par2, par3, par4 - 1) == this.blockID)
-					&& (par1IBlockAccess.getBlockId(par2, par3, par4 - 2) != this.blockID);
-			boolean flag3 = (par1IBlockAccess.getBlockId(par2, par3, par4 + 1) == this.blockID)
-					&& (par1IBlockAccess.getBlockId(par2, par3, par4 + 2) != this.blockID);
+			boolean flag = (par1IBlockAccess.getBlockId(par2 - 1, par3, par4) == this.blockID) && (par1IBlockAccess.getBlockId(par2 - 2, par3, par4) != this.blockID);
+			boolean flag1 = (par1IBlockAccess.getBlockId(par2 + 1, par3, par4) == this.blockID) && (par1IBlockAccess.getBlockId(par2 + 2, par3, par4) != this.blockID);
+			boolean flag2 = (par1IBlockAccess.getBlockId(par2, par3, par4 - 1) == this.blockID) && (par1IBlockAccess.getBlockId(par2, par3, par4 - 2) != this.blockID);
+			boolean flag3 = (par1IBlockAccess.getBlockId(par2, par3, par4 + 1) == this.blockID) && (par1IBlockAccess.getBlockId(par2, par3, par4 + 2) != this.blockID);
 			boolean flag4 = flag || flag1;
 			boolean flag5 = flag2 || flag3;
 			return flag4 && (par5 == 4) ? true : (flag4 && (par5 == 5) ? true : (flag5 && (par5 == 2) ? true : flag5 && (par5 == 3)));
@@ -255,8 +247,7 @@ public class MetaPortalBlock extends BlockBreakable {
 						new MetaTeleporter(thePlayer.mcServer.worldServerForDimension(MetaTechCraft.metaDimID)));
 			} else {
 				thePlayer.timeUntilPortal = 10;
-				thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, 0,
-						new MetaTeleporter(thePlayer.mcServer.worldServerForDimension(0)));
+				thePlayer.mcServer.getConfigurationManager().transferPlayerToDimension(thePlayer, 0, new MetaTeleporter(thePlayer.mcServer.worldServerForDimension(0)));
 			}
 		}
 	}

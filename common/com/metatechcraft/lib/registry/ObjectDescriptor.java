@@ -6,22 +6,22 @@ public class ObjectDescriptor {
 	private String name;
 
 	public ObjectDescriptor() {
-		registered = false;
+		this.registered = false;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
-	
+
 	public String getUnlocalizedName() {
-		return unlocalizedName;
+		return this.unlocalizedName;
 	}
 
 	public ObjectDescriptorType getType() {
 		return ObjectDescriptorType.OBJECT;
 	}
-	
-	void register(String unlocalizedName, String name){
+
+	void register(String unlocalizedName, String name) {
 		this.unlocalizedName = unlocalizedName;
 		this.name = name;
 		this.registered = true;

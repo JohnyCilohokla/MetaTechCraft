@@ -34,11 +34,12 @@ public class MetaTeleporter extends Teleporter {
 	/**
 	 * Place an entity in a nearby portal, creating one if necessary.
 	 */
+	@Override
 	public void placeInPortal(Entity par1Entity, double par2, double par4, double par6, float par8) {
 		if (this.worldServerInstance.provider.dimensionId != 1) {
-			if (!this.placeInExistingPortal(par1Entity, par2, par4, par6, par8)) {
-				this.makePortal(par1Entity);
-				this.placeInExistingPortal(par1Entity, par2, par4, par6, par8);
+			if (!placeInExistingPortal(par1Entity, par2, par4, par6, par8)) {
+				makePortal(par1Entity);
+				placeInExistingPortal(par1Entity, par2, par4, par6, par8);
 			}
 		} else {
 			int i = MathHelper.floor_double(par1Entity.posX);
@@ -49,9 +50,9 @@ public class MetaTeleporter extends Teleporter {
 			for (int l = -2; l <= 2; ++l) {
 				for (int i1 = -2; i1 <= 2; ++i1) {
 					for (int j1 = -1; j1 < 3; ++j1) {
-						int k1 = i + i1 * b0 + l * b1;
+						int k1 = i + (i1 * b0) + (l * b1);
 						int l1 = j + j1;
-						int i2 = k + i1 * b1 - l * b0;
+						int i2 = (k + (i1 * b1)) - (l * b0);
 						boolean flag = j1 < 0;
 
 						/** change this block **/
@@ -59,7 +60,7 @@ public class MetaTeleporter extends Teleporter {
 					}
 				}
 			}
-			par1Entity.setLocationAndAngles((double) i, (double) j, (double) k, par1Entity.rotationYaw, 0.0F);
+			par1Entity.setLocationAndAngles(i, j, k, par1Entity.rotationYaw, 0.0F);
 			par1Entity.motionX = par1Entity.motionY = par1Entity.motionZ = 0.0D;
 		}
 	}
@@ -67,6 +68,7 @@ public class MetaTeleporter extends Teleporter {
 	/**
 	 * Place an entity in a nearby portal which already exists.
 	 */
+	@Override
 	public boolean placeInExistingPortal(Entity par1Entity, double par2, double par4, double par6, float par8) {
 		short short1 = 128;
 		double d3 = -1.0D;
@@ -88,10 +90,10 @@ public class MetaTeleporter extends Teleporter {
 			portalposition.lastUpdateTime = this.worldServerInstance.getTotalWorldTime();
 			flag = false;
 		} else {
-			for (k1 = l - short1; k1 <= l + short1; ++k1) {
-				double d5 = (double) k1 + 0.5D - par1Entity.posX;
-				for (int l1 = i1 - short1; l1 <= i1 + short1; ++l1) {
-					double d6 = (double) l1 + 0.5D - par1Entity.posZ;
+			for (k1 = l - short1; k1 <= (l + short1); ++k1) {
+				double d5 = (k1 + 0.5D) - par1Entity.posX;
+				for (int l1 = i1 - short1; l1 <= (i1 + short1); ++l1) {
+					double d6 = (l1 + 0.5D) - par1Entity.posZ;
 					for (int i2 = this.worldServerInstance.getActualHeight() - 1; i2 >= 0; --i2) {
 						/** change this block **/
 						if (this.worldServerInstance.getBlockId(k1, i2, l1) == MetaBlocks.metaPortalBlock.blockID) {
@@ -99,9 +101,9 @@ public class MetaTeleporter extends Teleporter {
 							while (this.worldServerInstance.getBlockId(k1, i2 - 1, l1) == MetaBlocks.metaPortalBlock.blockID) {
 								--i2;
 							}
-							d4 = (double) i2 + 0.5D - par1Entity.posY;
-							double d7 = d5 * d5 + d4 * d4 + d6 * d6;
-							if (d3 < 0.0D || d7 < d3) {
+							d4 = (i2 + 0.5D) - par1Entity.posY;
+							double d7 = (d5 * d5) + (d4 * d4) + (d6 * d6);
+							if ((d3 < 0.0D) || (d7 < d3)) {
 								d3 = d7;
 								i = k1;
 								j = i2;
@@ -117,9 +119,9 @@ public class MetaTeleporter extends Teleporter {
 				this.destinationCoordinateCache.add(j1, new MetaPortalPosition(this, i, j, k, this.worldServerInstance.getTotalWorldTime()));
 				this.destinationCoordinateKeys.add(Long.valueOf(j1));
 			}
-			double d8 = (double) i + 0.5D;
-			double d9 = (double) j + 0.5D;
-			d4 = (double) k + 0.5D;
+			double d8 = i + 0.5D;
+			double d9 = j + 0.5D;
+			d4 = k + 0.5D;
 			int j2 = -1;
 			/** change this block **/
 			if (this.worldServerInstance.getBlockId(i - 1, j, k) == MetaBlocks.metaPortalBlock.blockID) {
@@ -144,8 +146,7 @@ public class MetaTeleporter extends Teleporter {
 				int j3 = Direction.offsetZ[j2];
 				int k3 = Direction.offsetX[l2];
 				int l3 = Direction.offsetZ[l2];
-				boolean flag1 = !this.worldServerInstance.isAirBlock(i + i3 + k3, j, k + j3 + l3)
-						|| !this.worldServerInstance.isAirBlock(i + i3 + k3, j + 1, k + j3 + l3);
+				boolean flag1 = !this.worldServerInstance.isAirBlock(i + i3 + k3, j, k + j3 + l3) || !this.worldServerInstance.isAirBlock(i + i3 + k3, j + 1, k + j3 + l3);
 				boolean flag2 = !this.worldServerInstance.isAirBlock(i + i3, j, k + j3) || !this.worldServerInstance.isAirBlock(i + i3, j + 1, k + j3);
 				if (flag1 && flag2) {
 					j2 = Direction.rotateOpposite[j2];
@@ -155,11 +156,10 @@ public class MetaTeleporter extends Teleporter {
 					k3 = Direction.offsetX[l2];
 					l3 = Direction.offsetZ[l2];
 					k1 = i - k3;
-					d8 -= (double) k3;
+					d8 -= k3;
 					int i4 = k - l3;
-					d4 -= (double) l3;
-					flag1 = !this.worldServerInstance.isAirBlock(k1 + i3 + k3, j, i4 + j3 + l3)
-							|| !this.worldServerInstance.isAirBlock(k1 + i3 + k3, j + 1, i4 + j3 + l3);
+					d4 -= l3;
+					flag1 = !this.worldServerInstance.isAirBlock(k1 + i3 + k3, j, i4 + j3 + l3) || !this.worldServerInstance.isAirBlock(k1 + i3 + k3, j + 1, i4 + j3 + l3);
 					flag2 = !this.worldServerInstance.isAirBlock(k1 + i3, j, i4 + j3) || !this.worldServerInstance.isAirBlock(k1 + i3, j + 1, i4 + j3);
 				}
 				float f1 = 0.5F;
@@ -171,8 +171,8 @@ public class MetaTeleporter extends Teleporter {
 				} else if (flag1 && flag2) {
 					f2 = 0.0F;
 				}
-				d8 += (double) ((float) k3 * f1 + f2 * (float) i3);
-				d4 += (double) ((float) l3 * f1 + f2 * (float) j3);
+				d8 += (k3 * f1) + (f2 * i3);
+				d4 += (l3 * f1) + (f2 * j3);
 				float f3 = 0.0F;
 				float f4 = 0.0F;
 				float f5 = 0.0F;
@@ -192,9 +192,9 @@ public class MetaTeleporter extends Teleporter {
 				}
 				double d10 = par1Entity.motionX;
 				double d11 = par1Entity.motionZ;
-				par1Entity.motionX = d10 * (double) f3 + d11 * (double) f6;
-				par1Entity.motionZ = d10 * (double) f5 + d11 * (double) f4;
-				par1Entity.rotationYaw = par8 - (float) (k2 * 90) + (float) (j2 * 90);
+				par1Entity.motionX = (d10 * f3) + (d11 * f6);
+				par1Entity.motionZ = (d10 * f5) + (d11 * f4);
+				par1Entity.rotationYaw = (par8 - k2 * 90) + j2 * 90;
 			} else {
 				par1Entity.motionX = par1Entity.motionY = par1Entity.motionZ = 0.0D;
 			}
@@ -205,6 +205,7 @@ public class MetaTeleporter extends Teleporter {
 		}
 	}
 
+	@Override
 	public boolean makePortal(Entity par1Entity) {
 		byte b0 = 16;
 		double d0 = -1.0D;
@@ -231,38 +232,37 @@ public class MetaTeleporter extends Teleporter {
 		int k4;
 		double d3;
 		double d4;
-		for (i2 = i - b0; i2 <= i + b0; ++i2) {
-			d1 = (double) i2 + 0.5D - par1Entity.posX;
-			for (j2 = k - b0; j2 <= k + b0; ++j2) {
-				d2 = (double) j2 + 0.5D - par1Entity.posZ;
+		for (i2 = i - b0; i2 <= (i + b0); ++i2) {
+			d1 = (i2 + 0.5D) - par1Entity.posX;
+			for (j2 = k - b0; j2 <= (k + b0); ++j2) {
+				d2 = (j2 + 0.5D) - par1Entity.posZ;
 				label274: for (k2 = this.worldServerInstance.getActualHeight() - 1; k2 >= 0; --k2) {
 					if (this.worldServerInstance.isAirBlock(i2, k2, j2)) {
-						while (k2 > 0 && this.worldServerInstance.isAirBlock(i2, k2 - 1, j2)) {
+						while ((k2 > 0) && this.worldServerInstance.isAirBlock(i2, k2 - 1, j2)) {
 							--k2;
 						}
-						for (i3 = l1; i3 < l1 + 4; ++i3) {
+						for (i3 = l1; i3 < (l1 + 4); ++i3) {
 							l2 = i3 % 2;
 							k3 = 1 - l2;
-							if (i3 % 4 >= 2) {
+							if ((i3 % 4) >= 2) {
 								l2 = -l2;
 								k3 = -k3;
 							}
 							for (j3 = 0; j3 < 3; ++j3) {
 								for (i4 = 0; i4 < 4; ++i4) {
 									for (l3 = -1; l3 < 4; ++l3) {
-										k4 = i2 + (i4 - 1) * l2 + j3 * k3;
+										k4 = i2 + ((i4 - 1) * l2) + (j3 * k3);
 										j4 = k2 + l3;
-										int l4 = j2 + (i4 - 1) * k3 - j3 * l2;
-										if (l3 < 0 && !this.worldServerInstance.getBlockMaterial(k4, j4, l4).isSolid() || l3 >= 0
-												&& !this.worldServerInstance.isAirBlock(k4, j4, l4)) {
+										int l4 = (j2 + ((i4 - 1) * k3)) - (j3 * l2);
+										if (((l3 < 0) && !this.worldServerInstance.getBlockMaterial(k4, j4, l4).isSolid()) || ((l3 >= 0) && !this.worldServerInstance.isAirBlock(k4, j4, l4))) {
 											continue label274;
 										}
 									}
 								}
 							}
-							d4 = (double) k2 + 0.5D - par1Entity.posY;
-							d3 = d1 * d1 + d4 * d4 + d2 * d2;
-							if (d0 < 0.0D || d3 < d0) {
+							d4 = (k2 + 0.5D) - par1Entity.posY;
+							d3 = (d1 * d1) + (d4 * d4) + (d2 * d2);
+							if ((d0 < 0.0D) || (d3 < d0)) {
 								d0 = d3;
 								l = i2;
 								i1 = k2;
@@ -275,32 +275,31 @@ public class MetaTeleporter extends Teleporter {
 			}
 		}
 		if (d0 < 0.0D) {
-			for (i2 = i - b0; i2 <= i + b0; ++i2) {
-				d1 = (double) i2 + 0.5D - par1Entity.posX;
-				for (j2 = k - b0; j2 <= k + b0; ++j2) {
-					d2 = (double) j2 + 0.5D - par1Entity.posZ;
+			for (i2 = i - b0; i2 <= (i + b0); ++i2) {
+				d1 = (i2 + 0.5D) - par1Entity.posX;
+				for (j2 = k - b0; j2 <= (k + b0); ++j2) {
+					d2 = (j2 + 0.5D) - par1Entity.posZ;
 					label222: for (k2 = this.worldServerInstance.getActualHeight() - 1; k2 >= 0; --k2) {
 						if (this.worldServerInstance.isAirBlock(i2, k2, j2)) {
-							while (k2 > 0 && this.worldServerInstance.isAirBlock(i2, k2 - 1, j2)) {
+							while ((k2 > 0) && this.worldServerInstance.isAirBlock(i2, k2 - 1, j2)) {
 								--k2;
 							}
-							for (i3 = l1; i3 < l1 + 2; ++i3) {
+							for (i3 = l1; i3 < (l1 + 2); ++i3) {
 								l2 = i3 % 2;
 								k3 = 1 - l2;
 								for (j3 = 0; j3 < 4; ++j3) {
 									for (i4 = -1; i4 < 4; ++i4) {
-										l3 = i2 + (j3 - 1) * l2;
+										l3 = i2 + ((j3 - 1) * l2);
 										k4 = k2 + i4;
-										j4 = j2 + (j3 - 1) * k3;
-										if (i4 < 0 && !this.worldServerInstance.getBlockMaterial(l3, k4, j4).isSolid() || i4 >= 0
-												&& !this.worldServerInstance.isAirBlock(l3, k4, j4)) {
+										j4 = j2 + ((j3 - 1) * k3);
+										if (((i4 < 0) && !this.worldServerInstance.getBlockMaterial(l3, k4, j4).isSolid()) || ((i4 >= 0) && !this.worldServerInstance.isAirBlock(l3, k4, j4))) {
 											continue label222;
 										}
 									}
 								}
-								d4 = (double) k2 + 0.5D - par1Entity.posY;
-								d3 = d1 * d1 + d4 * d4 + d2 * d2;
-								if (d0 < 0.0D || d3 < d0) {
+								d4 = (k2 + 0.5D) - par1Entity.posY;
+								d3 = (d1 * d1) + (d4 * d4) + (d2 * d2);
+								if ((d0 < 0.0D) || (d3 < d0)) {
 									d0 = d3;
 									l = i2;
 									i1 = k2;
@@ -318,7 +317,7 @@ public class MetaTeleporter extends Teleporter {
 		j2 = j1;
 		int k5 = k1 % 2;
 		int l5 = 1 - k5;
-		if (k1 % 4 >= 2) {
+		if ((k1 % 4) >= 2) {
 			k5 = -k5;
 			l5 = -l5;
 		}
@@ -327,16 +326,16 @@ public class MetaTeleporter extends Teleporter {
 			if (i1 < 70) {
 				i1 = 70;
 			}
-			if (i1 > this.worldServerInstance.getActualHeight() - 10) {
+			if (i1 > (this.worldServerInstance.getActualHeight() - 10)) {
 				i1 = this.worldServerInstance.getActualHeight() - 10;
 			}
 			j5 = i1;
 			for (k2 = -1; k2 <= 1; ++k2) {
 				for (i3 = 1; i3 < 3; ++i3) {
 					for (l2 = -1; l2 < 3; ++l2) {
-						k3 = i5 + (i3 - 1) * k5 + k2 * l5;
+						k3 = i5 + ((i3 - 1) * k5) + (k2 * l5);
 						j3 = j5 + l2;
-						i4 = j2 + (i3 - 1) * l5 - k2 * k5;
+						i4 = (j2 + ((i3 - 1) * l5)) - (k2 * k5);
 						flag = l2 < 0;
 
 						/** change this block **/
@@ -348,10 +347,10 @@ public class MetaTeleporter extends Teleporter {
 		for (k2 = 0; k2 < 4; ++k2) {
 			for (i3 = 0; i3 < 4; ++i3) {
 				for (l2 = -1; l2 < 4; ++l2) {
-					k3 = i5 + (i3 - 1) * k5;
+					k3 = i5 + ((i3 - 1) * k5);
 					j3 = j5 + l2;
-					i4 = j2 + (i3 - 1) * l5;
-					flag = i3 == 0 || i3 == 3 || l2 == -1 || l2 == 3;
+					i4 = j2 + ((i3 - 1) * l5);
+					flag = (i3 == 0) || (i3 == 3) || (l2 == -1) || (l2 == 3);
 
 					/** change these blocks **/
 					this.worldServerInstance.setBlock(k3, j3, i4, flag ? MetaBlocks.strangeObsidianBlock.blockID : MetaBlocks.metaPortalBlock.blockID, 0, 2);
@@ -359,9 +358,9 @@ public class MetaTeleporter extends Teleporter {
 			}
 			for (i3 = 0; i3 < 4; ++i3) {
 				for (l2 = -1; l2 < 4; ++l2) {
-					k3 = i5 + (i3 - 1) * k5;
+					k3 = i5 + ((i3 - 1) * k5);
 					j3 = j5 + l2;
-					i4 = j2 + (i3 - 1) * l5;
+					i4 = j2 + ((i3 - 1) * l5);
 					this.worldServerInstance.notifyBlocksOfNeighborChange(k3, j3, i4, this.worldServerInstance.getBlockId(k3, j3, i4));
 				}
 			}
@@ -373,14 +372,15 @@ public class MetaTeleporter extends Teleporter {
 	 * called periodically to remove out-of-date portal locations from the cache
 	 * list. Argument par1 is a WorldServer.getTotalWorldTime() value.
 	 */
+	@Override
 	public void removeStalePortalLocations(long par1) {
-		if (par1 % 100L == 0L) {
+		if ((par1 % 100L) == 0L) {
 			Iterator<Long> iterator = this.destinationCoordinateKeys.iterator();
 			long j = par1 - 600L;
 			while (iterator.hasNext()) {
 				Long olong = iterator.next();
 				PortalPosition portalposition = (PortalPosition) this.destinationCoordinateCache.getValueByKey(olong.longValue());
-				if (portalposition == null || portalposition.lastUpdateTime < j) {
+				if ((portalposition == null) || (portalposition.lastUpdateTime < j)) {
 					iterator.remove();
 					this.destinationCoordinateCache.remove(olong.longValue());
 				}

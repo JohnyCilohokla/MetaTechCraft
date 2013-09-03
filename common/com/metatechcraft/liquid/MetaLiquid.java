@@ -28,28 +28,26 @@ public class MetaLiquid extends BlockFluidFinite {
 		setLightOpacity(3);
 		disableStats();
 		setCreativeTab(MetaTechCraft.tabs);
-		
+
 		// names
-		unlocalizedName = name.replaceAll("[^a-zA-Z]", "");
-		setUnlocalizedName("metatech.fluid."+unlocalizedName);
-		GameRegistry.registerBlock(this, unlocalizedName);
+		this.unlocalizedName = name.replaceAll("[^a-zA-Z]", "");
+		setUnlocalizedName("metatech.fluid." + this.unlocalizedName);
+		GameRegistry.registerBlock(this, this.unlocalizedName);
 		LanguageRegistry.addName(this, "Liquid " + name);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/" + unlocalizedName);
-		fluid.getFluid().setIcons(this.blockIcon);
+		this.blockIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "liquid/" + this.unlocalizedName);
+		this.fluid.getFluid().setIcons(this.blockIcon);
 	}
-	
-	
 
 	@Override
 	public Fluid getFluid() {
-		return fluid.getFluid();
+		return this.fluid.getFluid();
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int par1, int par2) {
@@ -60,10 +58,10 @@ public class MetaLiquid extends BlockFluidFinite {
 	public boolean canDrain(World world, int x, int y, int z) {
 		return true;
 	}
-	
+
 	@Override
 	public FluidStack drain(World world, int x, int y, int z, boolean doDrain) {
-		if (doDrain){
+		if (doDrain) {
 			int meta = world.getBlockMetadata(x, y, z);
 			if (world.getBlockMetadata(x, y, z) <= 0) {
 				world.setBlockToAir(x, y, z);

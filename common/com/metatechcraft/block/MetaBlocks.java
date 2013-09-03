@@ -5,7 +5,11 @@ import java.util.Iterator;
 
 import com.metatechcraft.lib.MetaConfig;
 import com.metatechcraft.lib.MineableBlockDescriptior;
+import com.metatechcraft.tileentity.InfuserTopTileEntity;
+import com.metatechcraft.tileentity.InventoryLinkMk2Tile;
+import com.metatechcraft.tileentity.InventoryLinkTile;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 import net.minecraft.block.material.MapColor;
@@ -22,48 +26,62 @@ public class MetaBlocks {
 	public static StrangeObsidianBlock strangeObsidianBlock;
 	public static StrangeBricks strangeBricksBlock;
 
+	public static InfuserTopBlock infuserTopBlock;
+
 	public static ItemStack[] strangeOreStacks;
-	public static HashMap<String,MineableBlockDescriptior> mineableStacks = new HashMap<String,MineableBlockDescriptior>();
-	
+	public static HashMap<String, MineableBlockDescriptior> mineableStacks = new HashMap<String, MineableBlockDescriptior>();
+
 	public static MetaMaterial metaMaterial;
 
 	public static void initize() {
-		metaMaterial = new MetaMaterial(MapColor.tntColor);
-		
+		MetaBlocks.metaMaterial = new MetaMaterial(MapColor.tntColor);
+
 		MetaBlocks.inventoryLinkBlock = new InventoryLinkMk1Block(2666);
 		MetaBlocks.inventoryLinkMk2Block = new InventoryLinkMk2Block(2667);
 		MetaBlocks.strangeOreBlock = new StrangeOreBlock(MetaConfig.StrangeOreBlockID);
 		MetaBlocks.metaPortalBlock = new MetaPortalBlock(2905);
 		MetaBlocks.strangeObsidianBlock = new StrangeObsidianBlock(2906);
 		MetaBlocks.strangeBricksBlock = new StrangeBricks(2907);
-		
-		strangeOreStacks = new ItemStack[StrangeOreBlock.ORE_COUNT];
+
+		MetaBlocks.infuserTopBlock = new InfuserTopBlock(2908);
+
+		MetaBlocks.strangeOreStacks = new ItemStack[StrangeOreBlock.ORE_COUNT];
 		for (int i = 0; i < StrangeOreBlock.ORE_COUNT; i++) {
 			ItemStack multiBlockStack = new ItemStack(MetaBlocks.strangeOreBlock, 1, i);
 			LanguageRegistry.addName(multiBlockStack, StrangeOreBlock.getDisplayName(multiBlockStack));
-			strangeOreStacks[i] = multiBlockStack;
+			MetaBlocks.strangeOreStacks[i] = multiBlockStack;
 		}
-		//public static final String[] ORE_NAMES = new String[] { "Empty", "White", "Black", "Red", "Green", "Blue" };
-		mineableStacks.put("strange.empty",new MineableBlockDescriptior(strangeOreStacks[0].getDisplayName(), "metatech.strange.empty", strangeOreStacks[0]).setTool("metaHammer", 1));
-		mineableStacks.put("strange.white",new MineableBlockDescriptior(strangeOreStacks[1].getDisplayName(), "metatech.strange.white", strangeOreStacks[1]).setTool("metaHammer", 2));
-		mineableStacks.put("strange.black",new MineableBlockDescriptior(strangeOreStacks[2].getDisplayName(), "metatech.strange.black", strangeOreStacks[2]).setTool("metaHammer", 2));
-		mineableStacks.put("strange.red",new MineableBlockDescriptior(strangeOreStacks[3].getDisplayName(), "metatech.strange.red", strangeOreStacks[3]).setTool("metaHammer", 2));
-		mineableStacks.put("strange.green",new MineableBlockDescriptior(strangeOreStacks[4].getDisplayName(), "metatech.strange.green", strangeOreStacks[4]).setTool("metaHammer", 2));
-		mineableStacks.put("strange.blue",new MineableBlockDescriptior(strangeOreStacks[5].getDisplayName(), "metatech.strange.blue", strangeOreStacks[5]).setTool("metaHammer", 2));
-		
+		// public static final String[] ORE_NAMES = new String[] { "Empty",
+		// "White", "Black", "Red", "Green", "Blue" };
+		MetaBlocks.mineableStacks.put("strange.empty", new MineableBlockDescriptior(MetaBlocks.strangeOreStacks[0].getDisplayName(), "metatech.strange.empty", MetaBlocks.strangeOreStacks[0]).setTool("metaHammer", 1));
+		MetaBlocks.mineableStacks.put("strange.white", new MineableBlockDescriptior(MetaBlocks.strangeOreStacks[1].getDisplayName(), "metatech.strange.white", MetaBlocks.strangeOreStacks[1]).setTool("metaHammer", 2));
+		MetaBlocks.mineableStacks.put("strange.black", new MineableBlockDescriptior(MetaBlocks.strangeOreStacks[2].getDisplayName(), "metatech.strange.black", MetaBlocks.strangeOreStacks[2]).setTool("metaHammer", 2));
+		MetaBlocks.mineableStacks.put("strange.red", new MineableBlockDescriptior(MetaBlocks.strangeOreStacks[3].getDisplayName(), "metatech.strange.red", MetaBlocks.strangeOreStacks[3]).setTool("metaHammer", 2));
+		MetaBlocks.mineableStacks.put("strange.green", new MineableBlockDescriptior(MetaBlocks.strangeOreStacks[4].getDisplayName(), "metatech.strange.green", MetaBlocks.strangeOreStacks[4]).setTool("metaHammer", 2));
+		MetaBlocks.mineableStacks.put("strange.blue", new MineableBlockDescriptior(MetaBlocks.strangeOreStacks[5].getDisplayName(), "metatech.strange.blue", MetaBlocks.strangeOreStacks[5]).setTool("metaHammer", 2));
 
-		mineableStacks.put("invLink.mk1",new MineableBlockDescriptior(inventoryLinkBlock.getLocalizedName(), "metatech.invLink.mk1", new ItemStack(inventoryLinkBlock)).setTool("metaHammer", 1));
-		mineableStacks.put("invLink.mk2",new MineableBlockDescriptior(inventoryLinkMk2Block.getLocalizedName(), "metatech.invLink.mk2", new ItemStack(inventoryLinkMk2Block)).setTool("metaHammer", 1));
-		
+		MetaBlocks.mineableStacks.put("invLink.mk1", new MineableBlockDescriptior(MetaBlocks.inventoryLinkBlock.getLocalizedName(), "metatech.invLink.mk1", new ItemStack(MetaBlocks.inventoryLinkBlock)).setTool("metaHammer", 1));
+		MetaBlocks.mineableStacks
+				.put("invLink.mk2", new MineableBlockDescriptior(MetaBlocks.inventoryLinkMk2Block.getLocalizedName(), "metatech.invLink.mk2", new ItemStack(MetaBlocks.inventoryLinkMk2Block)).setTool("metaHammer", 1));
 
-		mineableStacks.put("strange.obsidian",new MineableBlockDescriptior(strangeObsidianBlock.getLocalizedName(), "metatech.strange.obsidian", new ItemStack(strangeObsidianBlock)).setTool("metaHammer", 1));
-		mineableStacks.put("strange.bricks",new MineableBlockDescriptior(strangeBricksBlock.getLocalizedName(), "metatech.strange.bricks", new ItemStack(strangeBricksBlock)).setTool("metaHammer", 1));
-		
-		Iterator<MineableBlockDescriptior> it=mineableStacks.values().iterator();
-		while(it.hasNext()){
+		MetaBlocks.mineableStacks.put("strange.obsidian",
+				new MineableBlockDescriptior(MetaBlocks.strangeObsidianBlock.getLocalizedName(), "metatech.strange.obsidian", new ItemStack(MetaBlocks.strangeObsidianBlock)).setTool("metaHammer", 1));
+		MetaBlocks.mineableStacks
+				.put("strange.bricks", new MineableBlockDescriptior(MetaBlocks.strangeBricksBlock.getLocalizedName(), "metatech.strange.bricks", new ItemStack(MetaBlocks.strangeBricksBlock)).setTool("metaHammer", 1));
+
+		MetaBlocks.mineableStacks.put("infuserTop", new MineableBlockDescriptior(MetaBlocks.infuserTopBlock.getLocalizedName(), "metatech.infuserTop", new ItemStack(MetaBlocks.infuserTopBlock)).setTool("metaHammer", 1));
+
+		Iterator<MineableBlockDescriptior> it = MetaBlocks.mineableStacks.values().iterator();
+		while (it.hasNext()) {
 			MineableBlockDescriptior mineable = it.next();
 			mineable.registerToolAndOreDictionary();
 		}
+	}
 
+	public static void registerTileEntities() {
+		GameRegistry.registerTileEntity(InventoryLinkTile.class, "tile.metatech.inventorylink.mk1");
+		GameRegistry.registerTileEntity(InventoryLinkMk2Tile.class, "tile.metatech.inventorylink.mk2");
+
+		GameRegistry.registerTileEntity(InfuserTopTileEntity.class, "tile.metatech.infuser");
 	}
 }

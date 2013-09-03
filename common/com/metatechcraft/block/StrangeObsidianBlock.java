@@ -26,7 +26,7 @@ public class StrangeObsidianBlock extends Block {
 	public float getBlockHardness(World par1World, int par2, int par3, int par4) {
 		return 0.5f;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {

@@ -9,7 +9,5 @@ public class MetaMaterial extends Material {
 		super(par1MapColor);
 		setRequiresTool();
 	}
-	
-	
 
 }

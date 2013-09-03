@@ -20,6 +20,7 @@ public class InventoryLinkMk2Block extends InventoryLinkBlockBase {
 	public float getBlockHardness(World par1World, int par2, int par3, int par4) {
 		return 1;
 	}
+
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		return new InventoryLinkMk2Tile();

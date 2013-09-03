@@ -89,6 +89,11 @@ public class InventoryLinkBlockBase extends BlockContainer {
 	}
 
 	@Override
+	public boolean hasTileEntity(int metadata) {
+		return true;
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World world) {
 		return new InventoryLinkTile();
 	}
@@ -110,7 +115,7 @@ public class InventoryLinkBlockBase extends BlockContainer {
 	 */
 	@Override
 	public int getComparatorInputOverride(World par1World, int par2, int par3, int par4, int par5) {
-		return Container.calcRedstoneFromInventory(this.getLinkTile(par1World, par2, par3, par4));
+		return Container.calcRedstoneFromInventory(getLinkTile(par1World, par2, par3, par4));
 	}
 
 	private InventoryLinkTile getLinkTile(World par1World, int par2, int par3, int par4) {

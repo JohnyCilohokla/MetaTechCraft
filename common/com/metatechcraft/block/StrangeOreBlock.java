@@ -33,56 +33,53 @@ public class StrangeOreBlock extends Block {
 	private Icon[] icons;
 
 	protected StrangeOreBlock(int par1) {
-		//make sure the material used can be broken by hand!
+		// make sure the material used can be broken by hand!
 		super(par1, MetaBlocks.metaMaterial);
 		setUnlocalizedName("StrangeOreBlock");
 		setCreativeTab(MetaTechCraft.tabs);
 		GameRegistry.registerBlock(this, StrangeOreItem.class, "StrangeOreBlock");
 		LanguageRegistry.addName(this, "StrangeOre Block");
 	}
-	
+
 	@Override
 	public float getBlockHardness(World par1World, int par2, int par3, int par4) {
 		int meta = par1World.getBlockMetadata(par2, par3, par4);
-		
-		return meta==0?0.3f:2;
+
+		return meta == 0 ? 0.3f : 2;
 	}
-	
-    /**
-     * Called when the player destroys a block with an item that can harvest it. (i, j, k) are the coordinates of the
-     * block and l is the block's subtype/damage.
-     */
-    public void harvestBlock(World par1World, EntityPlayer par2EntityPlayer, int par3, int par4, int par5, int par6)
-    {
-        par2EntityPlayer.addStat(StatList.mineBlockStatArray[this.blockID], 1);
-        par2EntityPlayer.addExhaustion(0.025F);
 
-        if (this.canSilkHarvest(par1World, par2EntityPlayer, par3, par4, par5, par6) && par2EntityPlayer.getCurrentEquippedItem().getItem()==MetaItems.strangeChisel)
-        {
-            ItemStack itemstack = this.createStackedBlock(par6);
+	/**
+	 * Called when the player destroys a block with an item that can harvest it.
+	 * (i, j, k) are the coordinates of the block and l is the block's
+	 * subtype/damage.
+	 */
+	@Override
+	public void harvestBlock(World par1World, EntityPlayer par2EntityPlayer, int par3, int par4, int par5, int par6) {
+		par2EntityPlayer.addStat(StatList.mineBlockStatArray[this.blockID], 1);
+		par2EntityPlayer.addExhaustion(0.025F);
 
-            if (itemstack != null)
-            {
-                this.dropBlockAsItem_do(par1World, par3, par4, par5, itemstack);
-            }
-        }
-        else
-        {
-            int i1 = EnchantmentHelper.getFortuneModifier(par2EntityPlayer);
-            this.dropBlockAsItem(par1World, par3, par4, par5, par6, i1);
-        }
-    }
-	
+		if (this.canSilkHarvest(par1World, par2EntityPlayer, par3, par4, par5, par6) && (par2EntityPlayer.getCurrentEquippedItem().getItem() == MetaItems.strangeChisel)) {
+			ItemStack itemstack = createStackedBlock(par6);
+
+			if (itemstack != null) {
+				dropBlockAsItem_do(par1World, par3, par4, par5, itemstack);
+			}
+		} else {
+			int i1 = EnchantmentHelper.getFortuneModifier(par2EntityPlayer);
+			dropBlockAsItem(par1World, par3, par4, par5, par6, i1);
+		}
+	}
+
 	@Override
 	public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> droppedItems = new ArrayList<ItemStack>();
 		droppedItems.add(new ItemStack(this, 1, 0));
-		if (metadata!=0){
-			droppedItems.add(new ItemStack(MetaItems.metaChunk, 2, metadata-1));
+		if (metadata != 0) {
+			droppedItems.add(new ItemStack(MetaItems.metaChunk, 2, metadata - 1));
 		}
 		return droppedItems;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
@@ -104,11 +101,11 @@ public class StrangeOreBlock extends Block {
 		int meta = MathHelper.clamp_int(par2, 0, StrangeOreBlock.ORE_SIZE);
 		return this.icons[meta];
 	}
-	
+
 	public String getUnlocalizedName(int i) {
-		return super.getUnlocalizedName()+"."+ORE_NAMES[i].toLowerCase();
+		return super.getUnlocalizedName() + "." + StrangeOreBlock.ORE_NAMES[i].toLowerCase();
 	}
-	
+
 	@Override
 	public String getUnlocalizedName() {
 		return super.getUnlocalizedName();

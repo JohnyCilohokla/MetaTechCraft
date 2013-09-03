@@ -12,11 +12,13 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 public class MetaDimensionChunkProvider implements IChunkProvider {
 	private World worldObj;
-	//private Random random;
+	// private Random random;
 	private final int[] generatorLayerBlockID = new int[256];
 	private final int[] generatorLayerBlockMeta = new int[256];
-	//private final FlatGeneratorInfo flatGeneratorInfo;
-	//private final List<MapGenStructure> structureGenerators = new ArrayList<MapGenStructure>();
+
+	// private final FlatGeneratorInfo flatGeneratorInfo;
+	// private final List<MapGenStructure> structureGenerators = new
+	// ArrayList<MapGenStructure>();
 
 	// private final boolean generatorDecorations;
 	// private final boolean generatorDungeons;
@@ -27,12 +29,12 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 		this.worldObj = parWorld;
 
 		for (int k = 0; k < 16; ++k) {
-			generatorLayerBlockID[k]=0;
-			generatorLayerBlockMeta[k]=0;
+			this.generatorLayerBlockID[k] = 0;
+			this.generatorLayerBlockMeta[k] = 0;
 		}
 		for (int k = 16; k < 17; ++k) {
-			generatorLayerBlockID[k]=49;
-			generatorLayerBlockMeta[k]=0;
+			this.generatorLayerBlockID[k] = 49;
+			this.generatorLayerBlockMeta[k] = 0;
 		}
 		/*for (int k = 17; k < 50; ++k) {
 			generatorLayerBlockID[k]=2805;
@@ -42,7 +44,7 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 			generatorLayerBlockID[k]=2805;
 			generatorLayerBlockMeta[k]=k-44;
 		}*/
-		
+
 		/*this.random = new Random(parX);
 		this.flatGeneratorInfo = FlatGeneratorInfo.createFlatGeneratorFromString(generatorString);
 
@@ -74,7 +76,7 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 
 		this.generatorDungeons = this.flatGeneratorInfo.getWorldFeatures().containsKey("dungeon");
 		*/
-		
+
 		/*Iterator<?> iterator = this.flatGeneratorInfo.getFlatLayers().iterator();
 
 		while (iterator.hasNext()) {
@@ -115,14 +117,14 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 
 			for (int i1 = 0; i1 < 16; ++i1) {
 				for (int j1 = 0; j1 < 16; ++j1) {
-					if (k>15){
-					extendedblockstorage.setExtBlockID(i1, k & 15, j1, this.generatorLayerBlockID[k]);
-					extendedblockstorage.setExtBlockMetadata(i1, k & 15, j1, this.generatorLayerBlockMeta[k]);
-					}else{
-						if ((i1/4)%4==1&&(j1/4)%4==1){
+					if (k > 15) {
+						extendedblockstorage.setExtBlockID(i1, k & 15, j1, this.generatorLayerBlockID[k]);
+						extendedblockstorage.setExtBlockMetadata(i1, k & 15, j1, this.generatorLayerBlockMeta[k]);
+					} else {
+						if ((((i1 / 4) % 4) == 1) && (((j1 / 4) % 4) == 1)) {
 							extendedblockstorage.setExtBlockID(i1, k & 15, j1, 2805);
 							extendedblockstorage.setExtBlockMetadata(i1, k & 15, j1, 0);
-						}else{
+						} else {
 							extendedblockstorage.setExtBlockID(i1, k & 15, j1, 0);
 							extendedblockstorage.setExtBlockMetadata(i1, k & 15, j1, 0);
 						}

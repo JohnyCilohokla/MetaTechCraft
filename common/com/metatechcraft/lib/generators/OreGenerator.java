@@ -23,11 +23,11 @@ public class OreGenerator implements IWorldGenerator {
 	 * Adds an ore to the ore generate list. Do this in pre-init.
 	 */
 	public static void addOre(OreGenBase data) {
-		if (!isInitiated) {
+		if (!OreGenerator.isInitiated) {
 			GameRegistry.registerWorldGenerator(new OreGenerator());
 		}
 
-		ORES_TO_GENERATE.add(data);
+		OreGenerator.ORES_TO_GENERATE.add(data);
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class OreGenerator implements IWorldGenerator {
 	 * @return
 	 */
 	public static boolean oreExists(String oreName) {
-		for (OreGenBase ore : ORES_TO_GENERATE) {
+		for (OreGenBase ore : OreGenerator.ORES_TO_GENERATE) {
 			if (ore.ore.oreDictionaryName == oreName) {
 				return true;
 			}
@@ -50,7 +50,7 @@ public class OreGenerator implements IWorldGenerator {
 	 * Removes an ore to the ore generate list. Do this in init.
 	 */
 	public static void removeOre(OreGenBase data) {
-		ORES_TO_GENERATE.remove(data);
+		OreGenerator.ORES_TO_GENERATE.remove(data);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class OreGenerator implements IWorldGenerator {
 		chunkX = chunkX << 4;
 		chunkZ = chunkZ << 4;
 
-		Iterator<OreGenBase> it = ORES_TO_GENERATE.iterator();
+		Iterator<OreGenBase> it = OreGenerator.ORES_TO_GENERATE.iterator();
 		while (it.hasNext()) {
 			OreGenBase oreData = it.next();
 			if (oreData.shouldGenerate && oreData.isOreGeneratedInWorld(world, chunkGenerator)) {

@@ -19,8 +19,8 @@ public class StrangeOreItem extends ItemBlock {
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
 		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, StrangeOreBlock.ORE_COUNT - 1);
-		return super.getUnlocalizedName() +".strange."+ StrangeOreBlock.ORE_NAMES[meta];
-		
+		return super.getUnlocalizedName() + ".strange." + StrangeOreBlock.ORE_NAMES[meta];
+
 	}
 
 	@Override

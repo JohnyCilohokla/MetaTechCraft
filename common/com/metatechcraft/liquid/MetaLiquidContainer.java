@@ -20,19 +20,20 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class MetaLiquidContainer extends Item{
+public class MetaLiquidContainer extends Item {
 
 	public MetaLiquidContainer(int id) {
 		super(id);
 		setUnlocalizedName("liquidContainer");
 		setContainerItem(this);
-		this.setHasSubtypes(true);
+		setHasSubtypes(true);
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 
+	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
 		boolean wannabeFull = false;
-		MovingObjectPosition position = this.getMovingObjectPositionFromPlayer(world, player, wannabeFull);
+		MovingObjectPosition position = getMovingObjectPositionFromPlayer(world, player, wannabeFull);
 
 		if (position == null) {
 			return stack;
@@ -86,7 +87,7 @@ public class MetaLiquidContainer extends Item{
 						return ItemUtilities.replaceSingleItemOrDropAndReturn(world, player, stack, new ItemStack(MetaLiquids.metaLiquidContainer, 1, id));
 					}
 				} else {
-					if (this.tryPlaceContainedLiquid(world, clickX, clickY, clickZ, stack.getItemDamage()) && !player.capabilities.isCreativeMode) {
+					if (tryPlaceContainedLiquid(world, clickX, clickY, clickZ, stack.getItemDamage()) && !player.capabilities.isCreativeMode) {
 						return ItemUtilities.replaceSingleItemOrDropAndReturn(world, player, stack, new ItemStack(MetaLiquids.metaLiquidContainer, 1, 0));
 					}
 				}
@@ -102,7 +103,7 @@ public class MetaLiquidContainer extends Item{
 		// try to merge first
 		if (world.getBlockMaterial(clickX, clickY, clickZ) == MetaLiquids.metaLiquidMaterial) {
 			int meta = world.getBlockMetadata(clickX, clickY, clickZ);
-			if (id != MetaLiquids.metaFluids[liquidID - 1].blockID || meta >= 7) {
+			if ((id != MetaLiquids.metaFluids[liquidID - 1].blockID) || (meta >= 7)) {
 				return false;
 			} else {
 				world.setBlockMetadataWithNotify(clickX, clickY, clickZ, meta + 1, 3);
@@ -113,7 +114,7 @@ public class MetaLiquidContainer extends Item{
 		if (!world.isAirBlock(clickX, clickY, clickZ) && world.getBlockMaterial(clickX, clickY, clickZ).isSolid()) {
 			return false;
 		} else {
-			world.setBlock(clickX, clickY, clickZ,MetaLiquids.metaFluids[liquidID - 1].blockID, 0, 3);
+			world.setBlock(clickX, clickY, clickZ, MetaLiquids.metaFluids[liquidID - 1].blockID, 0, 3);
 			return true;
 		}
 	}
@@ -123,17 +124,20 @@ public class MetaLiquidContainer extends Item{
 	public void getSubItems(int id, CreativeTabs tab, List list) {
 		// empty
 		list.add(new ItemStack(id, 1, 0));
-		for (int i = 0; i < MetaLiquids.metaFluidNames.length; i++)
+		for (int i = 0; i < MetaLiquids.metaFluidNames.length; i++) {
 			list.add(new ItemStack(id, 1, i + 1));
+		}
 	}
 
 	public Icon[] icons;
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIconFromDamage(int meta) {
-		return icons[meta];
+		return this.icons[meta];
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		this.icons = new Icon[MetaLiquids.metaFluidNames.length + 1];
@@ -144,6 +148,7 @@ public class MetaLiquidContainer extends Item{
 		}
 	}
 
+	@Override
 	public String getUnlocalizedName(ItemStack stack) {
 		if (stack.getItemDamage() == 0) {
 			return getUnlocalizedName() + ".empty";
@@ -151,14 +156,14 @@ public class MetaLiquidContainer extends Item{
 		int arr = MathHelper.clamp_int(stack.getItemDamage() - 1, 0, MetaLiquids.metaFluidNames.length);
 		return getUnlocalizedName() + "." + MetaLiquids.metaFluidNames[arr];
 	}
-	
+
 	public static String getDisplayName(ItemStack itemStack) {
 		int rawMeta = itemStack.getItemDamage();
-		if (rawMeta==0){
+		if (rawMeta == 0) {
 			return EnumChatFormatting.WHITE + "Meta Container (Empty)";
 		}
-		int meta = MathHelper.clamp_int(rawMeta-1, 0, MetaLiquids.metaFluidNames.length);
-		return EnumChatFormatting.AQUA + "Meta Container ("+MetaLiquids.metaFluidNames[meta]+")";
+		int meta = MathHelper.clamp_int(rawMeta - 1, 0, MetaLiquids.metaFluidNames.length);
+		return EnumChatFormatting.AQUA + "Meta Container (" + MetaLiquids.metaFluidNames[meta] + ")";
 	}
 
 }

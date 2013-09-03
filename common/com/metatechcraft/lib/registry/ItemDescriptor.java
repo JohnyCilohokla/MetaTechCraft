@@ -12,14 +12,13 @@ public class ItemDescriptor extends ObjectDescriptor {
 	public ObjectDescriptorType getType() {
 		return ObjectDescriptorType.ITEM;
 	}
-	
 
-	void register(String unlocalizedName, String name, ItemStack itemStack){
-		super.register(unlocalizedName,name);
+	void register(String unlocalizedName, String name, ItemStack itemStack) {
+		super.register(unlocalizedName, name);
 		this.itemStack = itemStack;
 		this.item = this.itemStack.getItem();
 		this.meta = this.itemStack.getItemDamage();
-		
+
 	}
 
 }

@@ -23,7 +23,7 @@ public class MetaDimension extends WorldProvider {
 
 	@Override
 	public IChunkProvider createChunkGenerator() {
-		return new MetaDimensionChunkProvider(this.worldObj, this.getSeed(), true, "2;32x0,49,10x1;1;village");
+		return new MetaDimensionChunkProvider(this.worldObj, getSeed(), true, "2;32x0,49,10x1;1;village");
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class MetaDimension extends WorldProvider {
 
 	@Override
 	public void registerWorldChunkManager() {
-		this.worldChunkMgr = terrainType.getChunkManager(worldObj);
+		this.worldChunkMgr = this.terrainType.getChunkManager(this.worldObj);
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class MetaDimension extends WorldProvider {
 	@Override
 	public Vec3 getFogColor(float par1, float par2) {
 		int i = 10518688;
-		float f2 = MathHelper.cos(par1 * (float) Math.PI * 2.0F) * 2.0F + 0.5F;
+		float f2 = (MathHelper.cos(par1 * (float) Math.PI * 2.0F) * 2.0F) + 0.5F;
 
 		if (f2 < 0.0F) {
 			f2 = 0.0F;
@@ -66,13 +66,13 @@ public class MetaDimension extends WorldProvider {
 			f2 = 1.0F;
 		}
 
-		float f3 = (float) (i >> 16 & 255) / 255.0F;
-		float f4 = (float) (i >> 8 & 255) / 255.0F;
-		float f5 = (float) (i & 255) / 255.0F;
-		f3 *= f2 * 0.0F + 0.15F;
-		f4 *= f2 * 0.0F + 0.15F;
-		f5 *= f2 * 0.0F + 0.15F;
-		return this.worldObj.getWorldVec3Pool().getVecFromPool((double) f3, (double) f4, (double) f5);
+		float f3 = ((i >> 16) & 255) / 255.0F;
+		float f4 = ((i >> 8) & 255) / 255.0F;
+		float f5 = (i & 255) / 255.0F;
+		f3 *= (f2 * 0.0F) + 0.15F;
+		f4 *= (f2 * 0.0F) + 0.15F;
+		f5 *= (f2 * 0.0F) + 0.15F;
+		return this.worldObj.getWorldVec3Pool().getVecFromPool(f3, f4, f5);
 	}
 
 	@SideOnly(Side.CLIENT)
