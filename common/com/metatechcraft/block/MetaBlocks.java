@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 import com.metatechcraft.lib.MetaConfig;
 import com.metatechcraft.lib.MineableBlockDescriptior;
+import com.metatechcraft.multientity.InfernosMultiBlock;
+import com.metatechcraft.multientity.InfernosMultiEntity;
 import com.metatechcraft.tileentity.InfuserTopTileEntity;
 import com.metatechcraft.tileentity.InventoryLinkMk2Tile;
 import com.metatechcraft.tileentity.InventoryLinkTile;
@@ -16,6 +18,8 @@ import net.minecraft.block.material.MapColor;
 import net.minecraft.item.ItemStack;
 
 public class MetaBlocks {
+	
+	public static InfernosMultiBlock infernosMultiBlock;
 
 	public static InventoryLinkMk1Block inventoryLinkBlock;
 	public static InventoryLinkMk2Block inventoryLinkMk2Block;
@@ -35,15 +39,17 @@ public class MetaBlocks {
 
 	public static void initize() {
 		MetaBlocks.metaMaterial = new MetaMaterial(MapColor.tntColor);
+		
+		MetaBlocks.infernosMultiBlock = new InfernosMultiBlock(MetaConfig.infernosMultiBlockID);
 
-		MetaBlocks.inventoryLinkBlock = new InventoryLinkMk1Block(2666);
-		MetaBlocks.inventoryLinkMk2Block = new InventoryLinkMk2Block(2667);
-		MetaBlocks.strangeOreBlock = new StrangeOreBlock(MetaConfig.StrangeOreBlockID);
-		MetaBlocks.metaPortalBlock = new MetaPortalBlock(2905);
-		MetaBlocks.strangeObsidianBlock = new StrangeObsidianBlock(2906);
-		MetaBlocks.strangeBricksBlock = new StrangeBricks(2907);
+		MetaBlocks.inventoryLinkBlock = new InventoryLinkMk1Block(MetaConfig.inventoryLinkBlockID);
+		MetaBlocks.inventoryLinkMk2Block = new InventoryLinkMk2Block(MetaConfig.inventoryLinkMk2BlockID);
+		MetaBlocks.strangeOreBlock = new StrangeOreBlock(MetaConfig.strangeOreBlockID);
+		MetaBlocks.metaPortalBlock = new MetaPortalBlock(MetaConfig.metaPortalBlockID);
+		MetaBlocks.strangeObsidianBlock = new StrangeObsidianBlock(MetaConfig.strangeObsidianBlockID);
+		MetaBlocks.strangeBricksBlock = new StrangeBricks(MetaConfig.strangeBricksBlockID);
 
-		MetaBlocks.infuserTopBlock = new InfuserTopBlock(2908);
+		MetaBlocks.infuserTopBlock = new InfuserTopBlock(MetaConfig.infuserTopBlockID);
 
 		MetaBlocks.strangeOreStacks = new ItemStack[StrangeOreBlock.ORE_COUNT];
 		for (int i = 0; i < StrangeOreBlock.ORE_COUNT; i++) {
@@ -71,6 +77,9 @@ public class MetaBlocks {
 
 		MetaBlocks.mineableStacks.put("infuserTop", new MineableBlockDescriptior(MetaBlocks.infuserTopBlock.getLocalizedName(), "metatech.infuserTop", new ItemStack(MetaBlocks.infuserTopBlock)).setTool("metaHammer", 1));
 
+		MetaBlocks.mineableStacks.put("infernosMultiBlock", new MineableBlockDescriptior(MetaBlocks.infernosMultiBlock.getLocalizedName(), "metatech.infernosMultiBlock", new ItemStack(MetaBlocks.infernosMultiBlock)).setTool("metaHammer", 1));
+		
+		
 		Iterator<MineableBlockDescriptior> it = MetaBlocks.mineableStacks.values().iterator();
 		while (it.hasNext()) {
 			MineableBlockDescriptior mineable = it.next();
@@ -83,5 +92,6 @@ public class MetaBlocks {
 		GameRegistry.registerTileEntity(InventoryLinkMk2Tile.class, "tile.metatech.inventorylink.mk2");
 
 		GameRegistry.registerTileEntity(InfuserTopTileEntity.class, "tile.metatech.infuser");
+		GameRegistry.registerTileEntity(InfernosMultiEntity.class, "tile.infernosMultiEntity");
 	}
 }

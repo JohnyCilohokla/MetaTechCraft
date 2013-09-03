@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 public class InventoryLinkMk1Block extends InventoryLinkBlockBase {
 
 	protected InventoryLinkMk1Block(int par1) {
-		super(par1, MetaBlocks.metaMaterial);
+		super(par1);
 		setUnlocalizedName("InventoryLinkMk1");
 		GameRegistry.registerBlock(this, "InventoryLinkMk1");
 		LanguageRegistry.addName(this, "Inventory Link");

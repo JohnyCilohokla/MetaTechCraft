@@ -9,7 +9,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 
 public class OreGenReplaceStrangeStone extends OreGenReplace {
 	public OreGenReplaceStrangeStone(MineableBlockDescriptior ore, int minGenerateLevel, int maxGenerateLevel, int amountPerChunk, int amountPerBranch) {
-		super(ore, MetaConfig.StrangeOreBlockID, minGenerateLevel, maxGenerateLevel, amountPerChunk, amountPerBranch);
+		super(ore, MetaConfig.strangeOreBlockID, minGenerateLevel, maxGenerateLevel, amountPerChunk, amountPerBranch);
 	}
 
 	@Override

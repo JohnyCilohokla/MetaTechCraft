@@ -38,6 +38,8 @@ public class MetaTechCraft {
 
 	public static int infuserRendererId;
 
+	public static int infernosRendererId;
+
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 

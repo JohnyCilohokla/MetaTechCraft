@@ -8,7 +8,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.Container;
@@ -20,8 +19,8 @@ import net.minecraft.world.World;
 
 public class InventoryLinkBlockBase extends BlockContainer {
 
-	public InventoryLinkBlockBase(int id, Material material) {
-		super(id, material);
+	public InventoryLinkBlockBase(int id) {
+		super(id, MetaBlocks.metaMaterial);
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 
@@ -60,13 +59,6 @@ public class InventoryLinkBlockBase extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		/*
-		 * this.blockIcon = iconRegister.registerIcon("furnace_side");
-		 * this.topIcon = iconRegister.registerIcon("furnace_top");
-		 * this.frontIcon = iconRegister.registerIcon("dropper_front");
-		 * this.frontVerticalIcon =
-		 * iconRegister.registerIcon("dropper_front_vertical");
-		 */
 		this.blockIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName() + "_side1");
 		this.side2Icon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName() + "_side2");
 		this.side3Icon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + getUnlocalizedName() + "_side3");
