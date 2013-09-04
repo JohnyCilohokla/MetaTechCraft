@@ -24,7 +24,7 @@ public class InfuserTopBlock extends BlockContainer {
 
 	@Override
 	public int getRenderType() {
-		return MetaTechCraft.infuserRendererId;
+		return -1;
 	}
 
 	@Override

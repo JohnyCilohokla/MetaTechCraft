@@ -23,6 +23,7 @@ public class InfernosMultiEntity extends TileEntity {
 	}
 
 	public void harvestBlock(EntityPlayer player) {
+		// TODO abstractify
 		player.addExhaustion(0.025F);
 		dropBlockAsItems();
 		/*if (canSilkHarvest(player) && (player.getCurrentEquippedItem().getItem() == MetaItems.strangeChisel)) {
@@ -79,8 +80,13 @@ public class InfernosMultiEntity extends TileEntity {
 	}
 
 	public ArrayList<ItemStack> getBlockDropped(int fortune) {
+		// TODO abstractify
 		ArrayList<ItemStack> droppedItems = new ArrayList<ItemStack>();
 		droppedItems.add(new ItemStack(MetaItems.metaDust, 1, 0));
 		return droppedItems;
+	}
+
+	public void renderTileEntityAt(float f) {
+		
 	}
 }

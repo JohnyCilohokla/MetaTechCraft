@@ -2,6 +2,7 @@ package com.metatechcraft.tileentity.renderers;
 
 import org.lwjgl.opengl.GL11;
 
+import com.metatechcraft.lib.renderers.FluidTessallator;
 import com.metatechcraft.models.ModelFrameBox;
 import com.metatechcraft.tileentity.InfuserTopTileEntity;
 
@@ -94,7 +95,7 @@ public class InfuserRenderer extends TileEntitySpecialRenderer implements IItemR
 		GL11.glColor4f(red, green, blue, 0.6f);
 	}
 
-	public void renderFluid(Tessellator tessellator, FluidStack fluidstack) {
+	public void renderFluid(Tessellator tessellator, FluidStack fluidstack, double x, double y, double z) {
 		if ((fluidstack == null) || (fluidstack.amount <= 0)) {
 			return;
 		}
@@ -111,41 +112,9 @@ public class InfuserRenderer extends TileEntitySpecialRenderer implements IItemR
 		Icon icon = InfuserRenderer.getFluidTexture(fluidstack, false);
 
 		double size = fluidstack.amount * 0.001;
-		double amount = fluidstack.amount * 0.0009;
 
 		tessellator.startDrawingQuads();
-		// top
-		tessellator.addVertexWithUV(0.1, 0.05 + amount, 0.1, icon.getMinU(), icon.getMinV());
-		tessellator.addVertexWithUV(0.1, 0.05 + amount, 0.9, icon.getMinU(), icon.getMaxV());
-		tessellator.addVertexWithUV(0.9, 0.05 + amount, 0.9, icon.getMaxU(), icon.getMaxV());
-		tessellator.addVertexWithUV(0.9, 0.05 + amount, 0.1, icon.getMaxU(), icon.getMinV());
-
-		// bottom
-		tessellator.addVertexWithUV(0.1, 0.05, 0.9, icon.getMinU(), icon.getMinV());
-		tessellator.addVertexWithUV(0.1, 0.05, 0.1, icon.getMinU(), icon.getMaxV());
-		tessellator.addVertexWithUV(0.9, 0.05, 0.1, icon.getMaxU(), icon.getMaxV());
-		tessellator.addVertexWithUV(0.9, 0.05, 0.9, icon.getMaxU(), icon.getMinV());
-
-		// sides
-		tessellator.addVertexWithUV(0.1, 0.05, 0.1, icon.getMinU(), icon.getMinV());
-		tessellator.addVertexWithUV(0.1, 0.05 + amount, 0.1, icon.getMinU(), icon.getMaxV() * size);
-		tessellator.addVertexWithUV(0.9, 0.05 + amount, 0.1, icon.getMaxU(), icon.getMaxV() * size);
-		tessellator.addVertexWithUV(0.9, 0.05, 0.1, icon.getMaxU(), icon.getMinV());
-
-		tessellator.addVertexWithUV(0.9, 0.05, 0.9, icon.getMinU(), icon.getMinV());
-		tessellator.addVertexWithUV(0.9, 0.05 + amount, 0.9, icon.getMinU(), icon.getMaxV() * size);
-		tessellator.addVertexWithUV(0.1, 0.05 + amount, 0.9, icon.getMaxU(), icon.getMaxV() * size);
-		tessellator.addVertexWithUV(0.1, 0.05, 0.9, icon.getMaxU(), icon.getMinV());
-
-		tessellator.addVertexWithUV(0.9, 0.05, 0.1, icon.getMinU(), icon.getMinV());
-		tessellator.addVertexWithUV(0.9, 0.05 + amount, 0.1, icon.getMinU(), icon.getMaxV() * size);
-		tessellator.addVertexWithUV(0.9, 0.05 + amount, 0.9, icon.getMaxU(), icon.getMaxV() * size);
-		tessellator.addVertexWithUV(0.9, 0.05, 0.9, icon.getMaxU(), icon.getMinV());
-
-		tessellator.addVertexWithUV(0.1, 0.05, 0.9, icon.getMinU(), icon.getMinV());
-		tessellator.addVertexWithUV(0.1, 0.05 + amount, 0.9, icon.getMinU(), icon.getMaxV() * size);
-		tessellator.addVertexWithUV(0.1, 0.05 + amount, 0.1, icon.getMaxU(), icon.getMaxV() * size);
-		tessellator.addVertexWithUV(0.1, 0.05, 0.1, icon.getMaxU(), icon.getMinV());
+		FluidTessallator.InfuserTank.addToTessallator(tessellator, x, y, z, icon, size, size);
 		tessellator.draw();
 
 		GL11.glPopAttrib();
@@ -167,7 +136,7 @@ public class InfuserRenderer extends TileEntitySpecialRenderer implements IItemR
 
 			// Block.beacon
 			GL11.glPushMatrix();
-			GL11.glTranslated(0.5, 0.5, 0.5);// center
+			GL11.glTranslated(0.5, 0.5, 0.5);
 			// GL11.glScalef(scale, scale, scale);
 			float rotationAngle = tile.getRotation();
 			GL11.glRotatef(rotationAngle, 0f, 1f, 0f);
@@ -180,12 +149,12 @@ public class InfuserRenderer extends TileEntitySpecialRenderer implements IItemR
 				this.customRenderItem.doRenderItem(ghostEntityItem, 0, 0, 0, 0, 0);
 			}
 			GL11.glPopMatrix();
+			GL11.glPopMatrix();
 
 			FluidStack liquid = tile.getFluid(0);
-			renderFluid(tessellator, liquid);
+			renderFluid(tessellator, liquid, x, y, z);
 
 			GL11.glEnable(GL11.GL_LIGHTING);
-			GL11.glPopMatrix();
 		}
 	}
 

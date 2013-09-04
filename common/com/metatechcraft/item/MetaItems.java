@@ -18,9 +18,10 @@ public class MetaItems {
 	public static StrangeIngot strangeIngot;
 	public static StrangeHammer strangeHammer;
 	public static StrangeChisel strangeChisel;
+	
+	public static ItemStack strangeDustStack;
 
 	public static void initize() {
-
 		MetaItems.metaChunk = new MetaChunk(26000);
 
 		MetaItems.metaDust = new MetaDust(26001);
@@ -58,6 +59,8 @@ public class MetaItems {
 		GameRegistry.addShapelessRecipe(new ItemStack(MetaBlocks.strangeObsidianBlock), Item.bucketLava, MetaItems.strangeDust);
 
 		GameRegistry.addSmelting(MetaItems.strangeDust.itemID, new ItemStack(MetaItems.strangeIngot), 10);
+
+		MetaItems.strangeDustStack = new ItemStack(strangeDust);
 
 	}
 }

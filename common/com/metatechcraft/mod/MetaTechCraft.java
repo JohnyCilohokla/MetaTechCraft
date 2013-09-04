@@ -8,6 +8,7 @@ import com.metatechcraft.core.proxy.CommonProxy;
 import com.metatechcraft.dimension.MetaDimension;
 import com.metatechcraft.generators.MetaGenerator;
 import com.metatechcraft.item.MetaItems;
+import com.metatechcraft.lib.MetaTabs;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.lib.registry.MetaTechRegistry;
 import com.metatechcraft.liquid.MetaLiquids;
@@ -28,7 +29,7 @@ public class MetaTechCraft {
 	@SidedProxy(clientSide = ModInfo.CLIENT_PROXY_CLASS, serverSide = ModInfo.SERVER_PROXY_CLASS)
 	public static CommonProxy proxy;
 
-	public static final CreativeTabs tabs = new CreativeTabs("MetaTechCraft");
+	public static final CreativeTabs tabs = new MetaTabs();
 
 	public static final int metaDimID = 17;
 
@@ -36,13 +37,10 @@ public class MetaTechCraft {
 
 	public static MetaTechRegistry registry = new MetaTechRegistry();
 
-	public static int infuserRendererId;
-
 	public static int infernosRendererId;
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-
 		MetaTechCraft.proxy.initizeRendering();
 
 		DimensionManager.registerProviderType(MetaTechCraft.metaDimID, MetaDimension.class, false);
