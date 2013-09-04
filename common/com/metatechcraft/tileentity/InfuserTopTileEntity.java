@@ -91,28 +91,31 @@ public class InfuserTopTileEntity extends TileEntity implements ISidedInventory,
 	public ItemStack getStackInSlot(int i) {
 		return this.stack;
 	}
+	
+	@Override
+	public void onInventoryChanged() {
+		super.onInventoryChanged();
+		if (!this.worldObj.isRemote) {
+			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+		}
+	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if (this.stack != null) {
 			ItemStack itemstack;
-
+			if (!this.worldObj.isRemote) {
+				this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+			}
 			if (this.stack.stackSize <= j) {
 				itemstack = this.stack;
 				this.stack = null;
-				if (!this.worldObj.isRemote) {
-					this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-				}
 				return itemstack;
 			} else {
 				itemstack = this.stack.splitStack(j);
 
 				if (this.stack.stackSize == 0) {
 					this.stack = null;
-				}
-
-				if (!this.worldObj.isRemote) {
-					this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
 				}
 				return itemstack;
 			}

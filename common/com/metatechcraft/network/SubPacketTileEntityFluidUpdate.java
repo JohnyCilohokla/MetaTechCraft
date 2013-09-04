@@ -49,8 +49,8 @@ public class SubPacketTileEntityFluidUpdate extends SubPacketTileEntityChild {
 		data.writeInt(this.position);
 		NBTTagCompound tag = new NBTTagCompound();
 		if (this.fluid != null) {
-			tag.setBoolean("null", false);
 			this.fluid.writeToNBT(tag);
+			tag.setBoolean("null", false);
 		} else {
 			tag.setBoolean("null", true);
 		}
