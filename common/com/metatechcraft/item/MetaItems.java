@@ -18,7 +18,7 @@ public class MetaItems {
 	public static StrangeIngot strangeIngot;
 	public static StrangeHammer strangeHammer;
 	public static StrangeChisel strangeChisel;
-	
+
 	public static ItemStack strangeDustStack;
 
 	public static void initize() {
@@ -60,7 +60,7 @@ public class MetaItems {
 
 		GameRegistry.addSmelting(MetaItems.strangeDust.itemID, new ItemStack(MetaItems.strangeIngot), 10);
 
-		MetaItems.strangeDustStack = new ItemStack(strangeDust);
+		MetaItems.strangeDustStack = new ItemStack(MetaItems.strangeDust);
 
 	}
 }

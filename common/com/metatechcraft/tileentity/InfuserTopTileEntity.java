@@ -91,7 +91,7 @@ public class InfuserTopTileEntity extends TileEntity implements ISidedInventory,
 	public ItemStack getStackInSlot(int i) {
 		return this.stack;
 	}
-	
+
 	@Override
 	public void onInventoryChanged() {
 		super.onInventoryChanged();

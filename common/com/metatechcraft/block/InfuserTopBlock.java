@@ -50,8 +50,7 @@ public class InfuserTopBlock extends BlockContainer {
 
 			ItemStack itemstack = tileentity.getStackInSlot(0);
 			if ((itemstack != null) && (itemstack.stackSize > 0)) {
-				EntityItem entityitem = new EntityItem(par1World, par2 + 0.5, par3 + 0.5, par4 + 0.5, new ItemStack(itemstack.itemID,
-						itemstack.stackSize, itemstack.getItemDamage()));
+				EntityItem entityitem = new EntityItem(par1World, par2 + 0.5, par3 + 0.5, par4 + 0.5, new ItemStack(itemstack.itemID, itemstack.stackSize, itemstack.getItemDamage()));
 				par1World.spawnEntityInWorld(entityitem);
 				entityitem.motionY = 0 - 0.2F;
 

@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Icon;
 
 public enum FluidTessallator {
-	InfuserTank(0.1,0.1,0.05,0.95);
+	InfuserTank(0.1, 0.1, 0.05, 0.95);
 
 	final double distS, distL;
 	final double spaceS, spaceL;
@@ -22,40 +22,40 @@ public enum FluidTessallator {
 	}
 
 	public void addToTessallator(Tessellator tessellator, double x, double y, double z, Icon icon, double amount, double size) {
-		amount = yStart + ((yEnd-yStart) * amount);
+		amount = this.yStart + ((this.yEnd - this.yStart) * amount);
 
 		// top
-		tessellator.addVertexWithUV(x + distS, y + amount, z + distS, icon.getMinU(), icon.getMinV());
-		tessellator.addVertexWithUV(x + distS, y + amount, z + distL, icon.getMinU(), icon.getMaxV());
-		tessellator.addVertexWithUV(x + distL, y + amount, z + distL, icon.getMaxU(), icon.getMaxV());
-		tessellator.addVertexWithUV(x + distL, y + amount, z + distS, icon.getMaxU(), icon.getMinV());
+		tessellator.addVertexWithUV(x + this.distS, y + amount, z + this.distS, icon.getMinU(), icon.getMinV());
+		tessellator.addVertexWithUV(x + this.distS, y + amount, z + this.distL, icon.getMinU(), icon.getMaxV());
+		tessellator.addVertexWithUV(x + this.distL, y + amount, z + this.distL, icon.getMaxU(), icon.getMaxV());
+		tessellator.addVertexWithUV(x + this.distL, y + amount, z + this.distS, icon.getMaxU(), icon.getMinV());
 
 		// bottom
-		tessellator.addVertexWithUV(x + distS, y + yStart, z + distL, icon.getMinU(), icon.getMinV());
-		tessellator.addVertexWithUV(x + distS, y + yStart, z + distS, icon.getMinU(), icon.getMaxV());
-		tessellator.addVertexWithUV(x + distL, y + yStart, z + distS, icon.getMaxU(), icon.getMaxV());
-		tessellator.addVertexWithUV(x + distL, y + yStart, z + distL, icon.getMaxU(), icon.getMinV());
+		tessellator.addVertexWithUV(x + this.distS, y + this.yStart, z + this.distL, icon.getMinU(), icon.getMinV());
+		tessellator.addVertexWithUV(x + this.distS, y + this.yStart, z + this.distS, icon.getMinU(), icon.getMaxV());
+		tessellator.addVertexWithUV(x + this.distL, y + this.yStart, z + this.distS, icon.getMaxU(), icon.getMaxV());
+		tessellator.addVertexWithUV(x + this.distL, y + this.yStart, z + this.distL, icon.getMaxU(), icon.getMinV());
 
 		// sides
-		tessellator.addVertexWithUV(x + spaceS, y + yStart, z + distS, icon.getMinU(), icon.getMinV());
-		tessellator.addVertexWithUV(x + spaceS, y + amount, z + distS, icon.getMinU(), icon.getInterpolatedV(size));
-		tessellator.addVertexWithUV(x + spaceL, y + amount, z + distS, icon.getMaxU(), icon.getInterpolatedV(size));
-		tessellator.addVertexWithUV(x + spaceL, y + yStart, z + distS, icon.getMaxU(), icon.getMinV());
+		tessellator.addVertexWithUV(x + this.spaceS, y + this.yStart, z + this.distS, icon.getMinU(), icon.getMinV());
+		tessellator.addVertexWithUV(x + this.spaceS, y + amount, z + this.distS, icon.getMinU(), icon.getInterpolatedV(size));
+		tessellator.addVertexWithUV(x + this.spaceL, y + amount, z + this.distS, icon.getMaxU(), icon.getInterpolatedV(size));
+		tessellator.addVertexWithUV(x + this.spaceL, y + this.yStart, z + this.distS, icon.getMaxU(), icon.getMinV());
 
-		tessellator.addVertexWithUV(x + spaceL, y + yStart, z + distL, icon.getMinU(), icon.getMinV());
-		tessellator.addVertexWithUV(x + spaceL, y + amount, z + distL, icon.getMinU(), icon.getInterpolatedV(size));
-		tessellator.addVertexWithUV(x + spaceS, y + amount, z + distL, icon.getMaxU(), icon.getInterpolatedV(size));
-		tessellator.addVertexWithUV(x + spaceS, y + yStart, z + distL, icon.getMaxU(), icon.getMinV());
+		tessellator.addVertexWithUV(x + this.spaceL, y + this.yStart, z + this.distL, icon.getMinU(), icon.getMinV());
+		tessellator.addVertexWithUV(x + this.spaceL, y + amount, z + this.distL, icon.getMinU(), icon.getInterpolatedV(size));
+		tessellator.addVertexWithUV(x + this.spaceS, y + amount, z + this.distL, icon.getMaxU(), icon.getInterpolatedV(size));
+		tessellator.addVertexWithUV(x + this.spaceS, y + this.yStart, z + this.distL, icon.getMaxU(), icon.getMinV());
 
-		tessellator.addVertexWithUV(x + distL, y + yStart, z + spaceS, icon.getMinU(), icon.getMinV());
-		tessellator.addVertexWithUV(x + distL, y + amount, z + spaceS, icon.getMinU(), icon.getInterpolatedV(size));
-		tessellator.addVertexWithUV(x + distL, y + amount, z + spaceL, icon.getMaxU(), icon.getInterpolatedV(size));
-		tessellator.addVertexWithUV(x + distL, y + yStart, z + spaceL, icon.getMaxU(), icon.getMinV());
+		tessellator.addVertexWithUV(x + this.distL, y + this.yStart, z + this.spaceS, icon.getMinU(), icon.getMinV());
+		tessellator.addVertexWithUV(x + this.distL, y + amount, z + this.spaceS, icon.getMinU(), icon.getInterpolatedV(size));
+		tessellator.addVertexWithUV(x + this.distL, y + amount, z + this.spaceL, icon.getMaxU(), icon.getInterpolatedV(size));
+		tessellator.addVertexWithUV(x + this.distL, y + this.yStart, z + this.spaceL, icon.getMaxU(), icon.getMinV());
 
-		tessellator.addVertexWithUV(x + distS, y + yStart, z + spaceL, icon.getMinU(), icon.getMinV());
-		tessellator.addVertexWithUV(x + distS, y + amount, z + spaceL, icon.getMinU(), icon.getInterpolatedV(size));
-		tessellator.addVertexWithUV(x + distS, y + amount, z + spaceS, icon.getMaxU(), icon.getInterpolatedV(size));
-		tessellator.addVertexWithUV(x + distS, y + yStart, z + spaceS, icon.getMaxU(), icon.getMinV());
+		tessellator.addVertexWithUV(x + this.distS, y + this.yStart, z + this.spaceL, icon.getMinU(), icon.getMinV());
+		tessellator.addVertexWithUV(x + this.distS, y + amount, z + this.spaceL, icon.getMinU(), icon.getInterpolatedV(size));
+		tessellator.addVertexWithUV(x + this.distS, y + amount, z + this.spaceS, icon.getMaxU(), icon.getInterpolatedV(size));
+		tessellator.addVertexWithUV(x + this.distS, y + this.yStart, z + this.spaceS, icon.getMaxU(), icon.getMinV());
 	}
 
 }

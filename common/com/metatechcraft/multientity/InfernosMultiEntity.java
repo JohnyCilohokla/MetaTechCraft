@@ -36,7 +36,7 @@ public class InfernosMultiEntity extends TileEntity {
 			int fortune = EnchantmentHelper.getFortuneModifier(player);
 			dropBlockAsItem(fortune);
 		}*/
-		
+
 	}
 
 	/**
@@ -57,16 +57,16 @@ public class InfernosMultiEntity extends TileEntity {
 		ArrayList<ItemStack> items = getBlockDropped(0);
 
 		for (ItemStack item : items) {
-				dropItemStack(item);
+			dropItemStack(item);
 		}
 	}
 
 	protected void dropItemStack(ItemStack itemstack) {
 		if (!this.worldObj.isRemote && this.worldObj.getGameRules().getGameRuleBooleanValue("doTileDrops")) {
 			float f = 0.7F;
-			double d0 = this.worldObj.rand.nextFloat() * f + ((1.0F - f) * 0.5D);
-			double d1 = this.worldObj.rand.nextFloat() * f + ((1.0F - f) * 0.5D);
-			double d2 = this.worldObj.rand.nextFloat() * f + ((1.0F - f) * 0.5D);
+			double d0 = (this.worldObj.rand.nextFloat() * f) + ((1.0F - f) * 0.5D);
+			double d1 = (this.worldObj.rand.nextFloat() * f) + ((1.0F - f) * 0.5D);
+			double d2 = (this.worldObj.rand.nextFloat() * f) + ((1.0F - f) * 0.5D);
 			EntityItem entityitem = new EntityItem(this.worldObj, this.xCoord + d0, this.yCoord + d1, this.zCoord + d2, itemstack);
 			entityitem.delayBeforeCanPickup = 10;
 			this.worldObj.spawnEntityInWorld(entityitem);
@@ -87,6 +87,6 @@ public class InfernosMultiEntity extends TileEntity {
 	}
 
 	public void renderTileEntityAt(float f) {
-		
+
 	}
 }

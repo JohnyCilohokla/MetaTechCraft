@@ -1,7 +1,5 @@
 package com.metatechcraft.multientity;
 
-import org.lwjgl.opengl.GL11;
-
 import com.metatechcraft.models.ModelFrameBox;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -27,7 +25,7 @@ public class InfernosMultiRenderer extends TileEntitySpecialRenderer {
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f) {
-		//Tessellator tessellator = Tessellator.instance;
+		// Tessellator tessellator = Tessellator.instance;
 
 		if (tileentity instanceof InfernosMultiEntity) {
 			InfernosMultiEntity tile = (InfernosMultiEntity) tileentity;

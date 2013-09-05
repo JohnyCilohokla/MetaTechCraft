@@ -4,18 +4,17 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 
 /**
-* MetaTech Craft
-*
-* As the packet system was based on Pahimar's EE3 packet system it is licensed by LGPL v3
-* I have modified it greatly splitting the Tile Entity packet into
-* Main packet (x,y,z)
-* Simple Item Update subpacket (pos, item)
-* Fluid Update subpacket (pos, fluidTag)
-* more to come
-* @author johnycilohokla
-* @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
-*
-*/
+ * MetaTech Craft
+ * 
+ * As the packet system was based on Pahimar's EE3 packet system it is licensed
+ * by LGPL v3 I have modified it greatly splitting the Tile Entity packet into
+ * Main packet (x,y,z) Simple Item Update subpacket (pos, item) Fluid Update
+ * subpacket (pos, fluidTag) more to come
+ * 
+ * @author johnycilohokla
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
 
 public enum SubPacketTileEntityType {
 	ITEM_UPDATE(SubPacketTileEntitySimpleItemUpdate.class), FLUID_UPDATE(SubPacketTileEntityFluidUpdate.class);

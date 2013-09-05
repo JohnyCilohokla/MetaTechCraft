@@ -8,7 +8,6 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 
 import com.metatechcraft.lib.ModInfo;
 
-
 public enum PacketType {
 	MULTIPACKET_TILE_ENTITY(PacketMultiTileEntity.class, null);
 

@@ -12,21 +12,19 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fluids.FluidStack;
 
 /**
-* MetaTech Craft
-*
-* As the packet system was based on Pahimar's EE3 packet system it is licensed by LGPL v3
-* I have modified it greatly splitting the Tile Entity packet into
-* Main packet (x,y,z)
-* Simple Item Update subpacket (pos, item)
-* Fluid Update subpacket (pos, fluidTag)
-* more to come
-* @author johnycilohokla
-* @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
-*
-*/
+ * MetaTech Craft
+ * 
+ * As the packet system was based on Pahimar's EE3 packet system it is licensed
+ * by LGPL v3 I have modified it greatly splitting the Tile Entity packet into
+ * Main packet (x,y,z) Simple Item Update subpacket (pos, item) Fluid Update
+ * subpacket (pos, fluidTag) more to come
+ * 
+ * @author johnycilohokla
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
 
 public class SubPacketTileEntitySimpleItemUpdate extends SubPacketTileEntityChild {
 
@@ -67,7 +65,7 @@ public class SubPacketTileEntitySimpleItemUpdate extends SubPacketTileEntityChil
 
 	@Override
 	public void readData(DataInputStream data) throws IOException {
-		
+
 		this.position = data.readInt();
 		NBTTagCompound fluidTag = (NBTTagCompound) NBTBase.readNamedTag(data);
 		if (fluidTag.getBoolean("null")) {

@@ -41,23 +41,23 @@ public class InfernosMultiBlock extends Block {
 		return (entity != null) ? entity.getBlockHardness() : 0;
 	}
 
-    public void onBlockAdded(World par1World, int par2, int par3, int par4)
-    {
-        super.onBlockAdded(par1World, par2, par3, par4);
-    }
+	@Override
+	public void onBlockAdded(World par1World, int par2, int par3, int par4) {
+		super.onBlockAdded(par1World, par2, par3, par4);
+	}
 
-    public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
-    {
-        super.breakBlock(par1World, par2, par3, par4, par5, par6);
-        par1World.removeBlockTileEntity(par2, par3, par4);
-    }
+	@Override
+	public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6) {
+		super.breakBlock(par1World, par2, par3, par4, par5, par6);
+		par1World.removeBlockTileEntity(par2, par3, par4);
+	}
 
-    public boolean onBlockEventReceived(World par1World, int par2, int par3, int par4, int par5, int par6)
-    {
-        super.onBlockEventReceived(par1World, par2, par3, par4, par5, par6);
-        TileEntity tileentity = par1World.getBlockTileEntity(par2, par3, par4);
-        return tileentity != null ? tileentity.receiveClientEvent(par5, par6) : false;
-    }
+	@Override
+	public boolean onBlockEventReceived(World par1World, int par2, int par3, int par4, int par5, int par6) {
+		super.onBlockEventReceived(par1World, par2, par3, par4, par5, par6);
+		TileEntity tileentity = par1World.getBlockTileEntity(par2, par3, par4);
+		return tileentity != null ? tileentity.receiveClientEvent(par5, par6) : false;
+	}
 
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
@@ -79,10 +79,10 @@ public class InfernosMultiBlock extends Block {
 	@Override
 	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int damage) {
 	}
-	
+
 	@Override
 	public void onBlockHarvested(World world, int x, int y, int z, int par5, EntityPlayer player) {
-		System.out.println(world.isRemote+" "+world.getBlockTileEntity(x, y, z));
+		System.out.println(world.isRemote + " " + world.getBlockTileEntity(x, y, z));
 		if (!world.isRemote) {
 			InfernosMultiEntity entity = (InfernosMultiEntity) world.getBlockTileEntity(x, y, z);
 			if (entity != null) {

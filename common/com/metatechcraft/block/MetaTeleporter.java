@@ -194,7 +194,7 @@ public class MetaTeleporter extends Teleporter {
 				double d11 = par1Entity.motionZ;
 				par1Entity.motionX = (d10 * f3) + (d11 * f6);
 				par1Entity.motionZ = (d10 * f5) + (d11 * f4);
-				par1Entity.rotationYaw = (par8 - k2 * 90) + j2 * 90;
+				par1Entity.rotationYaw = (par8 - (k2 * 90)) + (j2 * 90);
 			} else {
 				par1Entity.motionX = par1Entity.motionY = par1Entity.motionZ = 0.0D;
 			}

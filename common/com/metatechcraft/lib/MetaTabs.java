@@ -10,7 +10,7 @@ public class MetaTabs extends CreativeTabs {
 	public MetaTabs() {
 		super("MetaTechCraft");
 	}
-	
+
 	@Override
 	public ItemStack getIconItemStack() {
 		return MetaItems.strangeDustStack;
