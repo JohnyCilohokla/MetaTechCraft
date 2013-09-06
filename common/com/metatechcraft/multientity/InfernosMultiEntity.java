@@ -4,14 +4,33 @@ import java.util.ArrayList;
 
 import com.metatechcraft.block.MetaBlocks;
 import com.metatechcraft.item.MetaItems;
+import com.metatechcraft.multientity.base.InfernosProxyEntityBase;
+import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
+
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 
 public class InfernosMultiEntity extends TileEntity {
+	private InfernosProxyEntityBase proxyEntity;
+
 	public InfernosMultiEntity() {
-		// TODO Auto-generated constructor stub
+		super();
+	}
+	
+	public InfernosProxyEntityBase getProxyEntity() {
+		return (proxyEntity!=null)?(proxyEntity):(InfernosProxyEntityBase.DUMMY);
+	}
+
+	private void setProxyEntity(InfernosProxyEntityBase proxyEntity) {
+		this.proxyEntity = proxyEntity;
+	}
+
+	public void newEntity(){
+		setProxyEntity(new InfuserTopTileEntity(this));
 	}
 
 	public float getBlockHardness() {
@@ -28,7 +47,7 @@ public class InfernosMultiEntity extends TileEntity {
 		dropBlockAsItems();
 		/*if (canSilkHarvest(player) && (player.getCurrentEquippedItem().getItem() == MetaItems.strangeChisel)) {
 			ItemStack itemstack = getSilkTouchItemStack();
-
+	
 			if (itemstack != null) {
 				dropBlockAsItem_do(itemstack);
 			}
@@ -36,7 +55,7 @@ public class InfernosMultiEntity extends TileEntity {
 			int fortune = EnchantmentHelper.getFortuneModifier(player);
 			dropBlockAsItem(fortune);
 		}*/
-
+	
 	}
 
 	/**
@@ -45,7 +64,7 @@ public class InfernosMultiEntity extends TileEntity {
 	 */
 	public void dropBlockAsItemWithChance(int fortune) {
 		ArrayList<ItemStack> items = getBlockDropped(fortune);
-
+	
 		for (ItemStack item : items) {
 			if (this.worldObj.rand.nextFloat() <= fortune) {
 				dropItemStack(item);
@@ -55,7 +74,7 @@ public class InfernosMultiEntity extends TileEntity {
 
 	public void dropBlockAsItems() {
 		ArrayList<ItemStack> items = getBlockDropped(0);
-
+	
 		for (ItemStack item : items) {
 			dropItemStack(item);
 		}
@@ -71,7 +90,7 @@ public class InfernosMultiEntity extends TileEntity {
 			entityitem.delayBeforeCanPickup = 10;
 			this.worldObj.spawnEntityInWorld(entityitem);
 		}
-
+	
 	}
 
 	protected ItemStack getSilkTouchItemStack() {
@@ -87,6 +106,37 @@ public class InfernosMultiEntity extends TileEntity {
 	}
 
 	public void renderTileEntityAt(float f) {
+	
+	}
 
+	@Override
+	public void readFromNBT(NBTTagCompound tagCompound) {
+		super.readFromNBT(tagCompound);
+		// TODO switch!
+		System.out.println("Reading entity data!");
+		setProxyEntity(new InfuserTopTileEntity(this));
+		getProxyEntity().readFromNBT(tagCompound);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound tagCompound) {
+		super.writeToNBT(tagCompound);
+		System.out.println("Saving entity data!");
+		if (getProxyEntity()!=null){
+			getProxyEntity().writeToNBT(tagCompound);
+		}
+	}
+	
+	@Override
+	public Packet getDescriptionPacket() {
+		return getProxyEntity().getDescriptionPacket();
+	}
+	
+	@Override
+	public void invalidate() {
+		if (getProxyEntity()!=null){
+			getProxyEntity().invalidate();
+			setProxyEntity(null);
+		}
 	}
 }

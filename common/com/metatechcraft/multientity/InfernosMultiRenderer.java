@@ -27,7 +27,7 @@ public class InfernosMultiRenderer extends TileEntitySpecialRenderer {
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f) {
 		// Tessellator tessellator = Tessellator.instance;
 
-		if (tileentity instanceof InfernosMultiEntity) {
+		if (tileentity instanceof InfernosMultiEntityInv) {
 			InfernosMultiEntity tile = (InfernosMultiEntity) tileentity;
 			tile.renderTileEntityAt(f);
 

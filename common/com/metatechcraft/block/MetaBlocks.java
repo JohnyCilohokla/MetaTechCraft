@@ -7,7 +7,10 @@ import com.metatechcraft.lib.MetaConfig;
 import com.metatechcraft.lib.MineableBlockDescriptior;
 import com.metatechcraft.multientity.InfernosMultiBlock;
 import com.metatechcraft.multientity.InfernosMultiEntity;
-import com.metatechcraft.tileentity.InfuserTopTileEntity;
+import com.metatechcraft.multientity.InfernosMultiEntityInv;
+import com.metatechcraft.multientity.InfernosMultiEntityInvLiq;
+import com.metatechcraft.multientity.InfernosMultiEntityLiq;
+import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
 import com.metatechcraft.tileentity.InventoryLinkMk2Tile;
 import com.metatechcraft.tileentity.InventoryLinkTile;
 
@@ -30,8 +33,6 @@ public class MetaBlocks {
 	public static StrangeObsidianBlock strangeObsidianBlock;
 	public static StrangeBricks strangeBricksBlock;
 
-	public static InfuserTopBlock infuserTopBlock;
-
 	public static ItemStack[] strangeOreStacks;
 	public static HashMap<String, MineableBlockDescriptior> mineableStacks = new HashMap<String, MineableBlockDescriptior>();
 
@@ -48,8 +49,6 @@ public class MetaBlocks {
 		MetaBlocks.metaPortalBlock = new MetaPortalBlock(MetaConfig.metaPortalBlockID);
 		MetaBlocks.strangeObsidianBlock = new StrangeObsidianBlock(MetaConfig.strangeObsidianBlockID);
 		MetaBlocks.strangeBricksBlock = new StrangeBricks(MetaConfig.strangeBricksBlockID);
-
-		MetaBlocks.infuserTopBlock = new InfuserTopBlock(MetaConfig.infuserTopBlockID);
 
 		MetaBlocks.strangeOreStacks = new ItemStack[StrangeOreBlock.ORE_COUNT];
 		for (int i = 0; i < StrangeOreBlock.ORE_COUNT; i++) {
@@ -82,9 +81,6 @@ public class MetaBlocks {
 		MetaBlocks.mineableStacks.put("strange.bricks", new MineableBlockDescriptior(MetaBlocks.strangeBricksBlock.getLocalizedName(), "metatech.strange.bricks", new ItemStack(
 				MetaBlocks.strangeBricksBlock)).setTool("metaHammer", 1));
 
-		MetaBlocks.mineableStacks.put("infuserTop",
-				new MineableBlockDescriptior(MetaBlocks.infuserTopBlock.getLocalizedName(), "metatech.infuserTop", new ItemStack(MetaBlocks.infuserTopBlock)).setTool("metaHammer", 1));
-
 		MetaBlocks.mineableStacks.put("infernosMultiBlock", new MineableBlockDescriptior(MetaBlocks.infernosMultiBlock.getLocalizedName(), "metatech.infernosMultiBlock", new ItemStack(
 				MetaBlocks.infernosMultiBlock)).setTool("metaHammer", 1));
 
@@ -99,7 +95,10 @@ public class MetaBlocks {
 		GameRegistry.registerTileEntity(InventoryLinkTile.class, "tile.metatech.inventorylink.mk1");
 		GameRegistry.registerTileEntity(InventoryLinkMk2Tile.class, "tile.metatech.inventorylink.mk2");
 
-		GameRegistry.registerTileEntity(InfuserTopTileEntity.class, "tile.metatech.infuser");
+		//GameRegistry.registerTileEntity(InfuserTopTileEntity.class, "tile.metatech.infuser");
 		GameRegistry.registerTileEntity(InfernosMultiEntity.class, "tile.infernosMultiEntity");
+		GameRegistry.registerTileEntity(InfernosMultiEntityInv.class, "tile.infernosMultiEntity.Inv");
+		GameRegistry.registerTileEntity(InfernosMultiEntityInvLiq.class, "tile.infernosMultiEntity.InvLiq");
+		GameRegistry.registerTileEntity(InfernosMultiEntityLiq.class, "tile.infernosMultiEntity.Liq");
 	}
 }

@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.metatechcraft.lib.renderers.FluidTessallator;
 import com.metatechcraft.models.ModelFrameBox;
-import com.metatechcraft.tileentity.InfuserTopTileEntity;
+import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -125,7 +125,7 @@ public class InfuserRenderer extends TileEntitySpecialRenderer implements IItemR
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float f) {
 		Tessellator tessellator = Tessellator.instance;
 
-		if (tileentity instanceof InfuserTopTileEntity) {
+		/*if (tileentity instanceof InfuserTopTileEntity) {
 			InfuserTopTileEntity tile = (InfuserTopTileEntity) tileentity;
 
 			GL11.glPushMatrix();
@@ -155,7 +155,7 @@ public class InfuserRenderer extends TileEntitySpecialRenderer implements IItemR
 			renderFluid(tessellator, liquid, x, y, z);
 
 			GL11.glEnable(GL11.GL_LIGHTING);
-		}
+		}*/
 	}
 
 }

@@ -1,6 +1,8 @@
-package com.metatechcraft.tileentity;
+package com.metatechcraft.multientity.entites;
 
 import com.metatechcraft.lib.IFluidStackProxy;
+import com.metatechcraft.multientity.InfernosMultiEntity;
+import com.metatechcraft.multientity.base.InfernosProxyEntityBase;
 import com.metatechcraft.network.PacketMultiTileEntity;
 import com.metatechcraft.network.SubPacketTileEntityFluidUpdate;
 import com.metatechcraft.network.SubPacketTileEntitySimpleItemUpdate;
@@ -18,7 +20,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class InfuserTopTileEntity extends TileEntity implements ISidedInventory, IFluidHandler, IFluidStackProxy {
+public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 
 	long rotation;
 	long lastTime = 0;
@@ -26,7 +28,8 @@ public class InfuserTopTileEntity extends TileEntity implements ISidedInventory,
 
 	ItemStack stack;
 
-	public InfuserTopTileEntity() {
+	public InfuserTopTileEntity(InfernosMultiEntity entity) {
+		super(entity);
 		this.rotation = 0;
 		this.lastTime = System.currentTimeMillis();
 		this.rand = (int) (Math.random() * 10);
@@ -95,17 +98,14 @@ public class InfuserTopTileEntity extends TileEntity implements ISidedInventory,
 	@Override
 	public void onInventoryChanged() {
 		super.onInventoryChanged();
-		if (!this.worldObj.isRemote) {
-			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
-		}
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
 		if (this.stack != null) {
 			ItemStack itemstack;
-			if (!this.worldObj.isRemote) {
-				this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+			if (!entity.worldObj.isRemote) {
+				entity.worldObj.markBlockForUpdate(entity.xCoord, entity.yCoord, entity.zCoord);
 			}
 			if (this.stack.stackSize <= j) {
 				itemstack = this.stack;
@@ -132,8 +132,8 @@ public class InfuserTopTileEntity extends TileEntity implements ISidedInventory,
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		this.stack = itemstack;
-		if (!this.worldObj.isRemote) {
-			this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+		if (!entity.worldObj.isRemote) {
+			entity.worldObj.markBlockForUpdate(entity.xCoord, entity.yCoord, entity.zCoord);
 		}
 	}
 
@@ -190,7 +190,7 @@ public class InfuserTopTileEntity extends TileEntity implements ISidedInventory,
 
 		ItemStack itemStack = getStackInSlot(0);
 
-		PacketMultiTileEntity packet = new PacketMultiTileEntity(this.xCoord, this.yCoord, this.zCoord);
+		PacketMultiTileEntity packet = new PacketMultiTileEntity(entity.xCoord, entity.yCoord, entity.zCoord);
 		packet.addPacket(new SubPacketTileEntitySimpleItemUpdate(0, itemStack));
 		packet.addPacket(new SubPacketTileEntityFluidUpdate(0, this.fluid));
 
@@ -266,19 +266,11 @@ public class InfuserTopTileEntity extends TileEntity implements ISidedInventory,
 				this.fluid.amount += amountToFill;
 			}
 			resource.amount -= amountToFill;
-			if (!this.worldObj.isRemote) {
-				this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+			if (!entity.worldObj.isRemote) {
+				entity.worldObj.markBlockForUpdate(entity.xCoord, entity.yCoord, entity.zCoord);
 			}
 		}
 		return amountToFill;
-	}
-
-	@Override
-	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		if ((this.fluid == null) || !this.fluid.isFluidEqual(resource)) {
-			return null;
-		}
-		return this.drain(from, resource.amount, doDrain);
 	}
 
 	@Override
@@ -294,8 +286,8 @@ public class InfuserTopTileEntity extends TileEntity implements ISidedInventory,
 			if (this.fluid.amount <= 0) {
 				this.fluid = null;
 			}
-			if (!this.worldObj.isRemote) {
-				this.worldObj.markBlockForUpdate(this.xCoord, this.yCoord, this.zCoord);
+			if (!entity.worldObj.isRemote) {
+				entity.worldObj.markBlockForUpdate(entity.xCoord, entity.yCoord, entity.zCoord);
 			}
 		}
 		return new FluidStack(currentFluid, amountDrained);
@@ -310,12 +302,12 @@ public class InfuserTopTileEntity extends TileEntity implements ISidedInventory,
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
 		return true;
 	}
-
+	
 	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		return new FluidTankInfo[] { new FluidTankInfo(this.fluid, (this.fluid != null ? this.fluid.amount : 0)) };
+	public FluidStack getFluid(ForgeDirection direction) {
+		return fluid;
 	}
-
+	
 	@Override
 	public FluidStack getFluid(int i) {
 		return this.fluid;
@@ -330,4 +322,6 @@ public class InfuserTopTileEntity extends TileEntity implements ISidedInventory,
 	public int getFluidsCount() {
 		return 1;
 	}
+
+
 }

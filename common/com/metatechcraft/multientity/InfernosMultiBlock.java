@@ -16,11 +16,10 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class InfernosMultiBlock extends Block {
-
 	public InfernosMultiBlock(int par1) {
 		super(par1, MetaBlocks.metaMaterial);
 		setUnlocalizedName("InfernosMultiBlock");
-		GameRegistry.registerBlock(this, "InfernosMultiBlock");
+		GameRegistry.registerBlock(this, InfernosMultiItem.class, "InfernosMultiBlock");
 		LanguageRegistry.addName(this, "InfernosMultiBlock");
 	}
 
@@ -31,8 +30,16 @@ public class InfernosMultiBlock extends Block {
 
 	@Override
 	public TileEntity createTileEntity(World world, int metadata) {
-		System.out.println("Created Tile Entity");
-		return new InfernosMultiEntity();
+		InfernosMultiEntity entity = InfernosMultiEntityType.newMultiEntity(InfernosMultiEntityType.values()[metadata]);
+		System.out.println("Created Tile Entity meta: "+metadata+", class: "+entity.getClass().getName());
+		return entity;
+	}
+	
+	@Override
+	public void onPostBlockPlaced(World par1World, int par2, int par3, int par4, int par5) {
+		InfernosMultiEntity entity = (InfernosMultiEntity) par1World.getBlockTileEntity(par2, par3, par4);
+		System.out.println("newEntity() meta: "+par5+", class: "+entity.getClass().getName());
+		entity.newEntity();
 	}
 
 	@Override
