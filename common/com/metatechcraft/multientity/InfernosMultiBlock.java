@@ -77,18 +77,14 @@ public class InfernosMultiBlock extends Block {
 		return (entity != null) ? entity.canSilkHarvest(player) : false;
 	}
 
-	/**
-	 * Called when the player destroys a block with an item that can harvest it.
-	 * (i, j, k) are the coordinates of the block and l is the block's
-	 * subtype/damage.
-	 */
 	@Override
 	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int damage) {
+		//ignore it, as its too late to check the tile entity
 	}
 
 	@Override
 	public void onBlockHarvested(World world, int x, int y, int z, int par5, EntityPlayer player) {
-		System.out.println(world.isRemote + " " + world.getBlockTileEntity(x, y, z));
+		//break the block here instead
 		if (!world.isRemote) {
 			InfernosMultiEntity entity = (InfernosMultiEntity) world.getBlockTileEntity(x, y, z);
 			if (entity != null) {

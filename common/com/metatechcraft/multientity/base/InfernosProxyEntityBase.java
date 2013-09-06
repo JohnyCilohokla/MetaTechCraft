@@ -146,4 +146,8 @@ public class InfernosProxyEntityBase {
 		return "InternalError!";
 	}
 
+	public float getBlockHardness() {
+		return 1;
+	}
+
 }

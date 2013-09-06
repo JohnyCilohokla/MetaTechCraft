@@ -44,7 +44,7 @@ public class InfernosMultiEntity extends TileEntity {
 	}
 
 	public float getBlockHardness() {
-		return 0;
+		return getProxyEntity().getBlockHardness();
 	}
 
 	public boolean canSilkHarvest(EntityPlayer player) {
