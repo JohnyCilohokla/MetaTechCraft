@@ -1,7 +1,13 @@
-package com.metatechcraft.lib.renderers;
+package com.metatechcraft.renderers.helper;
 
+import org.lwjgl.opengl.GL11;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.Icon;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
 public enum FluidTessallator {
 	InfuserTank(0.1, 0.1, 0.05, 0.95);
@@ -56,6 +62,36 @@ public enum FluidTessallator {
 		tessellator.addVertexWithUV(x + this.distS, y + amount, z + this.spaceL, icon.getMinU(), icon.getInterpolatedV(size));
 		tessellator.addVertexWithUV(x + this.distS, y + amount, z + this.spaceS, icon.getMaxU(), icon.getInterpolatedV(size));
 		tessellator.addVertexWithUV(x + this.distS, y + this.yStart, z + this.spaceS, icon.getMaxU(), icon.getMinV());
+	}
+
+	public static void setColorForFluidStack(FluidStack fluidstack) {
+		if (fluidstack == null) {
+			return;
+		}
+
+		int color = fluidstack.getFluid().getColor(fluidstack);
+		float red = ((color >> 16) & 255) / 255.0F;
+		float green = ((color >> 8) & 255) / 255.0F;
+		float blue = (color & 255) / 255.0F;
+		GL11.glColor4f(red, green, blue, 0.6f);
+	}
+
+	public static Icon getFluidTexture(FluidStack fluidStack, boolean flowing) {
+		if (fluidStack == null) {
+			return null;
+		}
+		return FluidTessallator.getFluidTexture(fluidStack.getFluid(), flowing);
+	}
+
+	public static Icon getFluidTexture(Fluid fluid, boolean flowing) {
+		if (fluid == null) {
+			return null;
+		}
+		Icon icon = flowing ? fluid.getFlowingIcon() : fluid.getStillIcon();
+		if (icon == null) {
+			icon = ((TextureMap) Minecraft.getMinecraft().func_110434_K().func_110581_b(TextureMap.field_110575_b)).func_110572_b("missingno");
+		}
+		return icon;
 	}
 
 }

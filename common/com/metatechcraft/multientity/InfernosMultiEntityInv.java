@@ -5,7 +5,7 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 
 public class InfernosMultiEntityInv extends InfernosMultiEntity implements ISidedInventory {
-	
+
 	@Override
 	public int getSizeInventory() {
 		return getProxyEntity().getSizeInventory();
@@ -18,7 +18,7 @@ public class InfernosMultiEntityInv extends InfernosMultiEntity implements ISide
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		return getProxyEntity().decrStackSize(i,j);
+		return getProxyEntity().decrStackSize(i, j);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class InfernosMultiEntityInv extends InfernosMultiEntity implements ISide
 	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
 		return getProxyEntity().canExtractItem(i, itemstack, j);
 	}
-	
+
 	@Override
 	public void onInventoryChanged() {
 		super.onInventoryChanged();

@@ -1,24 +1,28 @@
 package com.metatechcraft.multientity.entites;
 
-import com.metatechcraft.lib.IFluidStackProxy;
+import org.lwjgl.opengl.GL11;
+
+import com.metatechcraft.lib.CustomItemRenderer;
+import com.metatechcraft.models.ModelFrameBox;
 import com.metatechcraft.multientity.InfernosMultiEntity;
 import com.metatechcraft.multientity.base.InfernosProxyEntityBase;
 import com.metatechcraft.network.PacketMultiTileEntity;
 import com.metatechcraft.network.SubPacketTileEntityFluidUpdate;
 import com.metatechcraft.network.SubPacketTileEntitySimpleItemUpdate;
-import com.metatechcraft.network.PacketType;
+import com.metatechcraft.renderers.helper.FluidTessallator;
 
+import cpw.mods.fml.client.FMLClientHandler;
+
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
 
 public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 
@@ -27,6 +31,11 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	int rand = 0;
 
 	ItemStack stack;
+
+	@Override
+	public String getTypeName() {
+		return "InfuserTopTileEntity";
+	}
 
 	public InfuserTopTileEntity(InfernosMultiEntity entity) {
 		super(entity);
@@ -81,10 +90,6 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 		}
 	}
 
-	public ItemStack getItemStack() {
-		return this.stack;
-	}
-
 	@Override
 	public int getSizeInventory() {
 		return 1;
@@ -104,8 +109,8 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	public ItemStack decrStackSize(int i, int j) {
 		if (this.stack != null) {
 			ItemStack itemstack;
-			if (!entity.worldObj.isRemote) {
-				entity.worldObj.markBlockForUpdate(entity.xCoord, entity.yCoord, entity.zCoord);
+			if (!this.entity.worldObj.isRemote) {
+				this.entity.worldObj.markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 			}
 			if (this.stack.stackSize <= j) {
 				itemstack = this.stack;
@@ -132,8 +137,8 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		this.stack = itemstack;
-		if (!entity.worldObj.isRemote) {
-			entity.worldObj.markBlockForUpdate(entity.xCoord, entity.yCoord, entity.zCoord);
+		if (!this.entity.worldObj.isRemote) {
+			this.entity.worldObj.markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 		}
 	}
 
@@ -186,15 +191,10 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	}
 
 	@Override
-	public Packet getDescriptionPacket() {
-
+	public void addToDescriptionPacket(PacketMultiTileEntity packet) {
 		ItemStack itemStack = getStackInSlot(0);
-
-		PacketMultiTileEntity packet = new PacketMultiTileEntity(entity.xCoord, entity.yCoord, entity.zCoord);
 		packet.addPacket(new SubPacketTileEntitySimpleItemUpdate(0, itemStack));
 		packet.addPacket(new SubPacketTileEntityFluidUpdate(0, this.fluid));
-
-		return PacketType.populatePacket(packet);
 	}
 
 	FluidStack fluid = null;
@@ -266,8 +266,8 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 				this.fluid.amount += amountToFill;
 			}
 			resource.amount -= amountToFill;
-			if (!entity.worldObj.isRemote) {
-				entity.worldObj.markBlockForUpdate(entity.xCoord, entity.yCoord, entity.zCoord);
+			if (!this.entity.worldObj.isRemote) {
+				this.entity.worldObj.markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 			}
 		}
 		return amountToFill;
@@ -286,8 +286,8 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 			if (this.fluid.amount <= 0) {
 				this.fluid = null;
 			}
-			if (!entity.worldObj.isRemote) {
-				entity.worldObj.markBlockForUpdate(entity.xCoord, entity.yCoord, entity.zCoord);
+			if (!this.entity.worldObj.isRemote) {
+				this.entity.worldObj.markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 			}
 		}
 		return new FluidStack(currentFluid, amountDrained);
@@ -302,12 +302,12 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
 		return true;
 	}
-	
+
 	@Override
 	public FluidStack getFluid(ForgeDirection direction) {
-		return fluid;
+		return this.fluid;
 	}
-	
+
 	@Override
 	public FluidStack getFluid(int i) {
 		return this.fluid;
@@ -323,5 +323,66 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 		return 1;
 	}
 
+	private ModelFrameBox frameBox = new ModelFrameBox();
 
+	private static final CustomItemRenderer customItemRenderer = new CustomItemRenderer();
+
+	public void renderFluid(Tessellator tessellator, FluidStack fluidstack, double x, double y, double z) {
+		if ((fluidstack == null) || (fluidstack.amount <= 0)) {
+			return;
+		}
+
+		GL11.glPushMatrix();
+		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TextureMap.field_110575_b);
+		FluidTessallator.setColorForFluidStack(fluidstack);
+		Icon icon = FluidTessallator.getFluidTexture(fluidstack, false);
+
+		double size = fluidstack.amount * 0.001;
+
+		tessellator.startDrawingQuads();
+		FluidTessallator.InfuserTank.addToTessallator(tessellator, x, y, z, icon, size, size);
+		tessellator.draw();
+
+		GL11.glPopAttrib();
+		GL11.glPopMatrix();
+	}
+
+	@Override
+	public void renderTileEntityAt(double x, double y, double z) {
+
+		GL11.glPushMatrix();
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glTranslated(x, y, z);
+
+		this.frameBox.render();
+
+		// Block.beacon
+		GL11.glPushMatrix();
+		GL11.glTranslated(0.5, 0.5, 0.5);
+		// GL11.glScalef(scale, scale, scale);
+		float rotationAngle = getRotation();
+		GL11.glRotatef(rotationAngle, 0f, 1f, 0f);
+		ItemStack ghostStack = getStackInSlot(0);
+		if (ghostStack != null) {
+			EntityItem ghostEntityItem = new EntityItem(this.entity.worldObj);
+			ghostEntityItem.hoverStart = 0.0F;
+			ghostEntityItem.setEntityItemStack(ghostStack);
+
+			InfuserTopTileEntity.customItemRenderer.doRenderItem(ghostEntityItem, 0, 0, 0, 0, 0);
+		}
+		GL11.glPopMatrix();
+		GL11.glPopMatrix();
+
+		Tessellator tessellator = Tessellator.instance;
+		FluidStack liquid = getFluid(0);
+		renderFluid(tessellator, liquid, x, y, z);
+
+		GL11.glEnable(GL11.GL_LIGHTING);
+	}
 }

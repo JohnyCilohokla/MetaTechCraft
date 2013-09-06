@@ -1,7 +1,5 @@
 package com.metatechcraft.multientity.base;
 
-import java.util.HashMap;
-
 import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
 
 public enum InfernosProxyEntityType {
@@ -12,7 +10,7 @@ public enum InfernosProxyEntityType {
 	InfernosProxyEntityType(Class<? extends InfernosProxyEntityBase> _class) {
 		this._class = _class;
 	}
-	
+
 	public static InfernosProxyEntityBase newMultiEntity(InfernosProxyEntityType type) {
 
 		InfernosProxyEntityBase packet = null;

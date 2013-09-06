@@ -2,7 +2,7 @@ package com.metatechcraft.block;
 
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
-import com.metatechcraft.tileentity.InventoryLinkTile;
+import com.metatechcraft.tileentity.InventoryLinkMk1Tile;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -87,7 +87,7 @@ public class InventoryLinkBlockBase extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return new InventoryLinkTile();
+		return new InventoryLinkMk1Tile();
 	}
 
 	/**
@@ -110,8 +110,8 @@ public class InventoryLinkBlockBase extends BlockContainer {
 		return Container.calcRedstoneFromInventory(getLinkTile(par1World, par2, par3, par4));
 	}
 
-	private InventoryLinkTile getLinkTile(World par1World, int par2, int par3, int par4) {
-		return (InventoryLinkTile) par1World.getBlockTileEntity(par2, par3, par4);
+	private InventoryLinkMk1Tile getLinkTile(World par1World, int par2, int par3, int par4) {
+		return (InventoryLinkMk1Tile) par1World.getBlockTileEntity(par2, par3, par4);
 	}
 
 }

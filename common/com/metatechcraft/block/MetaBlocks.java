@@ -10,9 +10,8 @@ import com.metatechcraft.multientity.InfernosMultiEntity;
 import com.metatechcraft.multientity.InfernosMultiEntityInv;
 import com.metatechcraft.multientity.InfernosMultiEntityInvLiq;
 import com.metatechcraft.multientity.InfernosMultiEntityLiq;
-import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
 import com.metatechcraft.tileentity.InventoryLinkMk2Tile;
-import com.metatechcraft.tileentity.InventoryLinkTile;
+import com.metatechcraft.tileentity.InventoryLinkMk1Tile;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -92,10 +91,9 @@ public class MetaBlocks {
 	}
 
 	public static void registerTileEntities() {
-		GameRegistry.registerTileEntity(InventoryLinkTile.class, "tile.metatech.inventorylink.mk1");
+		GameRegistry.registerTileEntity(InventoryLinkMk1Tile.class, "tile.metatech.inventorylink.mk1");
 		GameRegistry.registerTileEntity(InventoryLinkMk2Tile.class, "tile.metatech.inventorylink.mk2");
 
-		//GameRegistry.registerTileEntity(InfuserTopTileEntity.class, "tile.metatech.infuser");
 		GameRegistry.registerTileEntity(InfernosMultiEntity.class, "tile.infernosMultiEntity");
 		GameRegistry.registerTileEntity(InfernosMultiEntityInv.class, "tile.infernosMultiEntity.Inv");
 		GameRegistry.registerTileEntity(InfernosMultiEntityInvLiq.class, "tile.infernosMultiEntity.InvLiq");

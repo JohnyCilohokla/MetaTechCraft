@@ -2,8 +2,8 @@ package com.metatechcraft.tileentity;
 
 import net.minecraftforge.common.ForgeDirection;
 
-public class InventoryLinkTile extends InventoryLinkBase {
-	public InventoryLinkTile() {
+public class InventoryLinkMk1Tile extends InventoryLinkBase {
+	public InventoryLinkMk1Tile() {
 		this.orientation = ForgeDirection.SOUTH;
 	}
 

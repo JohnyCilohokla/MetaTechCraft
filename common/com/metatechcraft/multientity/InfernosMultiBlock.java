@@ -3,7 +3,6 @@ package com.metatechcraft.multientity;
 import java.util.ArrayList;
 
 import com.metatechcraft.block.MetaBlocks;
-import com.metatechcraft.mod.MetaTechCraft;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -31,14 +30,14 @@ public class InfernosMultiBlock extends Block {
 	@Override
 	public TileEntity createTileEntity(World world, int metadata) {
 		InfernosMultiEntity entity = InfernosMultiEntityType.newMultiEntity(InfernosMultiEntityType.values()[metadata]);
-		System.out.println("Created Tile Entity meta: "+metadata+", class: "+entity.getClass().getName());
+		System.out.println("Created Tile Entity meta: " + metadata + ", class: " + entity.getClass().getName());
 		return entity;
 	}
-	
+
 	@Override
 	public void onPostBlockPlaced(World par1World, int par2, int par3, int par4, int par5) {
 		InfernosMultiEntity entity = (InfernosMultiEntity) par1World.getBlockTileEntity(par2, par3, par4);
-		System.out.println("newEntity() meta: "+par5+", class: "+entity.getClass().getName());
+		System.out.println("newEntity() meta: " + par5 + ", class: " + entity.getClass().getName());
 		entity.newEntity();
 	}
 
@@ -106,7 +105,7 @@ public class InfernosMultiBlock extends Block {
 
 	@Override
 	public int getRenderType() {
-		return MetaTechCraft.infernosRendererId;
+		return -1;
 	}
 
 	@Override

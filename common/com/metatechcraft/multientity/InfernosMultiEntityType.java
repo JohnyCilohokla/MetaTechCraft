@@ -8,7 +8,7 @@ public enum InfernosMultiEntityType {
 	InfernosMultiEntityType(Class<? extends InfernosMultiEntity> _class) {
 		this._class = _class;
 	}
-	
+
 	public static InfernosMultiEntity newMultiEntity(InfernosMultiEntityType type) {
 
 		InfernosMultiEntity packet = null;

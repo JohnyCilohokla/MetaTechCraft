@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.metatechcraft.multientity.InfernosMultiEntity;
+
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.Player;
 
@@ -16,6 +18,7 @@ import net.minecraft.world.World;
 public class PacketMultiTileEntity extends InfernosPacket {
 
 	public int x, y, z;
+	public String entityName;
 	TileEntity tileEntity;
 	private final List<SubPacketTileEntityChild> children;
 
@@ -24,11 +27,12 @@ public class PacketMultiTileEntity extends InfernosPacket {
 		this.children = new ArrayList<SubPacketTileEntityChild>();
 	}
 
-	public PacketMultiTileEntity(int x, int y, int z) {
+	public PacketMultiTileEntity(int x, int y, int z, String entityName) {
 		super(PacketType.MULTIPACKET_TILE_ENTITY, true);
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.entityName = entityName;
 		this.children = new ArrayList<SubPacketTileEntityChild>();
 	}
 
@@ -37,6 +41,7 @@ public class PacketMultiTileEntity extends InfernosPacket {
 		data.writeInt(this.x);
 		data.writeInt(this.y);
 		data.writeInt(this.z);
+		data.writeUTF(this.entityName);
 		data.writeInt(this.children.size());
 		for (SubPacketTileEntityChild packet : this.children) {
 			byte[] bytes = packet.populate();
@@ -50,6 +55,7 @@ public class PacketMultiTileEntity extends InfernosPacket {
 		this.x = data.readInt();
 		this.y = data.readInt();
 		this.z = data.readInt();
+		this.entityName = data.readUTF();
 		int childrenCount = data.readInt();
 		for (int i = 0; i < childrenCount; i++) {
 			int childLenght = data.readInt();
@@ -66,6 +72,10 @@ public class PacketMultiTileEntity extends InfernosPacket {
 	public void execute(INetworkManager manager, Player player) {
 		World world = FMLClientHandler.instance().getClient().theWorld;
 		this.tileEntity = world.getBlockTileEntity(this.x, this.y, this.z);
+		if (this.tileEntity instanceof InfernosMultiEntity) {
+			InfernosMultiEntity multiEntity = (InfernosMultiEntity) this.tileEntity;
+			multiEntity.newEntity(this.entityName);
+		}
 
 		for (SubPacketTileEntityChild packet : this.children) {
 			packet.execute(manager, player);

@@ -1,11 +1,11 @@
 package com.metatechcraft.multientity.base;
 
 import com.metatechcraft.multientity.InfernosMultiEntity;
+import com.metatechcraft.network.PacketMultiTileEntity;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -13,16 +13,16 @@ import net.minecraftforge.fluids.FluidStack;
 public class InfernosProxyEntityBase {
 	public static final InfernosProxyEntityBase DUMMY = new InfernosProxyEntityBase(null);
 	protected InfernosMultiEntity entity;
-	
+
 	public InfernosProxyEntityBase(InfernosMultiEntity entity) {
 		this.entity = entity;
 	}
-	
-	public boolean hasInventory(){
+
+	public boolean hasInventory() {
 		return false;
 	}
-	
-	public boolean hasLiquids(){
+
+	public boolean hasLiquids() {
 		return false;
 	}
 
@@ -54,11 +54,11 @@ public class InfernosProxyEntityBase {
 	}
 
 	public void closeChest() {
-		
+
 	}
 
 	public void openChest() {
-		
+
 	}
 
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
@@ -72,9 +72,11 @@ public class InfernosProxyEntityBase {
 	public boolean isInvNameLocalized() {
 		return false;
 	}
-	int[] nullArray = new int[]{};
+
+	int[] nullArray = new int[] {};
+
 	public int[] getAccessibleSlotsFromSide(int var1) {
-		return nullArray;
+		return this.nullArray;
 	}
 
 	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
@@ -86,7 +88,7 @@ public class InfernosProxyEntityBase {
 	}
 
 	public void invalidate() {
-		entity = null;
+		this.entity = null;
 	}
 
 	public FluidStack getFluid(int i) {
@@ -98,7 +100,7 @@ public class InfernosProxyEntityBase {
 	}
 
 	public void setFluid(int i, FluidStack fluid) {
-		
+
 	}
 
 	public int getFluidsCount() {
@@ -127,15 +129,21 @@ public class InfernosProxyEntityBase {
 	public void writeToNBT(NBTTagCompound tagCompound) {
 	}
 
-	public Packet getDescriptionPacket() {
-		// TODO Auto-generated method stub
-		return null;
+	public void addToDescriptionPacket(PacketMultiTileEntity packet) {
 	}
 
 	public void onInventoryChanged() {
-		if (!entity.worldObj.isRemote) {
-			entity.worldObj.markBlockForUpdate(entity.xCoord, entity.yCoord, entity.zCoord);
+		if (!this.entity.worldObj.isRemote) {
+			this.entity.worldObj.markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 		}
+	}
+
+	public void renderTileEntityAt(double x, double y, double z) {
+
+	}
+
+	public String getTypeName() {
+		return "InternalError!";
 	}
 
 }

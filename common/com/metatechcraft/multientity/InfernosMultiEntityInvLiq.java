@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
 public class InfernosMultiEntityInvLiq extends InfernosMultiEntity implements ISidedInventory, IFluidHandler, IFluidStackProxy {
-	
+
 	@Override
 	public int getSizeInventory() {
 		return getProxyEntity().getSizeInventory();
@@ -25,7 +25,7 @@ public class InfernosMultiEntityInvLiq extends InfernosMultiEntity implements IS
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		return getProxyEntity().decrStackSize(i,j);
+		return getProxyEntity().decrStackSize(i, j);
 	}
 
 	@Override
@@ -87,18 +87,18 @@ public class InfernosMultiEntityInvLiq extends InfernosMultiEntity implements IS
 	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
 		return getProxyEntity().canExtractItem(i, itemstack, j);
 	}
-	
+
 	@Override
 	public void onInventoryChanged() {
 		super.onInventoryChanged();
 		getProxyEntity().onInventoryChanged();
 	}
-	
+
 	@Override
 	public FluidStack getFluid(ForgeDirection direction) {
 		return getProxyEntity().getFluid(direction);
 	}
-	
+
 	@Override
 	public FluidStack getFluid(int i) {
 		return getProxyEntity().getFluid(i);
@@ -116,7 +116,7 @@ public class InfernosMultiEntityInvLiq extends InfernosMultiEntity implements IS
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		return getProxyEntity().fill(from,resource,doFill);
+		return getProxyEntity().fill(from, resource, doFill);
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public class InfernosMultiEntityInvLiq extends InfernosMultiEntity implements IS
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		return getProxyEntity().drain(from,maxDrain,doDrain);
+		return getProxyEntity().drain(from, maxDrain, doDrain);
 	}
 
 	@Override

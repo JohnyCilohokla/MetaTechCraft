@@ -6,6 +6,8 @@ import com.metatechcraft.block.MetaBlocks;
 import com.metatechcraft.item.MetaItems;
 import com.metatechcraft.multientity.base.InfernosProxyEntityBase;
 import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
+import com.metatechcraft.network.PacketMultiTileEntity;
+import com.metatechcraft.network.PacketType;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,17 +22,25 @@ public class InfernosMultiEntity extends TileEntity {
 	public InfernosMultiEntity() {
 		super();
 	}
-	
+
 	public InfernosProxyEntityBase getProxyEntity() {
-		return (proxyEntity!=null)?(proxyEntity):(InfernosProxyEntityBase.DUMMY);
+		return (this.proxyEntity != null) ? (this.proxyEntity) : (InfernosProxyEntityBase.DUMMY);
 	}
 
 	private void setProxyEntity(InfernosProxyEntityBase proxyEntity) {
 		this.proxyEntity = proxyEntity;
 	}
 
-	public void newEntity(){
+	public void newEntity() {
+		// TODO switch!
 		setProxyEntity(new InfuserTopTileEntity(this));
+	}
+
+	public void newEntity(String entityName) {
+		// TODO switch!
+		if (this.proxyEntity == null) {
+			setProxyEntity(new InfuserTopTileEntity(this));
+		}
 	}
 
 	public float getBlockHardness() {
@@ -47,7 +57,7 @@ public class InfernosMultiEntity extends TileEntity {
 		dropBlockAsItems();
 		/*if (canSilkHarvest(player) && (player.getCurrentEquippedItem().getItem() == MetaItems.strangeChisel)) {
 			ItemStack itemstack = getSilkTouchItemStack();
-	
+		
 			if (itemstack != null) {
 				dropBlockAsItem_do(itemstack);
 			}
@@ -55,7 +65,7 @@ public class InfernosMultiEntity extends TileEntity {
 			int fortune = EnchantmentHelper.getFortuneModifier(player);
 			dropBlockAsItem(fortune);
 		}*/
-	
+
 	}
 
 	/**
@@ -64,7 +74,7 @@ public class InfernosMultiEntity extends TileEntity {
 	 */
 	public void dropBlockAsItemWithChance(int fortune) {
 		ArrayList<ItemStack> items = getBlockDropped(fortune);
-	
+
 		for (ItemStack item : items) {
 			if (this.worldObj.rand.nextFloat() <= fortune) {
 				dropItemStack(item);
@@ -74,7 +84,7 @@ public class InfernosMultiEntity extends TileEntity {
 
 	public void dropBlockAsItems() {
 		ArrayList<ItemStack> items = getBlockDropped(0);
-	
+
 		for (ItemStack item : items) {
 			dropItemStack(item);
 		}
@@ -90,7 +100,7 @@ public class InfernosMultiEntity extends TileEntity {
 			entityitem.delayBeforeCanPickup = 10;
 			this.worldObj.spawnEntityInWorld(entityitem);
 		}
-	
+
 	}
 
 	protected ItemStack getSilkTouchItemStack() {
@@ -105,15 +115,15 @@ public class InfernosMultiEntity extends TileEntity {
 		return droppedItems;
 	}
 
-	public void renderTileEntityAt(float f) {
-	
+	public void renderTileEntityAt(double x, double y, double z) {
+		getProxyEntity().renderTileEntityAt(x, y, z);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
 		// TODO switch!
-		System.out.println("Reading entity data!");
+		System.out.println("Reading entity data! " + tagCompound.getString("MES"));
 		setProxyEntity(new InfuserTopTileEntity(this));
 		getProxyEntity().readFromNBT(tagCompound);
 	}
@@ -122,19 +132,22 @@ public class InfernosMultiEntity extends TileEntity {
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
 		System.out.println("Saving entity data!");
-		if (getProxyEntity()!=null){
+		if (getProxyEntity() != null) {
+			tagCompound.setString("MES", getProxyEntity().getTypeName());
 			getProxyEntity().writeToNBT(tagCompound);
 		}
 	}
-	
+
 	@Override
 	public Packet getDescriptionPacket() {
-		return getProxyEntity().getDescriptionPacket();
+		PacketMultiTileEntity packet = new PacketMultiTileEntity(this.xCoord, this.yCoord, this.zCoord, this.proxyEntity.getTypeName());
+		getProxyEntity().addToDescriptionPacket(packet);
+		return PacketType.populatePacket(packet);
 	}
-	
+
 	@Override
 	public void invalidate() {
-		if (getProxyEntity()!=null){
+		if (getProxyEntity() != null) {
 			getProxyEntity().invalidate();
 			setProxyEntity(null);
 		}

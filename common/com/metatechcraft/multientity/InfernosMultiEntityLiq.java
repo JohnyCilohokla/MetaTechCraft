@@ -9,12 +9,12 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
 public class InfernosMultiEntityLiq extends InfernosMultiEntity implements IFluidHandler, IFluidStackProxy {
-	
+
 	@Override
 	public FluidStack getFluid(ForgeDirection direction) {
 		return getProxyEntity().getFluid(direction);
 	}
-	
+
 	@Override
 	public FluidStack getFluid(int i) {
 		return getProxyEntity().getFluid(i);
@@ -32,7 +32,7 @@ public class InfernosMultiEntityLiq extends InfernosMultiEntity implements IFlui
 
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		return getProxyEntity().fill(from,resource,doFill);
+		return getProxyEntity().fill(from, resource, doFill);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class InfernosMultiEntityLiq extends InfernosMultiEntity implements IFlui
 
 	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		return getProxyEntity().drain(from,maxDrain,doDrain);
+		return getProxyEntity().drain(from, maxDrain, doDrain);
 	}
 
 	@Override
