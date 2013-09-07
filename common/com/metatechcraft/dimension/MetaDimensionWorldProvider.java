@@ -10,10 +10,11 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.chunk.IChunkProvider;
 
-public class MetaDimension extends WorldProvider {
+public class MetaDimensionWorldProvider extends WorldProvider {
 
-	public MetaDimension() {
+	public MetaDimensionWorldProvider() {
 		this.terrainType = WorldType.FLAT;
+		this.hasNoSky = true;
 	}
 
 	@Override
@@ -101,5 +102,18 @@ public class MetaDimension extends WorldProvider {
 	@Override
 	public int getAverageGroundLevel() {
 		return 50;
+	}
+
+	/**
+	 * Creates the light to brightness table
+	 */
+	@Override
+	protected void generateLightBrightnessTable() {
+		float f = 0.1F;
+
+		for (int i = 0; i <= 15; ++i) {
+			float f1 = 1.0F - (i / 15.0F);
+			this.lightBrightnessTable[i] = (((1.0F - f1) / ((f1 * 3.0F) + 1.0F)) * (1.0F - f)) + f;
+		}
 	}
 }

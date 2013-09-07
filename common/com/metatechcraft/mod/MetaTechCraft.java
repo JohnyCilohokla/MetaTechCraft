@@ -5,7 +5,7 @@ import net.minecraftforge.common.DimensionManager;
 
 import com.metatechcraft.block.MetaBlocks;
 import com.metatechcraft.core.proxy.CommonProxy;
-import com.metatechcraft.dimension.MetaDimension;
+import com.metatechcraft.dimension.MetaDimensionWorldProvider;
 import com.metatechcraft.generators.MetaGenerator;
 import com.metatechcraft.item.MetaItems;
 import com.metatechcraft.lib.MetaTabs;
@@ -43,7 +43,7 @@ public class MetaTechCraft {
 	public void init(FMLInitializationEvent event) {
 		MetaTechCraft.proxy.initizeRendering();
 
-		DimensionManager.registerProviderType(MetaTechCraft.metaDimID, MetaDimension.class, false);
+		DimensionManager.registerProviderType(MetaTechCraft.metaDimID, MetaDimensionWorldProvider.class, false);
 		DimensionManager.registerDimension(MetaTechCraft.metaDimID, MetaTechCraft.metaDimID);
 	}
 

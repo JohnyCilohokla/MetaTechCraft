@@ -79,12 +79,12 @@ public class InfernosMultiBlock extends Block {
 
 	@Override
 	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int damage) {
-		//ignore it, as its too late to check the tile entity
+		// ignore it, as its too late to check the tile entity
 	}
 
 	@Override
 	public void onBlockHarvested(World world, int x, int y, int z, int par5, EntityPlayer player) {
-		//break the block here instead
+		// break the block here instead
 		if (!world.isRemote) {
 			InfernosMultiEntity entity = (InfernosMultiEntity) world.getBlockTileEntity(x, y, z);
 			if (entity != null) {

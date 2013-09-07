@@ -13,7 +13,6 @@ import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -33,22 +32,6 @@ public class MetaPortalBlock extends BlockBreakable {
 	@Override
 	public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random) {
 		super.updateTick(par1World, par2, par3, par4, par5Random);
-
-		if (par1World.provider.isSurfaceWorld() && (par5Random.nextInt(2000) < par1World.difficultySetting)) {
-			int l;
-
-			for (l = par3; !par1World.doesBlockHaveSolidTopSurface(par2, l, par4) && (l > 0); --l) {
-				;
-			}
-
-			if ((l > 0) && !par1World.isBlockNormalCube(par2, l + 1, par4)) {
-				Entity entity = ItemMonsterPlacer.spawnCreature(par1World, 57, par2 + 0.5D, l + 1.1D, par4 + 0.5D);
-
-				if (entity != null) {
-					entity.timeUntilPortal = entity.getPortalCooldown();
-				}
-			}
-		}
 	}
 
 	/**
@@ -302,5 +285,10 @@ public class MetaPortalBlock extends BlockBreakable {
 	 */
 	public int idPicked(World par1World, int par2, int par3, int par4) {
 		return 0;
+	}
+
+	@Override
+	public int getLightValue(IBlockAccess world, int x, int y, int z) {
+		return 10;
 	}
 }
