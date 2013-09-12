@@ -34,8 +34,20 @@ Meta Liquids (black, white, red, green, blue)
 
 Infuser - WIP basic machine (combines liquids with items)
 
+Inventory Link (MK1, MK2) - Item Inventory Proxy Entity
+
+
+"unnamed" Dimension - WIP
+
 Planned Content
 =============
 
 Meta Powders (black, white, red, green, blue) - grinded version of Meta Dust
 
+Liquid Link
+
+Power System
+
+Power Link
+
+More Machines
