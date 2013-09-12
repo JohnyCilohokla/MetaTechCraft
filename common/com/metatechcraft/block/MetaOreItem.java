@@ -7,9 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 
-public class StrangeOreItem extends ItemBlock {
+public class MetaOreItem extends ItemBlock {
 
-	public StrangeOreItem(int par1) {
+	public MetaOreItem(int par1) {
 		super(par1);
 		setHasSubtypes(true);
 		setMaxDamage(0);
@@ -18,15 +18,15 @@ public class StrangeOreItem extends ItemBlock {
 
 	@Override
 	public String getUnlocalizedName(ItemStack itemStack) {
-		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, StrangeOreBlock.ORE_COUNT - 1);
-		return super.getUnlocalizedName() + ".strange." + StrangeOreBlock.ORE_NAMES[meta];
+		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaOreBlock.ORE_COUNT - 1);
+		return super.getUnlocalizedName() + ".meta." + MetaOreBlock.ORE_NAMES[meta];
 
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIconFromDamage(int par1) {
-		return MetaBlocks.strangeOreBlock.getIcon(0, par1);
+		return MetaBlocks.metaOreBlock.getIcon(0, par1);
 	}
 
 	@Override

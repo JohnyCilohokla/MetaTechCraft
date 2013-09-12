@@ -73,7 +73,6 @@ public abstract class InventoryLinkBase extends TileEntity implements ISidedInve
 
 	private IInventory getLinkedInventory() {
 		int direction = BlockHopper.getDirectionFromMetadata(getBlockMetadata());
-		// System.out.println("L "+i);
 		IInventory inventory = InventoryLinkBase.getLinkedInventory(getWorldObj(), (this.xCoord + Facing.offsetsXForSide[direction]), (this.yCoord + Facing.offsetsYForSide[direction]),
 				(this.zCoord + Facing.offsetsZForSide[direction]));
 		int linkPass = 0;

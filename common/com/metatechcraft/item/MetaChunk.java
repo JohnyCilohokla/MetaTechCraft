@@ -112,7 +112,7 @@ public class MetaChunk extends Item {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World par2World, EntityPlayer player) {
 		if (player.isSneaking()) {
-			itemStack.setTagCompound(new NBTTagCompound());
+			itemStack.setTagCompound(null);
 		}
 		return super.onItemRightClick(itemStack, par2World, player);
 	}

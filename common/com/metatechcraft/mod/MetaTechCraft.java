@@ -3,16 +3,14 @@ package com.metatechcraft.mod;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.DimensionManager;
 
-import com.metatechcraft.block.MetaBlocks;
 import com.metatechcraft.core.proxy.CommonProxy;
+import com.metatechcraft.block.MetaBlocks;
 import com.metatechcraft.dimension.MetaDimensionWorldProvider;
-import com.metatechcraft.generators.MetaGenerator;
+import com.metatechcraft.generators.MetaTechOreGenerators;
 import com.metatechcraft.item.MetaItems;
 import com.metatechcraft.lib.MetaTabs;
 import com.metatechcraft.lib.ModInfo;
-import com.metatechcraft.lib.registry.MetaTechRegistry;
 import com.metatechcraft.liquid.MetaLiquids;
-import com.metatechcraft.network.InfernosPacketHandler;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -20,10 +18,8 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 
-@Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.VERSION)
-@NetworkMod(channels = { ModInfo.MOD_ID }, clientSideRequired = true, serverSideRequired = false, packetHandler = InfernosPacketHandler.class)
+@Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.VERSION, dependencies = "required-after:MES_API")
 public class MetaTechCraft {
 
 	@SidedProxy(clientSide = ModInfo.CLIENT_PROXY_CLASS, serverSide = ModInfo.SERVER_PROXY_CLASS)
@@ -33,14 +29,21 @@ public class MetaTechCraft {
 
 	public static final int metaDimID = 17;
 
-	public static MetaGenerator metaGenerator;
-
-	public static MetaTechRegistry registry = new MetaTechRegistry();
-
-	public static int infernosRendererId;
+	public static MetaTechOreGenerators metaGenerator;
 
 	@EventHandler
+	public void preInit(FMLPreInitializationEvent event) {
+		System.out.println(">> MetaTechCraft: preInit");
+		MetaBlocks.initize();
+		MetaItems.initize();
+		MetaLiquids.initize();
+
+		MetaTechCraft.metaGenerator = new MetaTechOreGenerators();
+		MetaTechCraft.metaGenerator.preInit();
+	}
+	@EventHandler
 	public void init(FMLInitializationEvent event) {
+		System.out.println(">> MetaTechCraft: init");
 		MetaTechCraft.proxy.initizeRendering();
 
 		DimensionManager.registerProviderType(MetaTechCraft.metaDimID, MetaDimensionWorldProvider.class, false);
@@ -49,17 +52,8 @@ public class MetaTechCraft {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		System.out.println(">> MetaTechCraft: postInit");
 		MetaTechCraft.proxy.registerTileEntities();
 	}
 
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-
-		MetaBlocks.initize();
-		MetaItems.initize();
-		MetaLiquids.initize();
-
-		MetaTechCraft.metaGenerator = new MetaGenerator();
-		MetaTechCraft.metaGenerator.preInit();
-	}
 }

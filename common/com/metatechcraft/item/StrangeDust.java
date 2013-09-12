@@ -35,4 +35,6 @@ public class StrangeDust extends Item {
 	public boolean hasEffect(ItemStack stack) {
 		return true;
 	}
+	
+	
 }

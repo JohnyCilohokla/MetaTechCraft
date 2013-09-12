@@ -1,5 +1,6 @@
 package com.metatechcraft.block;
 
+import com.forgetutorials.lib.registry.MetaMaterial;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 import com.metatechcraft.tileentity.InventoryLinkMk1Tile;
@@ -20,7 +21,7 @@ import net.minecraft.world.World;
 public class InventoryLinkBlockBase extends BlockContainer {
 
 	public InventoryLinkBlockBase(int id) {
-		super(id, MetaBlocks.metaMaterial);
+		super(id, MetaMaterial.metaMaterial);
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 

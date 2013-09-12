@@ -1,15 +1,19 @@
 package com.metatechcraft.multientity.entites;
 
+import java.util.ArrayList;
+
 import org.lwjgl.opengl.GL11;
 
-import com.metatechcraft.lib.CustomItemRenderer;
+import com.forgetutorials.lib.network.MultiEntitySystem;
+import com.forgetutorials.lib.network.PacketMultiTileEntity;
+import com.forgetutorials.lib.network.SubPacketTileEntityFluidUpdate;
+import com.forgetutorials.lib.network.SubPacketTileEntitySimpleItemUpdate;
+import com.forgetutorials.lib.renderers.FluidTessallator;
+import com.forgetutorials.lib.utilities.CustomItemRenderer;
+import com.forgetutorials.multientity.InfernosMultiEntity;
+import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
+import com.metatechcraft.item.MetaItems;
 import com.metatechcraft.models.ModelFrameBox;
-import com.metatechcraft.multientity.InfernosMultiEntity;
-import com.metatechcraft.multientity.base.InfernosProxyEntityBase;
-import com.metatechcraft.network.PacketMultiTileEntity;
-import com.metatechcraft.network.SubPacketTileEntityFluidUpdate;
-import com.metatechcraft.network.SubPacketTileEntitySimpleItemUpdate;
-import com.metatechcraft.renderers.helper.FluidTessallator;
 
 import cpw.mods.fml.client.FMLClientHandler;
 
@@ -35,6 +39,28 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	@Override
 	public String getTypeName() {
 		return "InfuserTopTileEntity";
+	}
+
+	@Override
+	public boolean hasInventory() {
+		return true;
+	}
+
+	@Override
+	public boolean hasLiquids() {
+		return true;
+	}
+
+	@Override
+	public ItemStack getSilkTouchItemStack() {
+		return new ItemStack(MultiEntitySystem.infernosMultiBlock, 1, 0);
+	}
+
+	@Override
+	public ArrayList<ItemStack> getBlockDropped(int fortune) {
+		ArrayList<ItemStack> droppedItems = new ArrayList<ItemStack>();
+		droppedItems.add(new ItemStack(MetaItems.metaDust, 1, 0));
+		return droppedItems;
 	}
 
 	public InfuserTopTileEntity(InfernosMultiEntity entity) {

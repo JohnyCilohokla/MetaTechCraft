@@ -3,6 +3,7 @@ package com.metatechcraft.block;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.forgetutorials.lib.registry.MetaMaterial;
 import com.metatechcraft.item.MetaItems;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
@@ -25,20 +26,20 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class StrangeOreBlock extends Block {
+public class MetaOreBlock extends Block {
 
 	public static final String[] ORE_NAMES = new String[] { "Empty", "White", "Black", "Red", "Green", "Blue" };
-	public static final int ORE_COUNT = StrangeOreBlock.ORE_NAMES.length;
-	private static final int ORE_SIZE = StrangeOreBlock.ORE_COUNT - 1;
+	public static final int ORE_COUNT = MetaOreBlock.ORE_NAMES.length;
+	private static final int ORE_SIZE = MetaOreBlock.ORE_COUNT - 1;
 	private Icon[] icons;
 
-	protected StrangeOreBlock(int par1) {
+	protected MetaOreBlock(int par1) {
 		// make sure the material used can be broken by hand!
-		super(par1, MetaBlocks.metaMaterial);
-		setUnlocalizedName("StrangeOreBlock");
+		super(par1, MetaMaterial.metaMaterial);
+		setUnlocalizedName("MetaOreBlock");
 		setCreativeTab(MetaTechCraft.tabs);
-		GameRegistry.registerBlock(this, StrangeOreItem.class, "StrangeOreBlock");
-		LanguageRegistry.addName(this, "StrangeOre Block");
+		GameRegistry.registerBlock(this, MetaOreItem.class, "MetaOreBlock");
+		LanguageRegistry.addName(this, "MetaOre Block");
 	}
 
 	@Override
@@ -83,9 +84,9 @@ public class StrangeOreBlock extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		this.icons = new Icon[StrangeOreBlock.ORE_NAMES.length];
-		for (int i = 0; i < StrangeOreBlock.ORE_NAMES.length; ++i) {
-			this.icons[i] = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "ore/strange" + StrangeOreBlock.ORE_NAMES[i]);
+		this.icons = new Icon[MetaOreBlock.ORE_NAMES.length];
+		for (int i = 0; i < MetaOreBlock.ORE_NAMES.length; ++i) {
+			this.icons[i] = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "ore/meta" + MetaOreBlock.ORE_NAMES[i]);
 		}
 	}
 
@@ -98,12 +99,12 @@ public class StrangeOreBlock extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getIcon(int par1, int par2) {
-		int meta = MathHelper.clamp_int(par2, 0, StrangeOreBlock.ORE_SIZE);
+		int meta = MathHelper.clamp_int(par2, 0, MetaOreBlock.ORE_SIZE);
 		return this.icons[meta];
 	}
 
 	public String getUnlocalizedName(int i) {
-		return super.getUnlocalizedName() + "." + StrangeOreBlock.ORE_NAMES[i].toLowerCase();
+		return super.getUnlocalizedName() + "." + MetaOreBlock.ORE_NAMES[i].toLowerCase();
 	}
 
 	@Override
@@ -112,22 +113,22 @@ public class StrangeOreBlock extends Block {
 	}
 
 	public static String getDisplayName(ItemStack itemStack) {
-		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, StrangeOreBlock.ORE_SIZE);
+		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaOreBlock.ORE_SIZE);
 		switch (meta) {
 		case 0:
-			return EnumChatFormatting.WHITE + "Strange Stone";
+			return EnumChatFormatting.WHITE + "Meta Stone";
 		case 1:
-			return EnumChatFormatting.AQUA + "Strange Ore";
+			return EnumChatFormatting.AQUA + "Meta Ore";
 		case 2:
-			return EnumChatFormatting.DARK_GRAY + "Strange Ore";
+			return EnumChatFormatting.DARK_GRAY + "Meta Ore";
 		case 3:
-			return EnumChatFormatting.RED + "Strange Ore";
+			return EnumChatFormatting.RED + "Meta Ore";
 		case 4:
-			return EnumChatFormatting.GREEN + "Strange Ore";
+			return EnumChatFormatting.GREEN + "Meta Ore";
 		case 5:
-			return EnumChatFormatting.BLUE + "Strange Ore";
+			return EnumChatFormatting.BLUE + "Meta Ore";
 		default:
-			return EnumChatFormatting.WHITE + "Strange Ore(undefined?)";
+			return EnumChatFormatting.WHITE + "Meta Ore(undefined?)";
 		}
 	}
 
@@ -135,7 +136,7 @@ public class StrangeOreBlock extends Block {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int id, CreativeTabs creativeTab, List list) {
-		for (int meta = 0; meta < (StrangeOreBlock.ORE_SIZE + 1); meta++) {
+		for (int meta = 0; meta < (MetaOreBlock.ORE_SIZE + 1); meta++) {
 			list.add(new ItemStack(id, 1, meta));
 		}
 	}

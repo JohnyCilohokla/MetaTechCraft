@@ -1,7 +1,7 @@
 package com.metatechcraft.liquid;
 
+import com.forgetutorials.lib.registry.DescriptorFluid;
 import com.metatechcraft.lib.ModInfo;
-import com.metatechcraft.lib.registry.FluidDescriptor;
 import com.metatechcraft.mod.MetaTechCraft;
 
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -18,9 +18,9 @@ import net.minecraftforge.fluids.FluidStack;
 public class MetaLiquid extends BlockFluidFinite {
 
 	String unlocalizedName;
-	FluidDescriptor fluid;
+	DescriptorFluid fluid;
 
-	protected MetaLiquid(int id, FluidDescriptor fluid, String name) {
+	protected MetaLiquid(int id, DescriptorFluid fluid, String name) {
 		super(id, fluid.getFluid(), MetaLiquids.metaLiquidMaterial);
 		this.fluid = fluid;
 		// props

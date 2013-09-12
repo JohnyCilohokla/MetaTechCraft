@@ -1,5 +1,6 @@
 package com.metatechcraft.block;
 
+import com.forgetutorials.lib.registry.MetaMaterial;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -15,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class StrangeBricks extends Block {
 
 	protected StrangeBricks(int par1) {
-		super(par1, MetaBlocks.metaMaterial);
+		super(par1, MetaMaterial.metaMaterial);
 		setUnlocalizedName("Strange Bricks");
 		setCreativeTab(MetaTechCraft.tabs);
 		GameRegistry.registerBlock(this, "StrangeBricks");

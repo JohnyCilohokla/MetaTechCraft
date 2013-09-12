@@ -1,7 +1,6 @@
 package com.metatechcraft.lib;
 
-import com.metatechcraft.block.MetaBlocks;
-
+import com.forgetutorials.lib.registry.MetaMaterial;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -43,8 +42,8 @@ public class MetaTool extends Item {
 	@Override
 	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase) {
 		double blockHardness = Block.blocksList[par3].getBlockHardness(par2World, par4, par5, par6);
-		if ((Block.blocksList[par3].blockMaterial == MetaBlocks.metaMaterial) && (blockHardness != 0.0D)) {
-			ItemUtilities.damageItemOrDestroy(par1ItemStack, par3, (int) (blockHardness * 10), par7EntityLivingBase);
+		if ((Block.blocksList[par3].blockMaterial == MetaMaterial.metaMaterial) && (blockHardness != 0.0D)) {
+			MetaItemUtilities.damageItemOrDestroy(par1ItemStack, par3, (int) (blockHardness * 10), par7EntityLivingBase);
 		}
 
 		return true;

@@ -1,8 +1,9 @@
 package com.metatechcraft.item;
 
+import com.forgetutorials.lib.registry.MetaMaterial;
 import com.metatechcraft.block.MetaBlocks;
-import com.metatechcraft.lib.ItemUtilities;
 import com.metatechcraft.lib.MetaTool;
+import com.metatechcraft.lib.MetaItemUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -23,7 +24,7 @@ public class StrangeHammer extends MetaTool {
 	private Icon[] icons;
 
 	public StrangeHammer(int id) {
-		super(id, MetaBlocks.metaMaterial);
+		super(id, MetaMaterial.metaMaterial);
 		setUnlocalizedName("Strange Hammer");
 		LanguageRegistry.addName(this, "Strange Hammer");
 		setCreativeTab(MetaTechCraft.tabs);
@@ -46,14 +47,14 @@ public class StrangeHammer extends MetaTool {
 	@Override
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
 		if (MetaBlocks.metaPortalBlock.tryToCreatePortal(par3World, par4, par5, par6)) {
-			ItemUtilities.damageItemOrDestroy(itemStack, itemStack.itemID, 1000, par2EntityPlayer);
+			MetaItemUtilities.damageItemOrDestroy(itemStack, itemStack.itemID, 1000, par2EntityPlayer);
 		}
 		return true;
 	}
 
 	@Override
 	public float getStrVsBlock(ItemStack itemstack, Block block, int metadata) {
-		if (block.blockMaterial == MetaBlocks.metaMaterial) {
+		if (block.blockMaterial == MetaMaterial.metaMaterial) {
 			return 10f;
 		} else {
 			return 0;

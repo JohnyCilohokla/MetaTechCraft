@@ -1,6 +1,6 @@
 package com.metatechcraft.liquid;
 
-import com.metatechcraft.lib.registry.FluidDescriptor;
+import com.forgetutorials.lib.registry.DescriptorFluid;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
@@ -18,7 +18,7 @@ public class MetaLiquids {
 
 	public static final String[] metaFluidNames = new String[] { "MetaWhite", "MetaBlack", "MetaGreen", "MetaBlue", "MetaRed" };
 
-	public static FluidDescriptor[] metaFluids = new FluidDescriptor[32];
+	public static DescriptorFluid[] metaFluids = new DescriptorFluid[32];
 
 	public static void initize() {
 
@@ -30,7 +30,7 @@ public class MetaLiquids {
 
 		// liquids
 		for (int i = 0; i < MetaLiquids.metaFluidNames.length; i++) {
-			MetaLiquids.metaFluids[i] = FluidDescriptor.newFluid(MetaLiquids.metaFluidNames[i], 12, 3000, 6000);
+			MetaLiquids.metaFluids[i] = DescriptorFluid.newFluid(MetaLiquids.metaFluidNames[i], 12, 3000, 6000);
 			Block liquid = new MetaLiquid(2701 + i, MetaLiquids.metaFluids[i], MetaLiquids.metaFluidNames[i]);
 			ItemStack metaLiquidStack = new ItemStack(liquid);
 

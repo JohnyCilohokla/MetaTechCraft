@@ -2,7 +2,7 @@ package com.metatechcraft.liquid;
 
 import java.util.List;
 
-import com.metatechcraft.lib.ItemUtilities;
+import com.forgetutorials.lib.utilities.ItemUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -28,6 +28,16 @@ public class MetaLiquidContainer extends Item {
 		setContainerItem(this);
 		setHasSubtypes(true);
 		setCreativeTab(MetaTechCraft.tabs);
+	}
+
+	@Override
+	public boolean hasContainerItem() {
+		return true;
+	}
+
+	@Override
+	public ItemStack getContainerItemStack(ItemStack itemStack) {
+		return new ItemStack(MetaLiquids.metaLiquidContainer, 1, 0);
 	}
 
 	@Override
