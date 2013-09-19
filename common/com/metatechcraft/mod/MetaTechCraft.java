@@ -2,7 +2,9 @@ package com.metatechcraft.mod;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.MinecraftForge;
 
+import com.metatechcraft.core.handlers.CoreHooks;
 import com.metatechcraft.core.proxy.CommonProxy;
 import com.metatechcraft.block.MetaBlocks;
 import com.metatechcraft.dimension.MetaDimensionWorldProvider;
@@ -27,9 +29,16 @@ public class MetaTechCraft {
 
 	public static final CreativeTabs tabs = new MetaTabs();
 
-	public static final int metaDimID = 17;
+	public static final int metaDimID = 8;
+	public static int metaBiomeID = 108;
 
 	public static MetaTechOreGenerators metaGenerator;
+
+
+	@EventHandler
+	public void load(FMLInitializationEvent event) {
+		MinecraftForge.EVENT_BUS.register(new CoreHooks());
+	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -41,6 +50,7 @@ public class MetaTechCraft {
 		MetaTechCraft.metaGenerator = new MetaTechOreGenerators();
 		MetaTechCraft.metaGenerator.preInit();
 	}
+
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		System.out.println(">> MetaTechCraft: init");

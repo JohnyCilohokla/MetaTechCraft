@@ -9,21 +9,17 @@ import com.forgetutorials.lib.network.PacketMultiTileEntity;
 import com.forgetutorials.lib.network.SubPacketTileEntityFluidUpdate;
 import com.forgetutorials.lib.network.SubPacketTileEntitySimpleItemUpdate;
 import com.forgetutorials.lib.renderers.FluidTessallator;
-import com.forgetutorials.lib.utilities.CustomItemRenderer;
+import com.forgetutorials.lib.renderers.ItemTessallator;
 import com.forgetutorials.multientity.InfernosMultiEntity;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.metatechcraft.item.MetaItems;
 import com.metatechcraft.models.ModelFrameBox;
 
-import cpw.mods.fml.client.FMLClientHandler;
-
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Icon;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -351,34 +347,6 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 
 	private ModelFrameBox frameBox = new ModelFrameBox();
 
-	private static final CustomItemRenderer customItemRenderer = new CustomItemRenderer();
-
-	public void renderFluid(Tessellator tessellator, FluidStack fluidstack, double x, double y, double z) {
-		if ((fluidstack == null) || (fluidstack.amount <= 0)) {
-			return;
-		}
-
-		GL11.glPushMatrix();
-		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-		FMLClientHandler.instance().getClient().renderEngine.func_110577_a(TextureMap.field_110575_b);
-		FluidTessallator.setColorForFluidStack(fluidstack);
-		Icon icon = FluidTessallator.getFluidTexture(fluidstack, false);
-
-		double size = fluidstack.amount * 0.001;
-
-		tessellator.startDrawingQuads();
-		FluidTessallator.InfuserTank.addToTessallator(tessellator, x, y, z, icon, size, size);
-		tessellator.draw();
-
-		GL11.glPopAttrib();
-		GL11.glPopMatrix();
-	}
-
 	@Override
 	public void renderTileEntityAt(double x, double y, double z) {
 
@@ -388,27 +356,25 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 
 		this.frameBox.render();
 
-		// Block.beacon
 		GL11.glPushMatrix();
-		GL11.glTranslated(0.5, 0.5, 0.5);
+		GL11.glTranslated(0.5, 0.45, 0.5);
 		// GL11.glScalef(scale, scale, scale);
 		float rotationAngle = getRotation();
 		GL11.glRotatef(rotationAngle, 0f, 1f, 0f);
 		ItemStack ghostStack = getStackInSlot(0);
-		if (ghostStack != null) {
-			EntityItem ghostEntityItem = new EntityItem(this.entity.worldObj);
-			ghostEntityItem.hoverStart = 0.0F;
-			ghostEntityItem.setEntityItemStack(ghostStack);
-
-			InfuserTopTileEntity.customItemRenderer.doRenderItem(ghostEntityItem, 0, 0, 0, 0, 0);
-		}
+		ItemTessallator.renderItemStack(this.entity.worldObj, ghostStack);
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 
 		Tessellator tessellator = Tessellator.instance;
 		FluidStack liquid = getFluid(0);
-		renderFluid(tessellator, liquid, x, y, z);
+		FluidTessallator.InfuserTank.renderFluidStack(tessellator, liquid, x, y, z);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
+	}
+
+	@Override
+	public void renderStaticBlockAt(RenderBlocks renderer, int x, int y, int z) {
+		// nothing for now
 	}
 }

@@ -10,11 +10,11 @@ public class MetaTechOreGenerators {
 	}
 
 	public void preInit() {
-		OreGenerator.addOre(new OreGenReplaceStrangeStone((DescriptorOreBlock) MetaBlocks.mineableStacks.get("meta.black"), 15, 25, 4, 5).enable(true));
-		OreGenerator.addOre(new OreGenReplaceStrangeStone((DescriptorOreBlock) MetaBlocks.mineableStacks.get("meta.red"), 20, 30, 4, 5).enable(true));
-		OreGenerator.addOre(new OreGenReplaceStrangeStone((DescriptorOreBlock) MetaBlocks.mineableStacks.get("meta.green"), 25, 35, 4, 5).enable(true));
-		OreGenerator.addOre(new OreGenReplaceStrangeStone((DescriptorOreBlock) MetaBlocks.mineableStacks.get("meta.blue"), 30, 40, 4, 5).enable(true));
-		OreGenerator.addOre(new OreGenReplaceStrangeStone((DescriptorOreBlock) MetaBlocks.mineableStacks.get("meta.white"), 35, 45, 4, 5).enable(true));
+		OreGenerator.addOre(new OreGenReplaceStrangeStone((DescriptorOreBlock) MetaBlocks.mineableStacks.get("meta.white"), 130, 180, 4, 8).enable(true));
+		OreGenerator.addOre(new OreGenReplaceStrangeStone((DescriptorOreBlock) MetaBlocks.mineableStacks.get("meta.red"), 30, 140, 6, 10).enable(true));
+		OreGenerator.addOre(new OreGenReplaceStrangeStone((DescriptorOreBlock) MetaBlocks.mineableStacks.get("meta.green"), 30, 140, 6, 10).enable(true));
+		OreGenerator.addOre(new OreGenReplaceStrangeStone((DescriptorOreBlock) MetaBlocks.mineableStacks.get("meta.blue"), 30, 140, 6, 10).enable(true));
+		OreGenerator.addOre(new OreGenReplaceStrangeStone((DescriptorOreBlock) MetaBlocks.mineableStacks.get("meta.black"), 0, 60, 4, 8).enable(true));
 	}
 
 }

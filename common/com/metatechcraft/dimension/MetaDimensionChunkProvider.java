@@ -1,6 +1,9 @@
 package com.metatechcraft.dimension;
 
 import java.util.List;
+
+import com.forgetutorials.lib.dimension.ImprovedPerlin;
+
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.ChunkPosition;
@@ -11,82 +14,26 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 
 public class MetaDimensionChunkProvider implements IChunkProvider {
+	private static final int maxHeight = 128 + 64;
 	private World worldObj;
+
 	// private Random random;
-	private final int[] generatorLayerBlockID = new int[256];
-	private final int[] generatorLayerBlockMeta = new int[256];
+	// private final int[] generatorLayerBlockID = new int[256];
+	// private final int[] generatorLayerBlockMeta = new int[256];
 
-	// private final FlatGeneratorInfo flatGeneratorInfo;
-	// private final List<MapGenStructure> structureGenerators = new
-	// ArrayList<MapGenStructure>();
-
-	// private final boolean generatorDecorations;
-	// private final boolean generatorDungeons;
-	// private WorldGenLakes waterLakeGenerator;
-	// private WorldGenLakes lavaLakeGenerator;
+	private final ImprovedPerlin heightNoise1, heightNoise2, heightNoise3;
+	private final ImprovedPerlin terrainNoise1, terrainNoise2, terrainNoise3, terrainNoise4;
 
 	public MetaDimensionChunkProvider(World parWorld, long parX, boolean parZ, String generatorString) {
 		this.worldObj = parWorld;
 
-		for (int k = 0; k < 16; ++k) {
-			this.generatorLayerBlockID[k] = 0;
-			this.generatorLayerBlockMeta[k] = 0;
-		}
-		for (int k = 16; k < 17; ++k) {
-			this.generatorLayerBlockID[k] = 49;
-			this.generatorLayerBlockMeta[k] = 0;
-		}
-		/*for (int k = 17; k < 50; ++k) {
-			generatorLayerBlockID[k]=2805;
-			generatorLayerBlockMeta[k]=0;
-		}*/
-		/*for (int k = 45; k < 50; ++k) {
-			generatorLayerBlockID[k]=2805;
-			generatorLayerBlockMeta[k]=k-44;
-		}*/
-
-		/*this.random = new Random(parX);
-		this.flatGeneratorInfo = FlatGeneratorInfo.createFlatGeneratorFromString(generatorString);
-
-		if (parZ) {
-			Map<?, ?> map = this.flatGeneratorInfo.getWorldFeatures();
-
-			if (map.containsKey("biome_1")) {
-				this.structureGenerators.add(new MapGenScatteredFeature((Map<?, ?>) map.get("biome_1")));
-			}
-
-			if (map.containsKey("mineshaft")) {
-				this.structureGenerators.add(new MapGenMineshaft((Map<?, ?>) map.get("mineshaft")));
-			}
-
-			if (map.containsKey("stronghold")) {
-				this.structureGenerators.add(new MapGenStronghold((Map<?, ?>) map.get("stronghold")));
-			}
-		}*/
-		/*
-		this.generatorDecorations = this.flatGeneratorInfo.getWorldFeatures().containsKey("decoration");
-
-		if (this.flatGeneratorInfo.getWorldFeatures().containsKey("lake")) {
-			this.waterLakeGenerator = new WorldGenLakes(Block.waterStill.blockID);
-		}
-
-		if (this.flatGeneratorInfo.getWorldFeatures().containsKey("lava_lake")) {
-			this.lavaLakeGenerator = new WorldGenLakes(Block.lavaStill.blockID);
-		}
-
-		this.generatorDungeons = this.flatGeneratorInfo.getWorldFeatures().containsKey("dungeon");
-		*/
-
-		/*Iterator<?> iterator = this.flatGeneratorInfo.getFlatLayers().iterator();
-
-		while (iterator.hasNext()) {
-			FlatLayerInfo flatlayerinfo = (FlatLayerInfo) iterator.next();
-			
-			for (int j = flatlayerinfo.getMinY(); j < (flatlayerinfo.getMinY() + flatlayerinfo.getLayerCount()); ++j) {
-				this.generatorLayerBlockID[j] = (byte) (flatlayerinfo.getFillBlock() & 255);
-				this.generatorLayerBlockMeta[j] = (byte) flatlayerinfo.getFillBlockMeta();
-			}
-		}*/
+		heightNoise1 = new ImprovedPerlin(666, 16, 16, 1, 0.003, 1d / 256d);
+		heightNoise2 = new ImprovedPerlin(1666, 16, 16, 1, 0.005, 1d / 256d);
+		heightNoise3 = new ImprovedPerlin(2666, 16, 16, 1, 0.0003, 1d / 256d);
+		terrainNoise1 = new ImprovedPerlin(4666, 4, 4, MetaDimensionChunkProvider.maxHeight/4, 0.01, 3 * 1d / 256d);
+		terrainNoise2 = new ImprovedPerlin(5666, 4, 4, MetaDimensionChunkProvider.maxHeight/4, 0.005, 5 * 1d / 256d);
+		terrainNoise3 = new ImprovedPerlin(6666, 4, 4, MetaDimensionChunkProvider.maxHeight/4, 0.03, 50 * 1d / 256d);
+		terrainNoise4 = new ImprovedPerlin(7666, 4, 4, MetaDimensionChunkProvider.maxHeight/4, 0.08, 30 * 1d / 256d);
 	}
 
 	/**
@@ -102,31 +49,96 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 	 * will generates all the blocks for the specified chunk from the map seed
 	 * and chunk seed
 	 */
+
+	double[] heightA1 = new double[16 * 16];
+	double[] heightA2 = new double[16 * 16];
+	double[] heightA3 = new double[16 * 16];
+	
+	double[] heightArrayMap = new double[16 * 16];
+
+	double[] terrainArray1 = new double[49 * 5 * 5];
+	double[] terrainArray2 = new double[49 * 5 * 5];
+
+	double[] terrainArray3 = new double[49 * 5 * 5];
+	double[] terrainArray4 = new double[49 * 5 * 5];
+
+
+	double[] terrainArrayMapA = new double[MetaDimensionChunkProvider.maxHeight * 16 * 16];
+	double[] terrainArrayMapB = new double[MetaDimensionChunkProvider.maxHeight * 16 * 16];
+
+	
+	private double interp(double a, double b, double i) {
+		return a * (1 - i) + b * i;
+	}
+	
+	private double interp(double a, double b, double c, double d, double e, double f, double g, double h, double i, double j, double k) {
+		return interp(interp(interp(a, b, i), interp(c, d, i), j), interp(interp(e, f, i), interp(g, h, i), j), k);
+	}
+
+	private double interpArray(int minX, int minY, int minZ, double[] array, double i, double j, double k) {
+		return interp(//
+				array[minY * 25 + minX * 5 + minZ], array[minY * 25 + (minX + 1) * 5 + minZ],//
+				array[minY * 25 + minX * 5 + (minZ + 1)], array[minY * 25 + (minX + 1) * 5 + (minZ + 1)],//
+				array[(minY + 1) * 25 + minX * 5 + minZ], array[(minY + 1) * 25 + (minX + 1) * 5 + minZ],//
+				array[(minY + 1) * 25 + minX * 5 + (minZ + 1)], array[(minY + 1) * 25 + (minX + 1) * 5 + (minZ + 1)],//
+				i, j, k);
+	}
+
+
 	@Override
 	public Chunk provideChunk(int parX, int parZ) {
+
 		Chunk chunk = new Chunk(this.worldObj, parX, parZ);
 
-		for (int k = 0; k < this.generatorLayerBlockID.length; ++k) {
-			int l = k >> 4;
-			ExtendedBlockStorage extendedblockstorage = chunk.getBlockStorageArray()[l];
+		heightNoise1.populate(heightA1, parX, parZ, 128);
+		heightNoise2.populate(heightA2, parX, parZ, 128);
+		heightNoise3.populate(heightA3, parX, parZ, 128);
+
+		for (int divX = 0; divX < 16; ++divX) {
+			for (int divZ = 0; divZ < 16; ++divZ) {
+				heightArrayMap[divX * 16 + divZ] = heightA1[divX * 16 + divZ] * 0.5 + heightA2[divX * 16 + divZ] * 0.3 + heightA3[divX * 16 + divZ] * 0.2;
+			}
+		}
+		
+		terrainNoise1.populateInter(terrainArray1, parX, parZ);
+		terrainNoise2.populateInter(terrainArray2, parX, parZ);
+
+		terrainNoise3.populateInter(terrainArray3, parX, parZ);
+		terrainNoise4.populateInter(terrainArray4, parX, parZ);
+
+		int yChunks = MetaDimensionChunkProvider.maxHeight /16;
+		for (int cY = 0; cY < yChunks; ++cY) {
+			ExtendedBlockStorage extendedblockstorage = chunk.getBlockStorageArray()[cY];
 
 			if (extendedblockstorage == null) {
-				extendedblockstorage = new ExtendedBlockStorage(k, !this.worldObj.provider.hasNoSky);
-				chunk.getBlockStorageArray()[l] = extendedblockstorage;
+				extendedblockstorage = new ExtendedBlockStorage(cY*16, !this.worldObj.provider.hasNoSky);
+				chunk.getBlockStorageArray()[cY] = extendedblockstorage;
 			}
-
-			for (int i1 = 0; i1 < 16; ++i1) {
-				for (int j1 = 0; j1 < 16; ++j1) {
-					if (k > 15) {
-						extendedblockstorage.setExtBlockID(i1, k & 15, j1, this.generatorLayerBlockID[k]);
-						extendedblockstorage.setExtBlockMetadata(i1, k & 15, j1, this.generatorLayerBlockMeta[k]);
-					} else {
-						if ((((i1 / 4) % 4) == 1) && (((j1 / 4) % 4) == 1)) {
-							extendedblockstorage.setExtBlockID(i1, k & 15, j1, 2805);
-							extendedblockstorage.setExtBlockMetadata(i1, k & 15, j1, 0);
+			for (int divY = 0; divY < 16; ++divY) {
+				int y = cY * 16 + divY;
+				int minY = y / 4;
+				double dxY = (y - (minY * 4)) / 4d;
+				for (int x = 0; x < 16; ++x) {
+					int minX = x / 4;
+					double dxX = (x - (minX * 4)) / 4d;
+					for (int z = 0; z < 16; ++z) {
+						int minZ = z / 4;
+						double dxZ = (z - (minZ * 4)) / 4d;
+						double t1 = interpArray(minX, minY, minZ, terrainArray1, dxX, dxZ, dxY);
+						double t2 = interpArray(minX, minY, minZ, terrainArray2, dxX, dxZ, dxY);
+						double t3 = interpArray(minX, minY, minZ, terrainArray3, dxX, dxZ, dxY);
+						double t4 = interpArray(minX, minY, minZ, terrainArray4, dxX, dxZ, dxY);
+	
+						terrainArrayMapA[y * 256 + x * 16 + z] = t1 * 0.5 + t2 * 0.5;
+	
+						terrainArrayMapB[y * 256 + x * 16 + z] = t3 * 0.7 + t4 * 0.3;
+						
+						if (((y * 0.01 - heightArrayMap[x * 16 + z] * 0.5 - 0.5) > 1)
+								|| (((y - 20) * 0.01) * (terrainArrayMapA[y * 256 + x * 16 + z] > 0 ? terrainArrayMapA[y * 256 + x * 16 + z] : 0) > 0.4)
+								|| (((y - 20) * 0.01) * (terrainArrayMapB[y * 256 + x * 16 + z] > 0 ? terrainArrayMapB[y * 256 + x * 16 + z] : 0) > 0.3)) {
+							extendedblockstorage.setExtBlockID(x, y & 15, z, 0);
 						} else {
-							extendedblockstorage.setExtBlockID(i1, k & 15, j1, 0);
-							extendedblockstorage.setExtBlockMetadata(i1, k & 15, j1, 0);
+							extendedblockstorage.setExtBlockID(x, y & 15, z, 2805);
 						}
 					}
 				}

@@ -1,5 +1,9 @@
 package com.metatechcraft.dimension;
 
+import com.forgetutorials.lib.dimension.BiomeGenFake;
+import com.forgetutorials.lib.dimension.SingleBiomeChunkManager;
+import com.metatechcraft.mod.MetaTechCraft;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -8,12 +12,20 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldType;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 
 public class MetaDimensionWorldProvider extends WorldProvider {
+	
+	protected static final WorldType META_WORLD_TYPE = new WorldType(MetaTechCraft.metaDimID, "Meta Dimension");
+	
+	protected static final BiomeGenBase META_WORLD_BIOME = new BiomeGenFake(MetaTechCraft.metaBiomeID,"Blizzard",0,0);
+	
+	protected static final SingleBiomeChunkManager META_WORLD_MANAGER = new SingleBiomeChunkManager(META_WORLD_BIOME);
+	
 
 	public MetaDimensionWorldProvider() {
-		this.terrainType = WorldType.FLAT;
+		this.terrainType = META_WORLD_TYPE;
 		this.hasNoSky = true;
 	}
 
@@ -24,7 +36,7 @@ public class MetaDimensionWorldProvider extends WorldProvider {
 
 	@Override
 	public IChunkProvider createChunkGenerator() {
-		return new MetaDimensionChunkProvider(this.worldObj, getSeed(), true, "2;32x0,49,10x1;1;village");
+		return new MetaDimensionChunkProvider(this.worldObj, getSeed(), true, "");
 	}
 
 	@Override
@@ -34,7 +46,7 @@ public class MetaDimensionWorldProvider extends WorldProvider {
 
 	@Override
 	public void registerWorldChunkManager() {
-		this.worldChunkMgr = this.terrainType.getChunkManager(this.worldObj);
+		this.worldChunkMgr = META_WORLD_MANAGER;
 	}
 
 	@Override
@@ -96,12 +108,12 @@ public class MetaDimensionWorldProvider extends WorldProvider {
 
 	@Override
 	public ChunkCoordinates getEntrancePortalLocation() {
-		return new ChunkCoordinates(100, 50, 0);
+		return new ChunkCoordinates(0, 100, 0);
 	}
 
 	@Override
 	public int getAverageGroundLevel() {
-		return 50;
+		return 128;
 	}
 
 	/**
@@ -116,4 +128,5 @@ public class MetaDimensionWorldProvider extends WorldProvider {
 			this.lightBrightnessTable[i] = (((1.0F - f1) / ((f1 * 3.0F) + 1.0F)) * (1.0F - f)) + f;
 		}
 	}
+	
 }

@@ -56,12 +56,6 @@ public class MetaItems {
 		GameRegistry.addRecipe(new ItemStack(MetaBlocks.inventoryLinkBlock, 4), new Object[] { "iii", "isi", "iii", Character.valueOf('s'), MetaItems.strangeIngot, Character.valueOf('i'),
 				Item.ingotIron });
 		
-		// TODO change
-		// SDust SDust SDust
-		// ICE LAVA ICE
-		// SDust SDust SDust
-		//GameRegistry.addShapelessRecipe(, Item.bucketLava, MetaItems.strangeDust);
-		
 		GameRegistry.addRecipe(new ItemStack(MetaBlocks.strangeObsidianBlock, 2), new Object[] { "sss", "ili", "sss", Character.valueOf('s'), MetaItems.strangeIngot, Character.valueOf('i'), Block.ice,
 			Character.valueOf('l'), Item.bucketLava });
 
