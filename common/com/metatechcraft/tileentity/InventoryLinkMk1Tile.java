@@ -11,4 +11,9 @@ public class InventoryLinkMk1Tile extends InventoryLinkBase {
 	public int getMaxPass() {
 		return 8;
 	}
+
+	@Override
+	public boolean isSneaky() {
+		return false;
+	}
 }

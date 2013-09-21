@@ -26,7 +26,7 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 
 	public MetaDimensionChunkProvider(World parWorld, long parX, boolean parZ, String generatorString) {
 		this.worldObj = parWorld;
-
+		
 		heightNoise1 = new ImprovedPerlin(666, 16, 16, 1, 0.003, 1d / 256d);
 		heightNoise2 = new ImprovedPerlin(1666, 16, 16, 1, 0.005, 1d / 256d);
 		heightNoise3 = new ImprovedPerlin(2666, 16, 16, 1, 0.0003, 1d / 256d);

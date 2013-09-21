@@ -1,6 +1,6 @@
 package com.metatechcraft.block;
 
-import com.metatechcraft.tileentity.InventoryLinkMk2Tile;
+import com.metatechcraft.tileentity.InventoryLinkMk1Tile;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -23,7 +23,7 @@ public class InventoryLinkMk1Block extends InventoryLinkBlockBase {
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
-		return new InventoryLinkMk2Tile();
+		return new InventoryLinkMk1Tile();
 	}
 
 }

@@ -24,6 +24,9 @@ public abstract class InventoryLinkBase extends TileEntity implements ISidedInve
 	protected ForgeDirection orientation;
 	static final int[] nullIntArray = {};
 
+
+	public abstract boolean isSneaky();
+
 	public abstract int getMaxPass();
 
 	/**
@@ -71,44 +74,33 @@ public abstract class InventoryLinkBase extends TileEntity implements ISidedInve
 		this.orientation = ForgeDirection.getOrientation(orientation);
 	}
 
-	private IInventory getLinkedInventory() {
+	private InventoryWithSide getLinkedInventory() {
 		int direction = BlockHopper.getDirectionFromMetadata(getBlockMetadata());
 		IInventory inventory = InventoryLinkBase.getLinkedInventory(getWorldObj(), (this.xCoord + Facing.offsetsXForSide[direction]), (this.yCoord + Facing.offsetsYForSide[direction]),
 				(this.zCoord + Facing.offsetsZForSide[direction]));
-		int linkPass = 0;
-		while (inventory instanceof InventoryLinkMk1Tile) {
-			InventoryLinkMk1Tile linkInventory = (InventoryLinkMk1Tile) inventory;
-			int linkDirection = BlockHopper.getDirectionFromMetadata(linkInventory.getBlockMetadata());
-			inventory = InventoryLinkBase.getLinkedInventory(linkInventory.getWorldObj(), (linkInventory.xCoord + Facing.offsetsXForSide[linkDirection]),
-					(linkInventory.yCoord + Facing.offsetsYForSide[linkDirection]), (linkInventory.zCoord + Facing.offsetsZForSide[linkDirection]));
+		//int linkPass = 0;
+		int leftPass = this.getMaxPass();
+		while (inventory instanceof InventoryLinkBase) {
+			InventoryLinkBase linkInventory = (InventoryLinkBase) inventory;
+			direction = BlockHopper.getDirectionFromMetadata(linkInventory.getBlockMetadata());
+			inventory = InventoryLinkBase.getLinkedInventory(linkInventory.getWorldObj(), (linkInventory.xCoord + Facing.offsetsXForSide[direction]),
+					(linkInventory.yCoord + Facing.offsetsYForSide[direction]), (linkInventory.zCoord + Facing.offsetsZForSide[direction]));
 			if ((inventory == null) || inventory.equals(this)) {
-				return null;
+				return InventoryWithSide.NULL;
 			}
-			linkPass++;
-			if (linkPass >= linkInventory.getMaxPass()) {
-				return null;
+			//linkPass++;
+			leftPass=(((leftPass)<=linkInventory.getMaxPass())?leftPass:linkInventory.getMaxPass());
+			leftPass--;
+			if (leftPass<=0) {
+				return InventoryWithSide.NULL;
 			}
 		}
-
-		return inventory;
-	}
-
-	private ISidedInventory getLinkedSidedInventory() {
-		try {
-			IInventory tile = this.getLinkedInventory();
-			if ((tile != null) && (tile instanceof ISidedInventory)) {
-				return (ISidedInventory) tile;
-			} else {
-				return null;
-			}
-		} catch (StackOverflowError e) {
-			return null;
-		}
+		return new InventoryWithSide(inventory, Facing.oppositeSide[direction]);
 	}
 
 	@Override
 	public void closeChest() {
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = getLinkedInventory().getInventory();
 		if (inventory != null) {
 			inventory.closeChest();
 		}
@@ -116,55 +108,55 @@ public abstract class InventoryLinkBase extends TileEntity implements ISidedInve
 
 	@Override
 	public ItemStack decrStackSize(int slot, int count) {
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = getLinkedInventory().getInventory();
 		return inventory != null ? inventory.decrStackSize(slot, count) : null;
 	}
 
 	@Override
 	public int getInventoryStackLimit() {
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = getLinkedInventory().getInventory();
 		return inventory != null ? inventory.getInventoryStackLimit() : 0;
 	}
 
 	@Override
 	public String getInvName() {
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = getLinkedInventory().getInventory();
 		return inventory != null ? inventory.getInvName() : null;
 	}
 
 	@Override
 	public int getSizeInventory() {
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = getLinkedInventory().getInventory();
 		return inventory != null ? inventory.getSizeInventory() : 0;
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int slot) {
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = getLinkedInventory().getInventory();
 		return inventory != null ? inventory.getStackInSlot(slot) : null;
 	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = getLinkedInventory().getInventory();
 		return inventory != null ? inventory.getStackInSlotOnClosing(slot) : null;
 	}
 
 	@Override
 	public boolean isInvNameLocalized() {
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = getLinkedInventory().getInventory();
 		return inventory != null ? inventory.isInvNameLocalized() : false;
 	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = getLinkedInventory().getInventory();
 		return inventory != null ? inventory.isUseableByPlayer(entityplayer) : false;
 	}
 
 	@Override
 	public void openChest() {
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = getLinkedInventory().getInventory();
 		if (inventory != null) {
 			inventory.openChest();
 		}
@@ -172,7 +164,7 @@ public abstract class InventoryLinkBase extends TileEntity implements ISidedInve
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack itemstack) {
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = getLinkedInventory().getInventory();
 		if (inventory != null) {
 			inventory.setInventorySlotContents(slot, itemstack);
 		}
@@ -190,7 +182,7 @@ public abstract class InventoryLinkBase extends TileEntity implements ISidedInve
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = getLinkedInventory().getInventory();
 		return inventory != null ? inventory.isItemValidForSlot(slot, itemstack) : false;
 	}
 
@@ -200,12 +192,16 @@ public abstract class InventoryLinkBase extends TileEntity implements ISidedInve
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side) {
-		ISidedInventory sidedInventory = getLinkedSidedInventory();
+		InventoryWithSide inv = getLinkedInventory();
+		ISidedInventory sidedInventory = inv.getSidedInventory();
 		if (sidedInventory != null) {
+			if (!isSneaky()){
+				side = inv.getSide();
+			}
 			return sidedInventory.getAccessibleSlotsFromSide(side);
 		}
 
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = inv.getInventory();
 		if (inventory != null) {
 			int size = inventory.getSizeInventory();
 			int[] slots = new int[size];
@@ -219,12 +215,17 @@ public abstract class InventoryLinkBase extends TileEntity implements ISidedInve
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack itemstack, int side) {
-		ISidedInventory sidedInventory = getLinkedSidedInventory();
+		InventoryWithSide inv = getLinkedInventory();
+		
+		ISidedInventory sidedInventory = inv.getSidedInventory();
 		if (sidedInventory != null) {
+			if (!isSneaky()){
+				side = inv.getSide();
+			}
 			return sidedInventory.canInsertItem(slot, itemstack, side);
 		}
 
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = inv.getInventory();
 		if (inventory != null) {
 			return true;
 		}
@@ -233,12 +234,17 @@ public abstract class InventoryLinkBase extends TileEntity implements ISidedInve
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
-		ISidedInventory sidedInventory = getLinkedSidedInventory();
+		InventoryWithSide inv = getLinkedInventory();
+		
+		ISidedInventory sidedInventory = inv.getSidedInventory();
 		if (sidedInventory != null) {
+			if (!isSneaky()){
+				side = inv.getSide();
+			}
 			return sidedInventory.canExtractItem(slot, itemstack, side);
 		}
 
-		IInventory inventory = getLinkedInventory();
+		IInventory inventory = inv.getInventory();
 		if (inventory != null) {
 			return true;
 		}

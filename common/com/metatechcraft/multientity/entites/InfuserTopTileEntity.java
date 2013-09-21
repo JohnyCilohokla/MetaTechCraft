@@ -3,12 +3,14 @@ package com.metatechcraft.multientity.entites;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL14;
 
 import com.forgetutorials.lib.network.MultiEntitySystem;
 import com.forgetutorials.lib.network.PacketMultiTileEntity;
 import com.forgetutorials.lib.network.SubPacketTileEntityFluidUpdate;
 import com.forgetutorials.lib.network.SubPacketTileEntitySimpleItemUpdate;
 import com.forgetutorials.lib.renderers.FluidTessallator;
+import com.forgetutorials.lib.renderers.GLDisplayList;
 import com.forgetutorials.lib.renderers.ItemTessallator;
 import com.forgetutorials.multientity.InfernosMultiEntity;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
@@ -18,6 +20,7 @@ import com.metatechcraft.models.ModelFrameBox;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
@@ -29,6 +32,7 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	long rotation;
 	long lastTime = 0;
 	int rand = 0;
+	int target = 0;
 
 	ItemStack stack;
 
@@ -346,15 +350,28 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	}
 
 	private ModelFrameBox frameBox = new ModelFrameBox();
-
+	
+	public static void setAlpha(float alpha) {
+		GL14.glBlendColor(alpha, alpha, alpha, 1);
+	}
+	
+	
+	GLDisplayList frameBoxList = new GLDisplayList();
+	
+	
 	@Override
 	public void renderTileEntityAt(double x, double y, double z) {
 
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glTranslated(x, y, z);
-
-		this.frameBox.render();
+		if (!frameBoxList.isGenerated()){
+			frameBoxList.generate();
+			frameBoxList.bind();
+			this.frameBox.render();
+			frameBoxList.unbind();
+		}
+		frameBoxList.render();
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(0.5, 0.45, 0.5);
@@ -362,7 +379,26 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 		float rotationAngle = getRotation();
 		GL11.glRotatef(rotationAngle, 0f, 1f, 0f);
 		ItemStack ghostStack = getStackInSlot(0);
+		if (target>0){
+			switch (target){
+			case 1: ghostStack = new ItemStack(Item.appleRed); break; 
+			case 2: ghostStack = new ItemStack(Item.axeStone); break; 
+			case 3: ghostStack = new ItemStack(Item.bread); break; 
+			}
+		}
+		
+		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		//GL11.glEnable(GL11.GL_BLEND);
+		//GL14.glBlendFuncSeparate(GL11.GL_CONSTANT_COLOR, GL11.GL_ZERO,  GL11.GL_ZERO, GL11.GL_ZERO);
+		//GL14.glBlendColor(0.2f, 0.2f, 0.2f, 1);
+		//setAlpha(0.8f);
 		ItemTessallator.renderItemStack(this.entity.worldObj, ghostStack);
+		//setAlpha(1);
+		//GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glPopAttrib();
+		
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 
@@ -372,9 +408,46 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
+	
+	@Override
+	public void onBlockActivated(EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
+		target=(target+1)%4;
+	}
 
 	@Override
 	public void renderStaticBlockAt(RenderBlocks renderer, int x, int y, int z) {
 		// nothing for now
 	}
+	
+	//int ticker = 10;
+	
+	@Override
+	public void tick() {
+		/*
+		ticker--;
+		if (ticker>0){
+			return;
+		}
+		ticker = 10;
+		
+        IInventory inv = getInventoryAbove(this.entity.worldObj, this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
+		if (inv==null){
+        	return;
+		}
+        ItemStack invStack = inv.getStackInSlot(0);
+        
+        if (invStack==null || invStack.stackSize<1){
+        	return;
+        }
+        
+        if ((this.stack!=null&&this.stack.stackSize>0)){
+        	return;
+        }
+        this.stack = invStack.splitStack(1);
+        if (invStack.stackSize==0){
+            inv.setInventorySlotContents(0, null);
+        }
+        */
+	}
+	
 }
