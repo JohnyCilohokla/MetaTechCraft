@@ -263,7 +263,7 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 	 */
 	@Override
 	public String makeString() {
-		return "StrangeLevelSource";
+		return "BlizzardDimension";
 	}
 
 	@Override
@@ -302,7 +302,8 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 	}
 
 	@Override
-	public void func_104112_b() {
+	public void saveExtraData() {
 		// TODO Auto-generated method stub
+		
 	}
 }

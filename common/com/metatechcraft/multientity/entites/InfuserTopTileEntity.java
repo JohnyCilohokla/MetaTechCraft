@@ -9,20 +9,27 @@ import com.forgetutorials.lib.network.MultiEntitySystem;
 import com.forgetutorials.lib.network.PacketMultiTileEntity;
 import com.forgetutorials.lib.network.SubPacketTileEntityFluidUpdate;
 import com.forgetutorials.lib.network.SubPacketTileEntitySimpleItemUpdate;
+import com.forgetutorials.lib.registry.InfernosRegisteryProxyEntity;
 import com.forgetutorials.lib.renderers.FluidTessallator;
 import com.forgetutorials.lib.renderers.GLDisplayList;
 import com.forgetutorials.lib.renderers.ItemTessallator;
+import com.forgetutorials.lib.utilities.ItemStackUtilities;
 import com.forgetutorials.multientity.InfernosMultiEntity;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.metatechcraft.item.MetaItems;
+import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.models.ModelFrameBox;
+
+import cpw.mods.fml.client.FMLClientHandler;
 
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -35,10 +42,12 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	int target = 0;
 
 	ItemStack stack;
+	
+	public final static String TYPE_NAME = "InfuserTopTileEntity";
 
 	@Override
 	public String getTypeName() {
-		return "InfuserTopTileEntity";
+		return InfuserTopTileEntity.TYPE_NAME;
 	}
 
 	@Override
@@ -53,7 +62,9 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 
 	@Override
 	public ItemStack getSilkTouchItemStack() {
-		return new ItemStack(MultiEntitySystem.infernosMultiBlock, 1, 0);
+		ItemStack stack = new ItemStack(MultiEntitySystem.infernosMultiBlock, 1, 3);
+		ItemStackUtilities.addStringTag(stack, "MES", getTypeName());
+		return stack;
 	}
 
 	@Override
@@ -351,10 +362,6 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 
 	private ModelFrameBox frameBox = new ModelFrameBox();
 	
-	public static void setAlpha(float alpha) {
-		GL14.glBlendColor(alpha, alpha, alpha, 1);
-	}
-	
 	
 	GLDisplayList frameBoxList = new GLDisplayList();
 	
@@ -390,19 +397,40 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_LIGHTING);
-		//GL11.glEnable(GL11.GL_BLEND);
-		//GL14.glBlendFuncSeparate(GL11.GL_CONSTANT_COLOR, GL11.GL_ZERO,  GL11.GL_ZERO, GL11.GL_ZERO);
-		//GL14.glBlendColor(0.2f, 0.2f, 0.2f, 1);
-		//setAlpha(0.8f);
+		if (target>0){
+			GL11.glEnable(GL11.GL_BLEND);
+			GL14.glBlendFuncSeparate(GL11.GL_CONSTANT_COLOR, GL11.GL_ZERO,  GL11.GL_ZERO, GL11.GL_ZERO);
+			float color = (ticker/40==0)?(ticker/40f)*0.4f:(1f-((ticker-40)/40f))*0.4f;
+			GL14.glBlendColor(color, color, color, 1);
+		}
 		ItemTessallator.renderItemStack(this.entity.worldObj, ghostStack);
-		//setAlpha(1);
-		//GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		if (target>0){
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		}
 		GL11.glPopAttrib();
 		
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 
 		Tessellator tessellator = Tessellator.instance;
+		
+		
+		GL11.glPushMatrix();
+		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+		tessellator.startDrawingQuads();
+		FluidTessallator.InfuserTank.addToTessallator(tessellator, x, y, z, InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":entity/boxFrame.red"), 1, 1);
+		tessellator.draw();
+
+		GL11.glPopAttrib();
+		GL11.glPopMatrix();
+		
+		
 		FluidStack liquid = getFluid(0);
 		FluidTessallator.InfuserTank.renderFluidStack(tessellator, liquid, x, y, z);
 
@@ -420,9 +448,16 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	}
 	
 	//int ticker = 10;
+	int ticker = 0;
 	
 	@Override
 	public void tick() {
+		
+		ticker++;
+		if (ticker>80){
+			ticker=0;
+		}
+		
 		/*
 		ticker--;
 		if (ticker>0){
@@ -448,6 +483,23 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
             inv.setInventorySlotContents(0, null);
         }
         */
+	}
+
+	@Override
+	public void renderItem(ItemRenderType type) {
+
+		GL11.glPushMatrix();
+		GL11.glDisable(GL11.GL_LIGHTING);
+		//GL11.glTranslated(x, y, z);
+		if (!frameBoxList.isGenerated()){
+			frameBoxList.generate();
+			frameBoxList.bind();
+			this.frameBox.render();
+			frameBoxList.unbind();
+		}
+		frameBoxList.render();
+		GL11.glPopMatrix();
+
 	}
 	
 }

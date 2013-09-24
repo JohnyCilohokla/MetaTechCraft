@@ -1,0 +1,8 @@
+{
+	"repo": "http://metatechcraft.com/build",
+	"file": "ForgeTutorialsAPI-universal-@MCVERSION@-@VERSION@.jar",
+	"dev": "ForgeTutorialsAPI-universal-dev-@MCVERSION@-@VERSION@.jar",
+	"class": "com.forgetutorials.core.proxy.ClientProxy",
+	"version": "0.1.0021",
+	"mcversion": "1.6.4"
+}

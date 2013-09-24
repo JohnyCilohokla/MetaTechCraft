@@ -4,6 +4,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 
+import com.forgetutorials.lib.registry.InfernosRegisteryProxyEntity;
 import com.metatechcraft.core.handlers.CoreHooks;
 import com.metatechcraft.core.proxy.CommonProxy;
 import com.metatechcraft.block.MetaBlocks;
@@ -49,6 +50,8 @@ public class MetaTechCraft {
 
 		MetaTechCraft.metaGenerator = new MetaTechOreGenerators();
 		MetaTechCraft.metaGenerator.preInit();
+		
+		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":entity/boxFrame.red");
 	}
 
 	@EventHandler

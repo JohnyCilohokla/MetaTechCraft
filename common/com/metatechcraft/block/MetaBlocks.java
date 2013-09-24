@@ -3,10 +3,15 @@ package com.metatechcraft.block;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.forgetutorials.lib.network.MultiEntitySystem;
 import com.forgetutorials.lib.registry.DescriptorBlock;
 import com.forgetutorials.lib.registry.DescriptorOreBlock;
+import com.forgetutorials.lib.registry.ForgeTutorialsRegistry;
 import com.forgetutorials.lib.registry.InfernosRegisteryProxyEntity;
+import com.forgetutorials.lib.utilities.ItemStackUtilities;
+import com.forgetutorials.multientity.InfernosMultiEntityType;
 import com.metatechcraft.lib.MetaConfig;
+import com.metatechcraft.mod.MetaTechCraft;
 import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
 import com.metatechcraft.tileentity.InventoryLinkMk2Tile;
 import com.metatechcraft.tileentity.InventoryLinkMk1Tile;
@@ -15,6 +20,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagString;
 
 public class MetaBlocks {
 
@@ -100,8 +106,13 @@ public class MetaBlocks {
 	}
 
 	public static void registerTileEntities() {
-
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity("InfuserTopTileEntity", InfuserTopTileEntity.class);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InfuserTopTileEntity.TYPE_NAME, InfuserTopTileEntity.class, InfernosMultiEntityType.BOTH);
+		
+		ItemStack itemStack= new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, 3);
+		ItemStackUtilities.addStringTag(itemStack, "MES", InfuserTopTileEntity.TYPE_NAME);
+		
+		new DescriptorBlock().registerBlock("mes.metatech.infuserTop", "Infuser Top", itemStack);
+		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs,itemStack);
 
 		GameRegistry.registerTileEntity(InventoryLinkMk1Tile.class, "tile.metatech.inventorylink.mk1");
 		GameRegistry.registerTileEntity(InventoryLinkMk2Tile.class, "tile.metatech.inventorylink.mk2");

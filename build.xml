@@ -9,6 +9,7 @@
 		
 	<target name="clean">
 		<delete file="${buildConfig.dir.mcp}\src\minecraft\mcmod.info" />
+		<delete file="${buildConfig.dir.mcp}\src\minecraft\dependancies.info" />
 		<delete dir="${buildConfig.dir.mcp}\src\minecraft\com\metatechcraft" />
 		<delete dir="${buildConfig.dir.mcp}\src\minecraft\com\forgetutorials" />
 		<delete dir="${buildConfig.dir.mcp}\reobf\minecraft" />
@@ -78,10 +79,15 @@
 		<!-- Build the jar -->
 		<mkdir dir="${buildConfig.dir.release}" />
 		<mkdir dir="${buildConfig.dir.release}\MetaTechCraft-${build.version.number}.${build.patch.number}" />
-		<jar destfile="${buildConfig.dir.release}\MetaTechCraft-${build.version.number}.${build.patch.number}\metatechcraft-${build.version.number}.${build.patch.number}.${build.revision.number}-universal.jar">
-		<fileset dir="${buildConfig.dir.mcp}\src\minecraft\" includes="mcmod.info" />
-		<fileset dir="${buildConfig.dir.mcp}\reobf\minecraft" excludes="com/forgetutorials/"  />
-		<fileset dir="${buildConfig.dir.development}\resource" excludes="**/xcf/**" />
+		<jar destfile="${buildConfig.dir.release}\MetaTechCraft-${build.version.number}.${build.patch.number}\MetaTechCraft-universal-${buildConfig.mc.version}-${build.version.number}.${build.patch.number}.${build.revision.number}.jar">
+			<fileset dir="${buildConfig.dir.mcp}\src\minecraft\" includes="mcmod.info" />
+			<fileset dir="${buildConfig.dir.mcp}\src\minecraft\" includes="dependancies.info" />
+			<fileset dir="${buildConfig.dir.mcp}\reobf\minecraft" excludes="com/forgetutorials/"  />
+			<fileset dir="${buildConfig.dir.development}\resource" excludes="**/xcf/**" />
+		    <manifest>
+				<attribute name="FMLCorePlugin" value="com.metatechcraft.loader.DepLoader"/>
+				<attribute name="FMLCorePluginContainsFMLMod" value="true"/>
+		    </manifest>
 		</jar>
 	</target>
 		
