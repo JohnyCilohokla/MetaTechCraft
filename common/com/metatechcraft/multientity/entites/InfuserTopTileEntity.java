@@ -42,7 +42,7 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	int target = 0;
 
 	ItemStack stack;
-	
+
 	public final static String TYPE_NAME = "InfuserTopTileEntity";
 
 	@Override
@@ -361,24 +361,22 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	}
 
 	private ModelFrameBox frameBox = new ModelFrameBox();
-	
-	
+
 	GLDisplayList frameBoxList = new GLDisplayList();
-	
-	
+
 	@Override
 	public void renderTileEntityAt(double x, double y, double z) {
 
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glTranslated(x, y, z);
-		if (!frameBoxList.isGenerated()){
-			frameBoxList.generate();
-			frameBoxList.bind();
+		if (!this.frameBoxList.isGenerated()) {
+			this.frameBoxList.generate();
+			this.frameBoxList.bind();
 			this.frameBox.render();
-			frameBoxList.unbind();
+			this.frameBoxList.unbind();
 		}
-		frameBoxList.render();
+		this.frameBoxList.render();
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(0.5, 0.45, 0.5);
@@ -386,35 +384,40 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 		float rotationAngle = getRotation();
 		GL11.glRotatef(rotationAngle, 0f, 1f, 0f);
 		ItemStack ghostStack = getStackInSlot(0);
-		if (target>0){
-			switch (target){
-			case 1: ghostStack = new ItemStack(Item.appleRed); break; 
-			case 2: ghostStack = new ItemStack(Item.axeStone); break; 
-			case 3: ghostStack = new ItemStack(Item.bread); break; 
+		if (this.target > 0) {
+			switch (this.target) {
+			case 1:
+				ghostStack = new ItemStack(Item.appleRed);
+				break;
+			case 2:
+				ghostStack = new ItemStack(Item.axeStone);
+				break;
+			case 3:
+				ghostStack = new ItemStack(Item.bread);
+				break;
 			}
 		}
-		
+
 		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_LIGHTING);
-		if (target>0){
+		if (this.target > 0) {
 			GL11.glEnable(GL11.GL_BLEND);
-			GL14.glBlendFuncSeparate(GL11.GL_CONSTANT_COLOR, GL11.GL_ZERO,  GL11.GL_ZERO, GL11.GL_ZERO);
-			float color = (ticker/40==0)?(ticker/40f)*0.4f:(1f-((ticker-40)/40f))*0.4f;
+			GL14.glBlendFuncSeparate(GL11.GL_CONSTANT_COLOR, GL11.GL_ZERO, GL11.GL_ZERO, GL11.GL_ZERO);
+			float color = ((this.ticker / 40) == 0) ? (this.ticker / 40f) * 0.4f : (1f - ((this.ticker - 40) / 40f)) * 0.4f;
 			GL14.glBlendColor(color, color, color, 1);
 		}
 		ItemTessallator.renderItemStack(this.entity.worldObj, ghostStack);
-		if (target>0){
+		if (this.target > 0) {
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		}
 		GL11.glPopAttrib();
-		
+
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 
 		Tessellator tessellator = Tessellator.instance;
-		
-		
+
 		GL11.glPushMatrix();
 		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
 		GL11.glEnable(GL11.GL_CULL_FACE);
@@ -424,40 +427,40 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 
 		FMLClientHandler.instance().getClient().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 		tessellator.startDrawingQuads();
-		FluidTessallator.InfuserTank.addToTessallator(tessellator, x, y, z, InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":entity/boxFrame.red"), 1, 1);
+		FluidTessallator.InfuserTank.addToTessallator(tessellator, x, y, z,
+				InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":entity/boxFrame.red"), 1, 1);
 		tessellator.draw();
 
 		GL11.glPopAttrib();
 		GL11.glPopMatrix();
-		
-		
+
 		FluidStack liquid = getFluid(0);
 		FluidTessallator.InfuserTank.renderFluidStack(tessellator, liquid, x, y, z);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
-	
+
 	@Override
 	public void onBlockActivated(EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
-		target=(target+1)%4;
+		this.target = (this.target + 1) % 4;
 	}
 
 	@Override
 	public void renderStaticBlockAt(RenderBlocks renderer, int x, int y, int z) {
 		// nothing for now
 	}
-	
-	//int ticker = 10;
+
+	// int ticker = 10;
 	int ticker = 0;
-	
+
 	@Override
 	public void tick() {
-		
-		ticker++;
-		if (ticker>80){
-			ticker=0;
+
+		this.ticker++;
+		if (this.ticker > 80) {
+			this.ticker = 0;
 		}
-		
+
 		/*
 		ticker--;
 		if (ticker>0){
@@ -465,24 +468,24 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 		}
 		ticker = 10;
 		
-        IInventory inv = getInventoryAbove(this.entity.worldObj, this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
+		IInventory inv = getInventoryAbove(this.entity.worldObj, this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 		if (inv==null){
-        	return;
+			return;
 		}
-        ItemStack invStack = inv.getStackInSlot(0);
-        
-        if (invStack==null || invStack.stackSize<1){
-        	return;
-        }
-        
-        if ((this.stack!=null&&this.stack.stackSize>0)){
-        	return;
-        }
-        this.stack = invStack.splitStack(1);
-        if (invStack.stackSize==0){
-            inv.setInventorySlotContents(0, null);
-        }
-        */
+		ItemStack invStack = inv.getStackInSlot(0);
+		
+		if (invStack==null || invStack.stackSize<1){
+			return;
+		}
+		
+		if ((this.stack!=null&&this.stack.stackSize>0)){
+			return;
+		}
+		this.stack = invStack.splitStack(1);
+		if (invStack.stackSize==0){
+		    inv.setInventorySlotContents(0, null);
+		}
+		*/
 	}
 
 	@Override
@@ -490,16 +493,16 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
-		//GL11.glTranslated(x, y, z);
-		if (!frameBoxList.isGenerated()){
-			frameBoxList.generate();
-			frameBoxList.bind();
+		// GL11.glTranslated(x, y, z);
+		if (!this.frameBoxList.isGenerated()) {
+			this.frameBoxList.generate();
+			this.frameBoxList.bind();
 			this.frameBox.render();
-			frameBoxList.unbind();
+			this.frameBoxList.unbind();
 		}
-		frameBoxList.render();
+		this.frameBoxList.render();
 		GL11.glPopMatrix();
 
 	}
-	
+
 }

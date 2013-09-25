@@ -16,16 +16,15 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.IChunkProvider;
 
 public class MetaDimensionWorldProvider extends WorldProvider {
-	
+
 	protected static final WorldType META_WORLD_TYPE = new WorldType(MetaTechCraft.metaDimID, "Meta Dimension");
-	
-	protected static final BiomeGenBase META_WORLD_BIOME = new BiomeGenFake(MetaTechCraft.metaBiomeID,"Blizzard",0,0);
-	
-	protected static final SingleBiomeChunkManager META_WORLD_MANAGER = new SingleBiomeChunkManager(META_WORLD_BIOME);
-	
+
+	protected static final BiomeGenBase META_WORLD_BIOME = new BiomeGenFake(MetaTechCraft.metaBiomeID, "Blizzard", 0, 0);
+
+	protected static final SingleBiomeChunkManager META_WORLD_MANAGER = new SingleBiomeChunkManager(MetaDimensionWorldProvider.META_WORLD_BIOME);
 
 	public MetaDimensionWorldProvider() {
-		this.terrainType = META_WORLD_TYPE;
+		this.terrainType = MetaDimensionWorldProvider.META_WORLD_TYPE;
 		this.hasNoSky = true;
 	}
 
@@ -46,7 +45,7 @@ public class MetaDimensionWorldProvider extends WorldProvider {
 
 	@Override
 	public void registerWorldChunkManager() {
-		this.worldChunkMgr = META_WORLD_MANAGER;
+		this.worldChunkMgr = MetaDimensionWorldProvider.META_WORLD_MANAGER;
 	}
 
 	@Override
@@ -128,5 +127,5 @@ public class MetaDimensionWorldProvider extends WorldProvider {
 			this.lightBrightnessTable[i] = (((1.0F - f1) / ((f1 * 3.0F) + 1.0F)) * (1.0F - f)) + f;
 		}
 	}
-	
+
 }

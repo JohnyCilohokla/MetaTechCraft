@@ -59,7 +59,8 @@ public class MetaOreBlock extends Block {
 		par2EntityPlayer.addStat(StatList.mineBlockStatArray[this.blockID], 1);
 		par2EntityPlayer.addExhaustion(0.025F);
 
-		if (this.canSilkHarvest(par1World, par2EntityPlayer, par3, par4, par5, par6) && (par2EntityPlayer.getCurrentEquippedItem().getItem() == MetaItems.strangeChisel)) {
+		if (this.canSilkHarvest(par1World, par2EntityPlayer, par3, par4, par5, par6)
+				&& (par2EntityPlayer.getCurrentEquippedItem().getItem() == MetaItems.strangeChisel)) {
 			ItemStack itemstack = createStackedBlock(par6);
 
 			if (itemstack != null) {

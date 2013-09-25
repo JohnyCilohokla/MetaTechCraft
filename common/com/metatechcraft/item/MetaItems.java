@@ -47,18 +47,17 @@ public class MetaItems {
 		// 20);
 
 		GameRegistry.addRecipe(new ItemStack(MetaItems.strangeDust, 8),
-				new Object[] { "rer", "gdg", "rer", Character.valueOf('r'), Item.redstone, Character.valueOf('d'), Item.diamond, Character.valueOf('g'), Block.glowStone, Character.valueOf('e'),
-						Item.enderPearl });
+				new Object[] { "rer", "gdg", "rer", Character.valueOf('r'), Item.redstone, Character.valueOf('d'), Item.diamond, Character.valueOf('g'),
+						Block.glowStone, Character.valueOf('e'), Item.enderPearl });
 
-		GameRegistry.addRecipe(new ItemStack(MetaItems.strangeHammer, 1), new Object[] { "sss", "sss", "bib", Character.valueOf('s'), MetaItems.strangeIngot, Character.valueOf('i'), Item.ingotIron,
-				Character.valueOf('b'), Block.ice });
+		GameRegistry.addRecipe(new ItemStack(MetaItems.strangeHammer, 1), new Object[] { "sss", "sss", "bib", Character.valueOf('s'), MetaItems.strangeIngot,
+				Character.valueOf('i'), Item.ingotIron, Character.valueOf('b'), Block.ice });
 
-		GameRegistry.addRecipe(new ItemStack(MetaBlocks.inventoryLinkBlock, 4), new Object[] { "iii", "isi", "iii", Character.valueOf('s'), MetaItems.strangeIngot, Character.valueOf('i'),
-				Item.ingotIron });
-		
-		GameRegistry.addRecipe(new ItemStack(MetaBlocks.strangeObsidianBlock, 2), new Object[] { "sss", "ili", "sss", Character.valueOf('s'), MetaItems.strangeIngot, Character.valueOf('i'), Block.ice,
-			Character.valueOf('l'), Item.bucketLava });
+		GameRegistry.addRecipe(new ItemStack(MetaBlocks.inventoryLinkBlock, 4), new Object[] { "iii", "isi", "iii", Character.valueOf('s'),
+				MetaItems.strangeIngot, Character.valueOf('i'), Item.ingotIron });
 
+		GameRegistry.addRecipe(new ItemStack(MetaBlocks.strangeObsidianBlock, 2), new Object[] { "sss", "ili", "sss", Character.valueOf('s'),
+				MetaItems.strangeIngot, Character.valueOf('i'), Block.ice, Character.valueOf('l'), Item.bucketLava });
 
 		GameRegistry.addSmelting(MetaItems.strangeDust.itemID, new ItemStack(MetaItems.strangeIngot), 10);
 

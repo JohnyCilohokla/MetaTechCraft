@@ -37,8 +37,8 @@ public class MetaLiquids {
 			String unlocalizedName = MetaLiquids.metaFluidNames[i].replaceAll("[^a-zA-Z]", "");
 			MetaLiquids.metaFluids[i].registerFluid("metatech.fluid." + unlocalizedName, metaLiquidStack);
 
-			FluidContainerRegistry.registerFluidContainer(new FluidContainerData(new FluidStack(MetaLiquids.metaFluids[i].getFluid(), 125), new ItemStack(MetaLiquids.metaLiquidContainer, 1, i + 1),
-					new ItemStack(MetaLiquids.metaLiquidContainer, 1, 0)));
+			FluidContainerRegistry.registerFluidContainer(new FluidContainerData(new FluidStack(MetaLiquids.metaFluids[i].getFluid(), 125), new ItemStack(
+					MetaLiquids.metaLiquidContainer, 1, i + 1), new ItemStack(MetaLiquids.metaLiquidContainer, 1, 0)));
 
 			ItemStack metaLiquidContainerStack = new ItemStack(MetaLiquids.metaLiquidContainer, 1, i + 1);
 			LanguageRegistry.addName(metaLiquidContainerStack, MetaLiquidContainer.getDisplayName(metaLiquidContainerStack));

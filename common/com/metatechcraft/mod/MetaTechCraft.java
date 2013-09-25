@@ -35,7 +35,6 @@ public class MetaTechCraft {
 
 	public static MetaTechOreGenerators metaGenerator;
 
-
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new CoreHooks());
@@ -50,7 +49,7 @@ public class MetaTechCraft {
 
 		MetaTechCraft.metaGenerator = new MetaTechOreGenerators();
 		MetaTechCraft.metaGenerator.preInit();
-		
+
 		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":entity/boxFrame.red");
 	}
 

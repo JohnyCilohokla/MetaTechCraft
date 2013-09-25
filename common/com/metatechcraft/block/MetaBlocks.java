@@ -20,7 +20,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagString;
 
 public class MetaBlocks {
 
@@ -56,31 +55,33 @@ public class MetaBlocks {
 		// "White", "Black", "Red", "Green", "Blue" };
 		MetaBlocks.mineableStacks.put(
 				"meta.empty",
-				new DescriptorOreBlock().setTool("metaHammer", 1).registerOreBlock("metatech.meta.empty", "metaStone", MetaBlocks.metaOreStacks[0].getDisplayName(),
-						MetaBlocks.metaOreStacks[0]));
+				new DescriptorOreBlock().setTool("metaHammer", 1).registerOreBlock("metatech.meta.empty", "metaStone",
+						MetaBlocks.metaOreStacks[0].getDisplayName(), MetaBlocks.metaOreStacks[0]));
 		MetaBlocks.mineableStacks.put(
 				"meta.white",
-				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.white", "metaWhite", MetaBlocks.metaOreStacks[1].getDisplayName(),
-						MetaBlocks.metaOreStacks[1]));
+				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.white", "metaWhite",
+						MetaBlocks.metaOreStacks[1].getDisplayName(), MetaBlocks.metaOreStacks[1]));
 		MetaBlocks.mineableStacks.put(
 				"meta.black",
-				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.black", "metaBlack", MetaBlocks.metaOreStacks[2].getDisplayName(),
-						MetaBlocks.metaOreStacks[2]));
+				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.black", "metaBlack",
+						MetaBlocks.metaOreStacks[2].getDisplayName(), MetaBlocks.metaOreStacks[2]));
 		MetaBlocks.mineableStacks.put(
 				"meta.red",
-				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.red", "metaRed", MetaBlocks.metaOreStacks[3].getDisplayName(),
-						MetaBlocks.metaOreStacks[3]));
+				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.red", "metaRed",
+						MetaBlocks.metaOreStacks[3].getDisplayName(), MetaBlocks.metaOreStacks[3]));
 		MetaBlocks.mineableStacks.put(
 				"meta.green",
-				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.green", "metaGreen", MetaBlocks.metaOreStacks[4].getDisplayName(),
-						MetaBlocks.metaOreStacks[4]));
+				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.green", "metaGreen",
+						MetaBlocks.metaOreStacks[4].getDisplayName(), MetaBlocks.metaOreStacks[4]));
 		MetaBlocks.mineableStacks.put(
 				"meta.blue",
-				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.blue", "metaBlue", MetaBlocks.metaOreStacks[5].getDisplayName(),
-						MetaBlocks.metaOreStacks[5]));
+				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.blue", "metaBlue",
+						MetaBlocks.metaOreStacks[5].getDisplayName(), MetaBlocks.metaOreStacks[5]));
 
-		MetaBlocks.mineableStacks.put("invLink.mk1",
-				new DescriptorBlock().setTool("metaHammer", 1).registerBlock("metatech.invLink.mk1", MetaBlocks.inventoryLinkBlock.getLocalizedName(), new ItemStack(MetaBlocks.inventoryLinkBlock)));
+		MetaBlocks.mineableStacks.put(
+				"invLink.mk1",
+				new DescriptorBlock().setTool("metaHammer", 1).registerBlock("metatech.invLink.mk1", MetaBlocks.inventoryLinkBlock.getLocalizedName(),
+						new ItemStack(MetaBlocks.inventoryLinkBlock)));
 		MetaBlocks.mineableStacks.put(
 				"invLink.mk2",
 				new DescriptorBlock().setTool("metaHammer", 1).registerBlock("metatech.invLink.mk2", MetaBlocks.inventoryLinkMk2Block.getLocalizedName(),
@@ -88,12 +89,14 @@ public class MetaBlocks {
 
 		MetaBlocks.mineableStacks.put(
 				"strange.obsidian",
-				new DescriptorBlock().setTool("metaHammer", 1)
-						.registerBlock(MetaBlocks.strangeObsidianBlock.getLocalizedName(), "metatech.strange.obsidian", new ItemStack(MetaBlocks.strangeObsidianBlock)).setTool("metaHammer", 1));
-		MetaBlocks.mineableStacks
-				.put("strange.bricks",
-						new DescriptorBlock().setTool("metaHammer", 1).registerBlock("metatech.strange.bricks", MetaBlocks.strangeBricksBlock.getLocalizedName(),
-								new ItemStack(MetaBlocks.strangeBricksBlock)));
+				new DescriptorBlock()
+						.setTool("metaHammer", 1)
+						.registerBlock(MetaBlocks.strangeObsidianBlock.getLocalizedName(), "metatech.strange.obsidian",
+								new ItemStack(MetaBlocks.strangeObsidianBlock)).setTool("metaHammer", 1));
+		MetaBlocks.mineableStacks.put(
+				"strange.bricks",
+				new DescriptorBlock().setTool("metaHammer", 1).registerBlock("metatech.strange.bricks", MetaBlocks.strangeBricksBlock.getLocalizedName(),
+						new ItemStack(MetaBlocks.strangeBricksBlock)));
 
 		Iterator<DescriptorBlock> it = MetaBlocks.mineableStacks.values().iterator();
 		while (it.hasNext()) {
@@ -107,12 +110,12 @@ public class MetaBlocks {
 
 	public static void registerTileEntities() {
 		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InfuserTopTileEntity.TYPE_NAME, InfuserTopTileEntity.class, InfernosMultiEntityType.BOTH);
-		
-		ItemStack itemStack= new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, 3);
+
+		ItemStack itemStack = new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, 3);
 		ItemStackUtilities.addStringTag(itemStack, "MES", InfuserTopTileEntity.TYPE_NAME);
-		
+
 		new DescriptorBlock().registerBlock("mes.metatech.infuserTop", "Infuser Top", itemStack);
-		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs,itemStack);
+		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs, itemStack);
 
 		GameRegistry.registerTileEntity(InventoryLinkMk1Tile.class, "tile.metatech.inventorylink.mk1");
 		GameRegistry.registerTileEntity(InventoryLinkMk2Tile.class, "tile.metatech.inventorylink.mk2");

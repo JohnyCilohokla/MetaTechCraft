@@ -146,7 +146,8 @@ public class MetaTeleporter extends Teleporter {
 				int j3 = Direction.offsetZ[j2];
 				int k3 = Direction.offsetX[l2];
 				int l3 = Direction.offsetZ[l2];
-				boolean flag1 = !this.worldServerInstance.isAirBlock(i + i3 + k3, j, k + j3 + l3) || !this.worldServerInstance.isAirBlock(i + i3 + k3, j + 1, k + j3 + l3);
+				boolean flag1 = !this.worldServerInstance.isAirBlock(i + i3 + k3, j, k + j3 + l3)
+						|| !this.worldServerInstance.isAirBlock(i + i3 + k3, j + 1, k + j3 + l3);
 				boolean flag2 = !this.worldServerInstance.isAirBlock(i + i3, j, k + j3) || !this.worldServerInstance.isAirBlock(i + i3, j + 1, k + j3);
 				if (flag1 && flag2) {
 					j2 = Direction.rotateOpposite[j2];
@@ -159,7 +160,8 @@ public class MetaTeleporter extends Teleporter {
 					d8 -= k3;
 					int i4 = k - l3;
 					d4 -= l3;
-					flag1 = !this.worldServerInstance.isAirBlock(k1 + i3 + k3, j, i4 + j3 + l3) || !this.worldServerInstance.isAirBlock(k1 + i3 + k3, j + 1, i4 + j3 + l3);
+					flag1 = !this.worldServerInstance.isAirBlock(k1 + i3 + k3, j, i4 + j3 + l3)
+							|| !this.worldServerInstance.isAirBlock(k1 + i3 + k3, j + 1, i4 + j3 + l3);
 					flag2 = !this.worldServerInstance.isAirBlock(k1 + i3, j, i4 + j3) || !this.worldServerInstance.isAirBlock(k1 + i3, j + 1, i4 + j3);
 				}
 				float f1 = 0.5F;
@@ -254,7 +256,8 @@ public class MetaTeleporter extends Teleporter {
 										k4 = i2 + ((i4 - 1) * l2) + (j3 * k3);
 										j4 = k2 + l3;
 										int l4 = (j2 + ((i4 - 1) * k3)) - (j3 * l2);
-										if (((l3 < 0) && !this.worldServerInstance.getBlockMaterial(k4, j4, l4).isSolid()) || ((l3 >= 0) && !this.worldServerInstance.isAirBlock(k4, j4, l4))) {
+										if (((l3 < 0) && !this.worldServerInstance.getBlockMaterial(k4, j4, l4).isSolid())
+												|| ((l3 >= 0) && !this.worldServerInstance.isAirBlock(k4, j4, l4))) {
 											continue label274;
 										}
 									}
@@ -292,7 +295,8 @@ public class MetaTeleporter extends Teleporter {
 										l3 = i2 + ((j3 - 1) * l2);
 										k4 = k2 + i4;
 										j4 = j2 + ((j3 - 1) * k3);
-										if (((i4 < 0) && !this.worldServerInstance.getBlockMaterial(l3, k4, j4).isSolid()) || ((i4 >= 0) && !this.worldServerInstance.isAirBlock(l3, k4, j4))) {
+										if (((i4 < 0) && !this.worldServerInstance.getBlockMaterial(l3, k4, j4).isSolid())
+												|| ((i4 >= 0) && !this.worldServerInstance.isAirBlock(l3, k4, j4))) {
 											continue label222;
 										}
 									}

@@ -15,7 +15,8 @@ public class CoreHooks {
 	public void onEntityLivingDeath(LivingDeathEvent event) {
 		// TODO make enderman drop strange fragments (1-5)
 		// stone (or gold+iron[+diamond?]) infuser
-		// (or blaze powder + slime ball + gold => magical heat resistant gold MHR Gold)
+		// (or blaze powder + slime ball + gold => magical heat resistant gold
+		// MHR Gold)
 		// lava (1000) + strange fragments(16) = Strange Obsidian ?
 		// water (1000) + strange fragments(8) + heat ( mixer ?) = Stange Dust
 		/*

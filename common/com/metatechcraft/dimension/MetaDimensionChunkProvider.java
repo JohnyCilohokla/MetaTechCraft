@@ -26,14 +26,14 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 
 	public MetaDimensionChunkProvider(World parWorld, long parX, boolean parZ, String generatorString) {
 		this.worldObj = parWorld;
-		
-		heightNoise1 = new ImprovedPerlin(666, 16, 16, 1, 0.003, 1d / 256d);
-		heightNoise2 = new ImprovedPerlin(1666, 16, 16, 1, 0.005, 1d / 256d);
-		heightNoise3 = new ImprovedPerlin(2666, 16, 16, 1, 0.0003, 1d / 256d);
-		terrainNoise1 = new ImprovedPerlin(4666, 4, 4, MetaDimensionChunkProvider.maxHeight/4, 0.01, 3 * 1d / 256d);
-		terrainNoise2 = new ImprovedPerlin(5666, 4, 4, MetaDimensionChunkProvider.maxHeight/4, 0.005, 5 * 1d / 256d);
-		terrainNoise3 = new ImprovedPerlin(6666, 4, 4, MetaDimensionChunkProvider.maxHeight/4, 0.03, 50 * 1d / 256d);
-		terrainNoise4 = new ImprovedPerlin(7666, 4, 4, MetaDimensionChunkProvider.maxHeight/4, 0.08, 30 * 1d / 256d);
+
+		this.heightNoise1 = new ImprovedPerlin(666, 16, 16, 1, 0.003, 1d / 256d);
+		this.heightNoise2 = new ImprovedPerlin(1666, 16, 16, 1, 0.005, 1d / 256d);
+		this.heightNoise3 = new ImprovedPerlin(2666, 16, 16, 1, 0.0003, 1d / 256d);
+		this.terrainNoise1 = new ImprovedPerlin(4666, 4, 4, MetaDimensionChunkProvider.maxHeight / 4, 0.01, (3 * 1d) / 256d);
+		this.terrainNoise2 = new ImprovedPerlin(5666, 4, 4, MetaDimensionChunkProvider.maxHeight / 4, 0.005, (5 * 1d) / 256d);
+		this.terrainNoise3 = new ImprovedPerlin(6666, 4, 4, MetaDimensionChunkProvider.maxHeight / 4, 0.03, (50 * 1d) / 256d);
+		this.terrainNoise4 = new ImprovedPerlin(7666, 4, 4, MetaDimensionChunkProvider.maxHeight / 4, 0.08, (30 * 1d) / 256d);
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 	double[] heightA1 = new double[16 * 16];
 	double[] heightA2 = new double[16 * 16];
 	double[] heightA3 = new double[16 * 16];
-	
+
 	double[] heightArrayMap = new double[16 * 16];
 
 	double[] terrainArray1 = new double[49 * 5 * 5];
@@ -62,60 +62,58 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 	double[] terrainArray3 = new double[49 * 5 * 5];
 	double[] terrainArray4 = new double[49 * 5 * 5];
 
-
 	double[] terrainArrayMapA = new double[MetaDimensionChunkProvider.maxHeight * 16 * 16];
 	double[] terrainArrayMapB = new double[MetaDimensionChunkProvider.maxHeight * 16 * 16];
 
-	
 	private double interp(double a, double b, double i) {
-		return a * (1 - i) + b * i;
+		return (a * (1 - i)) + (b * i);
 	}
-	
+
 	private double interp(double a, double b, double c, double d, double e, double f, double g, double h, double i, double j, double k) {
 		return interp(interp(interp(a, b, i), interp(c, d, i), j), interp(interp(e, f, i), interp(g, h, i), j), k);
 	}
 
 	private double interpArray(int minX, int minY, int minZ, double[] array, double i, double j, double k) {
 		return interp(//
-				array[minY * 25 + minX * 5 + minZ], array[minY * 25 + (minX + 1) * 5 + minZ],//
-				array[minY * 25 + minX * 5 + (minZ + 1)], array[minY * 25 + (minX + 1) * 5 + (minZ + 1)],//
-				array[(minY + 1) * 25 + minX * 5 + minZ], array[(minY + 1) * 25 + (minX + 1) * 5 + minZ],//
-				array[(minY + 1) * 25 + minX * 5 + (minZ + 1)], array[(minY + 1) * 25 + (minX + 1) * 5 + (minZ + 1)],//
+				array[(minY * 25) + (minX * 5) + minZ], array[(minY * 25) + ((minX + 1) * 5) + minZ],//
+				array[(minY * 25) + (minX * 5) + (minZ + 1)], array[(minY * 25) + ((minX + 1) * 5) + (minZ + 1)],//
+				array[((minY + 1) * 25) + (minX * 5) + minZ], array[((minY + 1) * 25) + ((minX + 1) * 5) + minZ],//
+				array[((minY + 1) * 25) + (minX * 5) + (minZ + 1)], array[((minY + 1) * 25) + ((minX + 1) * 5) + (minZ + 1)],//
 				i, j, k);
 	}
-
 
 	@Override
 	public Chunk provideChunk(int parX, int parZ) {
 
 		Chunk chunk = new Chunk(this.worldObj, parX, parZ);
 
-		heightNoise1.populate(heightA1, parX, parZ, 128);
-		heightNoise2.populate(heightA2, parX, parZ, 128);
-		heightNoise3.populate(heightA3, parX, parZ, 128);
+		this.heightNoise1.populate(this.heightA1, parX, parZ, 128);
+		this.heightNoise2.populate(this.heightA2, parX, parZ, 128);
+		this.heightNoise3.populate(this.heightA3, parX, parZ, 128);
 
 		for (int divX = 0; divX < 16; ++divX) {
 			for (int divZ = 0; divZ < 16; ++divZ) {
-				heightArrayMap[divX * 16 + divZ] = heightA1[divX * 16 + divZ] * 0.5 + heightA2[divX * 16 + divZ] * 0.3 + heightA3[divX * 16 + divZ] * 0.2;
+				this.heightArrayMap[(divX * 16) + divZ] = (this.heightA1[(divX * 16) + divZ] * 0.5) + (this.heightA2[(divX * 16) + divZ] * 0.3)
+						+ (this.heightA3[(divX * 16) + divZ] * 0.2);
 			}
 		}
-		
-		terrainNoise1.populateInter(terrainArray1, parX, parZ);
-		terrainNoise2.populateInter(terrainArray2, parX, parZ);
 
-		terrainNoise3.populateInter(terrainArray3, parX, parZ);
-		terrainNoise4.populateInter(terrainArray4, parX, parZ);
+		this.terrainNoise1.populateInter(this.terrainArray1, parX, parZ);
+		this.terrainNoise2.populateInter(this.terrainArray2, parX, parZ);
 
-		int yChunks = MetaDimensionChunkProvider.maxHeight /16;
+		this.terrainNoise3.populateInter(this.terrainArray3, parX, parZ);
+		this.terrainNoise4.populateInter(this.terrainArray4, parX, parZ);
+
+		int yChunks = MetaDimensionChunkProvider.maxHeight / 16;
 		for (int cY = 0; cY < yChunks; ++cY) {
 			ExtendedBlockStorage extendedblockstorage = chunk.getBlockStorageArray()[cY];
 
 			if (extendedblockstorage == null) {
-				extendedblockstorage = new ExtendedBlockStorage(cY*16, !this.worldObj.provider.hasNoSky);
+				extendedblockstorage = new ExtendedBlockStorage(cY * 16, !this.worldObj.provider.hasNoSky);
 				chunk.getBlockStorageArray()[cY] = extendedblockstorage;
 			}
 			for (int divY = 0; divY < 16; ++divY) {
-				int y = cY * 16 + divY;
+				int y = (cY * 16) + divY;
 				int minY = y / 4;
 				double dxY = (y - (minY * 4)) / 4d;
 				for (int x = 0; x < 16; ++x) {
@@ -124,18 +122,20 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 					for (int z = 0; z < 16; ++z) {
 						int minZ = z / 4;
 						double dxZ = (z - (minZ * 4)) / 4d;
-						double t1 = interpArray(minX, minY, minZ, terrainArray1, dxX, dxZ, dxY);
-						double t2 = interpArray(minX, minY, minZ, terrainArray2, dxX, dxZ, dxY);
-						double t3 = interpArray(minX, minY, minZ, terrainArray3, dxX, dxZ, dxY);
-						double t4 = interpArray(minX, minY, minZ, terrainArray4, dxX, dxZ, dxY);
-	
-						terrainArrayMapA[y * 256 + x * 16 + z] = t1 * 0.5 + t2 * 0.5;
-	
-						terrainArrayMapB[y * 256 + x * 16 + z] = t3 * 0.7 + t4 * 0.3;
-						
-						if (((y * 0.01 - heightArrayMap[x * 16 + z] * 0.5 - 0.5) > 1)
-								|| (((y - 20) * 0.01) * (terrainArrayMapA[y * 256 + x * 16 + z] > 0 ? terrainArrayMapA[y * 256 + x * 16 + z] : 0) > 0.4)
-								|| (((y - 20) * 0.01) * (terrainArrayMapB[y * 256 + x * 16 + z] > 0 ? terrainArrayMapB[y * 256 + x * 16 + z] : 0) > 0.3)) {
+						double t1 = interpArray(minX, minY, minZ, this.terrainArray1, dxX, dxZ, dxY);
+						double t2 = interpArray(minX, minY, minZ, this.terrainArray2, dxX, dxZ, dxY);
+						double t3 = interpArray(minX, minY, minZ, this.terrainArray3, dxX, dxZ, dxY);
+						double t4 = interpArray(minX, minY, minZ, this.terrainArray4, dxX, dxZ, dxY);
+
+						this.terrainArrayMapA[(y * 256) + (x * 16) + z] = (t1 * 0.5) + (t2 * 0.5);
+
+						this.terrainArrayMapB[(y * 256) + (x * 16) + z] = (t3 * 0.7) + (t4 * 0.3);
+
+						if ((((y * 0.01) - (this.heightArrayMap[(x * 16) + z] * 0.5) - 0.5) > 1)
+								|| ((((y - 20) * 0.01) * (this.terrainArrayMapA[(y * 256) + (x * 16) + z] > 0 ? this.terrainArrayMapA[(y * 256) + (x * 16) + z]
+										: 0)) > 0.4)
+								|| ((((y - 20) * 0.01) * (this.terrainArrayMapB[(y * 256) + (x * 16) + z] > 0 ? this.terrainArrayMapB[(y * 256) + (x * 16) + z]
+										: 0)) > 0.3)) {
 							extendedblockstorage.setExtBlockID(x, y & 15, z, 0);
 						} else {
 							extendedblockstorage.setExtBlockID(x, y & 15, z, 2805);
@@ -304,6 +304,6 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 	@Override
 	public void saveExtraData() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
