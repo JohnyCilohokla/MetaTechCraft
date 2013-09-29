@@ -24,6 +24,7 @@ public class ModelFrameBox {
 	public void render() {
 		GL11.glPushMatrix();
 		GL11.glTranslated(0.5, 0.0, 0.5);// center
+		GL11.glColor4f(1, 1, 1, 1);
 		FMLClientHandler.instance().getClient().renderEngine.bindTexture(ModelFrameBox.boxFrameTexture);
 		this.modelFrameBox.renderAll();
 		GL11.glPopMatrix();

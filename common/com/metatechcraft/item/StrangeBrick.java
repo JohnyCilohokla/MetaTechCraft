@@ -1,5 +1,6 @@
 package com.metatechcraft.item;
 
+import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -8,7 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -19,8 +19,7 @@ public class StrangeBrick extends Item {
 
 	public StrangeBrick(int id) {
 		super(id);
-		setUnlocalizedName("Strange Brick");
-		LanguageRegistry.addName(this, "Strange Brick");
+		ForgeRegistryUtilities.registerItem(this, "StrangeBrick", "Strange Brick");
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 

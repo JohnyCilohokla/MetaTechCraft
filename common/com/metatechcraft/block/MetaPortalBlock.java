@@ -1,11 +1,10 @@
 package com.metatechcraft.block;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.Random;
 
+import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -20,10 +19,8 @@ import net.minecraft.world.World;
 public class MetaPortalBlock extends BlockBreakable {
 	public MetaPortalBlock(int par1) {
 		super(par1, ModInfo.MOD_ID.toLowerCase() + ":" + "portal/meta", Material.portal, false);
-		setUnlocalizedName("MetaPortalBlock");
+		ForgeRegistryUtilities.registerBlock(this, "MetaPortalBlock", "MetaPortal Block");
 		setTickRandomly(true);
-		GameRegistry.registerBlock(this, "MetaPortalBlock");
-		LanguageRegistry.addName(this, "MetaPortal Block");
 	}
 
 	/**

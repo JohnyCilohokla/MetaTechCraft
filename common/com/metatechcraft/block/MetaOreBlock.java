@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.forgetutorials.lib.registry.MetaMaterial;
+import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.item.MetaItems;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -36,10 +35,8 @@ public class MetaOreBlock extends Block {
 	protected MetaOreBlock(int par1) {
 		// make sure the material used can be broken by hand!
 		super(par1, MetaMaterial.metaMaterial);
-		setUnlocalizedName("MetaOreBlock");
+		ForgeRegistryUtilities.registerBlock(this, "MetaOreBlock", "MetaOre Block");
 		setCreativeTab(MetaTechCraft.tabs);
-		GameRegistry.registerBlock(this, MetaOreItem.class, "MetaOreBlock");
-		LanguageRegistry.addName(this, "MetaOre Block");
 	}
 
 	@Override

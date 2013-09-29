@@ -1,6 +1,7 @@
 package com.metatechcraft.block;
 
 import com.forgetutorials.lib.registry.MetaMaterial;
+import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -8,8 +9,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -17,10 +16,8 @@ public class StrangeBricks extends Block {
 
 	protected StrangeBricks(int par1) {
 		super(par1, MetaMaterial.metaMaterial);
-		setUnlocalizedName("Strange Bricks");
+		ForgeRegistryUtilities.registerBlock(this, "StrangeBricks", "Strange Bricks");
 		setCreativeTab(MetaTechCraft.tabs);
-		GameRegistry.registerBlock(this, "StrangeBricks");
-		LanguageRegistry.addName(this, "Strange Bricks");
 	}
 
 	@Override

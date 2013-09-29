@@ -13,6 +13,7 @@ import com.forgetutorials.multientity.InfernosMultiEntityType;
 import com.metatechcraft.lib.MetaConfig;
 import com.metatechcraft.mod.MetaTechCraft;
 import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
+import com.metatechcraft.multientity.entites.SolidFuelHeaterTileEntity;
 import com.metatechcraft.tileentity.InventoryLinkMk2Tile;
 import com.metatechcraft.tileentity.InventoryLinkMk1Tile;
 
@@ -111,11 +112,20 @@ public class MetaBlocks {
 	public static void registerTileEntities() {
 		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InfuserTopTileEntity.TYPE_NAME, InfuserTopTileEntity.class, InfernosMultiEntityType.BOTH);
 
-		ItemStack itemStack = new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, 3);
-		ItemStackUtilities.addStringTag(itemStack, "MES", InfuserTopTileEntity.TYPE_NAME);
+		ItemStack infuserTopItemStack = new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, InfernosMultiEntityType.BOTH.ordinal());
+		ItemStackUtilities.addStringTag(infuserTopItemStack, "MES", InfuserTopTileEntity.TYPE_NAME);
 
-		new DescriptorBlock().registerBlock("mes.metatech.infuserTop", "Infuser Top", itemStack);
-		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs, itemStack);
+		new DescriptorBlock().registerBlock("mes.metatech.infuserTop", "Infuser Top", infuserTopItemStack);
+		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs, infuserTopItemStack);
+
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(SolidFuelHeaterTileEntity.TYPE_NAME, SolidFuelHeaterTileEntity.class,
+				InfernosMultiEntityType.INVENTORY);
+
+		ItemStack solidFuelHeaterItemStack = new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, InfernosMultiEntityType.INVENTORY.ordinal());
+		ItemStackUtilities.addStringTag(solidFuelHeaterItemStack, "MES", SolidFuelHeaterTileEntity.TYPE_NAME);
+
+		new DescriptorBlock().registerBlock("mes.metatech.solidFuelHeater", "SolidFuelHeater", solidFuelHeaterItemStack);
+		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs, solidFuelHeaterItemStack);
 
 		GameRegistry.registerTileEntity(InventoryLinkMk1Tile.class, "tile.metatech.inventorylink.mk1");
 		GameRegistry.registerTileEntity(InventoryLinkMk2Tile.class, "tile.metatech.inventorylink.mk2");

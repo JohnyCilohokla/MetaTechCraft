@@ -2,6 +2,7 @@ package com.metatechcraft.item;
 
 import java.util.List;
 
+import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -16,7 +17,6 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -30,8 +30,7 @@ public class MetaChunk extends Item {
 
 	public MetaChunk(int id) {
 		super(id);
-		setUnlocalizedName("Meta Chunk");
-		LanguageRegistry.addName(this, "Meta Chunk");
+		ForgeRegistryUtilities.registerItem(this, "MetaChunk", "Meta Chunk");
 		setHasSubtypes(true);
 		this.maxStackSize = 64;
 		setCreativeTab(MetaTechCraft.tabs);

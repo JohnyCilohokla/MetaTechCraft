@@ -1,6 +1,7 @@
 package com.metatechcraft.item;
 
 import com.forgetutorials.lib.registry.MetaMaterial;
+import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.block.MetaBlocks;
 import com.metatechcraft.lib.MetaTool;
 import com.metatechcraft.lib.MetaItemUtilities;
@@ -14,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -25,8 +25,7 @@ public class StrangeHammer extends MetaTool {
 
 	public StrangeHammer(int id) {
 		super(id, MetaMaterial.metaMaterial);
-		setUnlocalizedName("Strange Hammer");
-		LanguageRegistry.addName(this, "Strange Hammer");
+		ForgeRegistryUtilities.registerItem(this, "StrangeHammer", "Strange Hammer");
 		setCreativeTab(MetaTechCraft.tabs);
 		setMaxDamage(5000);
 		setOnDestroyItem(MetaItems.strangeDust);

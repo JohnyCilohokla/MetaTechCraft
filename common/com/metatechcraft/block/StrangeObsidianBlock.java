@@ -1,11 +1,10 @@
 package com.metatechcraft.block;
 
 import com.forgetutorials.lib.registry.MetaMaterial;
+import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -17,10 +16,8 @@ public class StrangeObsidianBlock extends Block {
 
 	protected StrangeObsidianBlock(int par1) {
 		super(par1, MetaMaterial.metaMaterial);
-		setUnlocalizedName("StrangeObsidianBlock");
+		ForgeRegistryUtilities.registerBlock(this, "StrangeObsidianBlock", "StrangeObsidian Block");
 		setCreativeTab(MetaTechCraft.tabs);
-		GameRegistry.registerBlock(this, "StrangeObsidianBlock");
-		LanguageRegistry.addName(this, "StrangeObsidian Block");
 	}
 
 	@Override
