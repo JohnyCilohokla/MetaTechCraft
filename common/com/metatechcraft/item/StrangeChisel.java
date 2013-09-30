@@ -1,7 +1,6 @@
 package com.metatechcraft.item;
 
 import com.forgetutorials.lib.registry.MetaMaterial;
-import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.lib.MetaItemUtilities;
 import com.metatechcraft.lib.MetaTool;
 import com.metatechcraft.lib.ModInfo;
@@ -24,7 +23,7 @@ public class StrangeChisel extends MetaTool {
 
 	public StrangeChisel(int id) {
 		super(id, MetaMaterial.metaMaterial);
-		ForgeRegistryUtilities.registerItem(this, "StrangeChisel", "Strange Chisel");
+		MetaTechCraft.registry.registerItem(this, "StrangeChisel", "Strange Chisel");
 		setCreativeTab(MetaTechCraft.tabs);
 		setMaxDamage(5000);
 		setOnDestroyItem(MetaItems.strangeDust);

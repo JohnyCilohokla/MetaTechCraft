@@ -1,6 +1,5 @@
 package com.metatechcraft.item;
 
-import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -19,7 +18,7 @@ public class StrangeDust extends Item {
 
 	public StrangeDust(int id) {
 		super(id);
-		ForgeRegistryUtilities.registerItem(this, "StrangeDust", "Strange Dust");
+		MetaTechCraft.registry.registerItem(this, "StrangeDust", "Strange Dust");
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 

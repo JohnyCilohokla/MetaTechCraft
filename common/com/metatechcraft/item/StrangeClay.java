@@ -1,6 +1,5 @@
 package com.metatechcraft.item;
 
-import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -19,7 +18,7 @@ public class StrangeClay extends Item {
 
 	public StrangeClay(int id) {
 		super(id);
-		ForgeRegistryUtilities.registerItem(this, "StrangeClay", "Strange Clay");
+		MetaTechCraft.registry.registerItem(this, "StrangeClay", "Strange Clay");
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 

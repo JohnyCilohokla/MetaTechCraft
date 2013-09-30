@@ -1,7 +1,6 @@
 package com.metatechcraft.item;
 
 import com.forgetutorials.lib.registry.MetaMaterial;
-import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.block.MetaBlocks;
 import com.metatechcraft.lib.MetaTool;
 import com.metatechcraft.lib.MetaItemUtilities;
@@ -25,7 +24,7 @@ public class StrangeHammer extends MetaTool {
 
 	public StrangeHammer(int id) {
 		super(id, MetaMaterial.metaMaterial);
-		ForgeRegistryUtilities.registerItem(this, "StrangeHammer", "Strange Hammer");
+		MetaTechCraft.registry.registerItem(this, "StrangeHammer", "Strange Hammer");
 		setCreativeTab(MetaTechCraft.tabs);
 		setMaxDamage(5000);
 		setOnDestroyItem(MetaItems.strangeDust);

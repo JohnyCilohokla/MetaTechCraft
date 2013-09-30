@@ -2,7 +2,6 @@ package com.metatechcraft.item;
 
 import java.util.List;
 
-import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -30,7 +29,7 @@ public class MetaDust extends Item {
 
 	public MetaDust(int id) {
 		super(id);
-		ForgeRegistryUtilities.registerItem(this, "MetaDust", "Meta Dust");
+		MetaTechCraft.registry.registerItem(this, "MetaDust", "Meta Dust");
 		setHasSubtypes(true);
 		this.maxStackSize = 64;
 		setCreativeTab(MetaTechCraft.tabs);

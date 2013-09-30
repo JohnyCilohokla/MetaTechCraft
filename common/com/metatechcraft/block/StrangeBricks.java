@@ -1,7 +1,6 @@
 package com.metatechcraft.block;
 
 import com.forgetutorials.lib.registry.MetaMaterial;
-import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -16,7 +15,7 @@ public class StrangeBricks extends Block {
 
 	protected StrangeBricks(int par1) {
 		super(par1, MetaMaterial.metaMaterial);
-		ForgeRegistryUtilities.registerBlock(this, "StrangeBricks", "Strange Bricks");
+		MetaTechCraft.registry.registerBlock(this, "StrangeBricks", "Strange Bricks");
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 

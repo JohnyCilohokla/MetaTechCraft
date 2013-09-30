@@ -5,6 +5,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 
 import com.forgetutorials.lib.registry.InfernosRegisteryProxyEntity;
+import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.core.handlers.CoreHooks;
 import com.metatechcraft.core.proxy.CommonProxy;
 import com.metatechcraft.block.MetaBlocks;
@@ -34,6 +35,8 @@ public class MetaTechCraft {
 	public static int metaBiomeID = 108;
 
 	public static MetaTechOreGenerators metaGenerator;
+
+	public static ForgeRegistryUtilities registry = new ForgeRegistryUtilities("metatechcraft");
 
 	@EventHandler
 	public void load(FMLInitializationEvent event) {

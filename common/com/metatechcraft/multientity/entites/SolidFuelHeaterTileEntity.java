@@ -13,6 +13,8 @@ import com.forgetutorials.lib.utilities.ItemStackUtilities;
 import com.forgetutorials.lib.utilities.ProxyEntityUtils;
 import com.forgetutorials.multientity.InfernosMultiEntity;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
+import com.forgetutorials.multientity.extra.HeatHandler;
+import com.forgetutorials.multientity.extra.IHeatContainer;
 import com.metatechcraft.models.ModelFrameBox;
 
 import net.minecraft.client.renderer.RenderBlocks;
@@ -21,7 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
-public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase {
+public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implements IHeatContainer {
 
 	long rotation;
 	long lastTime = 0;
@@ -266,7 +268,10 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase {
 		}
 		InfernosProxyEntityBase above = ProxyEntityUtils.getAbove(this.entity);
 		if (above != null) {
-			above.addHeat(1000d);
+			if (above instanceof IHeatContainer){
+				IHeatContainer heatContainer = (IHeatContainer)above;
+				heatContainer.addHeat(this.getHeat());
+			}
 		}
 	}
 
@@ -284,6 +289,21 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase {
 		this.frameBoxList.render();
 		GL11.glPopMatrix();
 
+	}
+
+	@Override
+	public double getHeat() {
+		return HeatHandler.getEnvHeat(this.entity.worldObj, this.entity.xCoord, this.entity.yCoord-1, this.entity.zCoord);
+	}
+
+	@Override
+	public double addHeat(double heat) {
+		return 0;
+	}
+
+	@Override
+	public double takeHeat(double heat) {
+		return 0;
 	}
 
 }

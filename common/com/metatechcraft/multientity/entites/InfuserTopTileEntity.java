@@ -15,6 +15,7 @@ import com.forgetutorials.lib.renderers.ItemTessallator;
 import com.forgetutorials.lib.utilities.ItemStackUtilities;
 import com.forgetutorials.multientity.InfernosMultiEntity;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
+import com.forgetutorials.multientity.extra.IHeatContainer;
 import com.metatechcraft.models.ModelFrameBox;
 
 import net.minecraft.client.renderer.RenderBlocks;
@@ -28,7 +29,7 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
-public class InfuserTopTileEntity extends InfernosProxyEntityBase {
+public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHeatContainer {
 
 	long rotation;
 	long lastTime = 0;
@@ -468,11 +469,6 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 	}
 
 	@Override
-	public void addHeat(double d) {
-		this.rotation += d;
-	}
-
-	@Override
 	public void renderItem(ItemRenderType type) {
 
 		GL11.glPushMatrix();
@@ -487,6 +483,24 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase {
 		this.frameBoxList.render();
 		GL11.glPopMatrix();
 
+	}
+
+	@Override
+	public double addHeat(double heat) {
+		this.rotation += heat;
+		return heat;
+	}
+	
+	@Override
+	public double getHeat() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double takeHeat(double heat) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

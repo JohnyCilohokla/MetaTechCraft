@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.forgetutorials.lib.registry.MetaMaterial;
-import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.item.MetaItems;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
@@ -35,7 +34,7 @@ public class MetaOreBlock extends Block {
 	protected MetaOreBlock(int par1) {
 		// make sure the material used can be broken by hand!
 		super(par1, MetaMaterial.metaMaterial);
-		ForgeRegistryUtilities.registerBlock(this, "MetaOreBlock", "MetaOre Block");
+		MetaTechCraft.registry.registerBlock(this, "MetaOreBlock", "MetaOre Block");
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 

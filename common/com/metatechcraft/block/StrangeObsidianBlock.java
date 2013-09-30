@@ -1,7 +1,6 @@
 package com.metatechcraft.block;
 
 import com.forgetutorials.lib.registry.MetaMaterial;
-import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
@@ -16,7 +15,7 @@ public class StrangeObsidianBlock extends Block {
 
 	protected StrangeObsidianBlock(int par1) {
 		super(par1, MetaMaterial.metaMaterial);
-		ForgeRegistryUtilities.registerBlock(this, "StrangeObsidianBlock", "StrangeObsidian Block");
+		MetaTechCraft.registry.registerBlock(this, "StrangeObsidianBlock", "StrangeObsidian Block");
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 

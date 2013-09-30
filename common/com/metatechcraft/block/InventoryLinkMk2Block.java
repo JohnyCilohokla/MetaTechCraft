@@ -1,6 +1,6 @@
 package com.metatechcraft.block;
 
-import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
+import com.metatechcraft.mod.MetaTechCraft;
 import com.metatechcraft.tileentity.InventoryLinkMk2Tile;
 
 import net.minecraft.tileentity.TileEntity;
@@ -10,7 +10,7 @@ public class InventoryLinkMk2Block extends InventoryLinkBlockBase {
 
 	protected InventoryLinkMk2Block(int par1) {
 		super(par1);
-		ForgeRegistryUtilities.registerBlock(this, "InventoryLinkMk2", "Inventory Link Mk2");
+		MetaTechCraft.registry.registerBlock(this, "InventoryLinkMk2", "Inventory Link Mk2");
 	}
 
 	@Override
