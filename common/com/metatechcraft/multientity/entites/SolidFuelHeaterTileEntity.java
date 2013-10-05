@@ -31,7 +31,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 
 	ItemStack stack;
 
-	public final static String TYPE_NAME = "SolidFuelHeaterTileEntity";
+	public final static String TYPE_NAME = "metatech.SolidFuelHeaterTileEntity";
 
 	@Override
 	public String getTypeName() {

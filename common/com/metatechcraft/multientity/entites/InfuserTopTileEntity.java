@@ -38,7 +38,7 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 
 	ItemStack stack;
 
-	public final static String TYPE_NAME = "InfuserTopTileEntity";
+	public final static String TYPE_NAME = "metatech.InfuserTopTileEntity";
 
 	@Override
 	public String getTypeName() {

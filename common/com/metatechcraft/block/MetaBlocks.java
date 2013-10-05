@@ -13,9 +13,10 @@ import com.forgetutorials.multientity.InfernosMultiEntityType;
 import com.metatechcraft.lib.MetaConfig;
 import com.metatechcraft.mod.MetaTechCraft;
 import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
+import com.metatechcraft.multientity.entites.InventoryLinkMk1;
+import com.metatechcraft.multientity.entites.InventoryLinkMk2;
+import com.metatechcraft.multientity.entites.InventoryLinkTileEntity;
 import com.metatechcraft.multientity.entites.SolidFuelHeaterTileEntity;
-import com.metatechcraft.tileentity.InventoryLinkMk2Tile;
-import com.metatechcraft.tileentity.InventoryLinkMk1Tile;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -24,8 +25,6 @@ import net.minecraft.item.ItemStack;
 
 public class MetaBlocks {
 
-	public static InventoryLinkMk1Block inventoryLinkBlock;
-	public static InventoryLinkMk2Block inventoryLinkMk2Block;
 	public static MetaOreBlock metaOreBlock;
 	public static MetaOreItem metaOreItem;
 
@@ -39,8 +38,6 @@ public class MetaBlocks {
 
 	public static void initize() {
 
-		MetaBlocks.inventoryLinkBlock = new InventoryLinkMk1Block(MetaConfig.inventoryLinkBlockID);
-		MetaBlocks.inventoryLinkMk2Block = new InventoryLinkMk2Block(MetaConfig.inventoryLinkMk2BlockID);
 		MetaBlocks.metaOreBlock = new MetaOreBlock(MetaConfig.metaOreBlockID);
 		MetaBlocks.metaPortalBlock = new MetaPortalBlock(MetaConfig.metaPortalBlockID);
 		MetaBlocks.strangeObsidianBlock = new StrangeObsidianBlock(MetaConfig.strangeObsidianBlockID);
@@ -56,37 +53,28 @@ public class MetaBlocks {
 		// "White", "Black", "Red", "Green", "Blue" };
 		MetaBlocks.mineableStacks.put(
 				"meta.empty",
-				new DescriptorOreBlock().setTool("metaHammer", 1).registerOreBlock("metatech.meta.empty", "metaStone",
+				new DescriptorOreBlock().setTool("metaHammer", 1).registerOreBlock("metatech.meta.empty", "metatech.metaStone",
 						MetaBlocks.metaOreStacks[0].getDisplayName(), MetaBlocks.metaOreStacks[0]));
 		MetaBlocks.mineableStacks.put(
 				"meta.white",
-				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.white", "metaWhite",
+				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.white", "metatech.metaWhiteOre",
 						MetaBlocks.metaOreStacks[1].getDisplayName(), MetaBlocks.metaOreStacks[1]));
 		MetaBlocks.mineableStacks.put(
 				"meta.black",
-				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.black", "metaBlack",
+				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.black", "metatech.metaBlackOre",
 						MetaBlocks.metaOreStacks[2].getDisplayName(), MetaBlocks.metaOreStacks[2]));
 		MetaBlocks.mineableStacks.put(
 				"meta.red",
-				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.red", "metaRed",
+				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.red", "metatech.metaRedOre",
 						MetaBlocks.metaOreStacks[3].getDisplayName(), MetaBlocks.metaOreStacks[3]));
 		MetaBlocks.mineableStacks.put(
 				"meta.green",
-				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.green", "metaGreen",
+				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.green", "metatech.metaGreenOre",
 						MetaBlocks.metaOreStacks[4].getDisplayName(), MetaBlocks.metaOreStacks[4]));
 		MetaBlocks.mineableStacks.put(
 				"meta.blue",
-				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.blue", "metaBlue",
+				new DescriptorOreBlock().setTool("metaHammer", 2).registerOreBlock("metatech.meta.blue", "metatech.metaBlueOre",
 						MetaBlocks.metaOreStacks[5].getDisplayName(), MetaBlocks.metaOreStacks[5]));
-
-		MetaBlocks.mineableStacks.put(
-				"invLink.mk1",
-				new DescriptorBlock().setTool("metaHammer", 1).registerBlock("metatech.invLink.mk1", MetaBlocks.inventoryLinkBlock.getLocalizedName(),
-						new ItemStack(MetaBlocks.inventoryLinkBlock)));
-		MetaBlocks.mineableStacks.put(
-				"invLink.mk2",
-				new DescriptorBlock().setTool("metaHammer", 1).registerBlock("metatech.invLink.mk2", MetaBlocks.inventoryLinkMk2Block.getLocalizedName(),
-						new ItemStack(MetaBlocks.inventoryLinkMk2Block)));
 
 		MetaBlocks.mineableStacks.put(
 				"strange.obsidian",
@@ -110,24 +98,41 @@ public class MetaBlocks {
 	}
 
 	public static void registerTileEntities() {
+		//----------------------------------------------------------------------------------------------------------------------------------------------------//
 		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InfuserTopTileEntity.TYPE_NAME, InfuserTopTileEntity.class, InfernosMultiEntityType.BOTH);
 
 		ItemStack infuserTopItemStack = new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, InfernosMultiEntityType.BOTH.ordinal());
 		ItemStackUtilities.addStringTag(infuserTopItemStack, "MES", InfuserTopTileEntity.TYPE_NAME);
 
-		new DescriptorBlock().registerBlock("mes.metatech.infuserTop", "Infuser Top", infuserTopItemStack);
+		new DescriptorBlock().registerBlock("mes."+InfuserTopTileEntity.TYPE_NAME, InfuserTopTileEntity.TYPE_NAME, infuserTopItemStack);
 		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs, infuserTopItemStack);
-
+		//----------------------------------------------------------------------------------------------------------------------------------------------------//
 		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(SolidFuelHeaterTileEntity.TYPE_NAME, SolidFuelHeaterTileEntity.class,
 				InfernosMultiEntityType.INVENTORY);
 
 		ItemStack solidFuelHeaterItemStack = new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, InfernosMultiEntityType.INVENTORY.ordinal());
 		ItemStackUtilities.addStringTag(solidFuelHeaterItemStack, "MES", SolidFuelHeaterTileEntity.TYPE_NAME);
 
-		new DescriptorBlock().registerBlock("mes.metatech.solidFuelHeater", "SolidFuelHeater", solidFuelHeaterItemStack);
+		new DescriptorBlock().registerBlock("mes."+SolidFuelHeaterTileEntity.TYPE_NAME, SolidFuelHeaterTileEntity.TYPE_NAME, solidFuelHeaterItemStack);
 		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs, solidFuelHeaterItemStack);
+		//----------------------------------------------------------------------------------------------------------------------------------------------------//
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk1.TYPE_NAME, InventoryLinkMk1.class,
+				InfernosMultiEntityType.INVENTORY);
 
-		GameRegistry.registerTileEntity(InventoryLinkMk1Tile.class, "tile.metatech.inventorylink.mk1");
-		GameRegistry.registerTileEntity(InventoryLinkMk2Tile.class, "tile.metatech.inventorylink.mk2");
+		ItemStack inventoryLinkMk1ItemStack = new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, InfernosMultiEntityType.INVENTORY.ordinal());
+		ItemStackUtilities.addStringTag(inventoryLinkMk1ItemStack, "MES", InventoryLinkMk1.TYPE_NAME);
+
+		new DescriptorBlock().registerBlock("mes."+InventoryLinkMk1.TYPE_NAME, InventoryLinkMk1.TYPE_NAME, inventoryLinkMk1ItemStack);
+		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs, inventoryLinkMk1ItemStack);
+		//----------------------------------------------------------------------------------------------------------------------------------------------------//
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk2.TYPE_NAME, InventoryLinkMk2.class,
+				InfernosMultiEntityType.INVENTORY);
+
+		ItemStack inventoryLinkMk2ItemStack= new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, InfernosMultiEntityType.INVENTORY.ordinal());
+		ItemStackUtilities.addStringTag(inventoryLinkMk2ItemStack, "MES", InventoryLinkMk2.TYPE_NAME);
+
+		new DescriptorBlock().registerBlock("mes."+InventoryLinkMk1.TYPE_NAME, InventoryLinkMk1.TYPE_NAME, inventoryLinkMk1ItemStack);
+		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs, inventoryLinkMk2ItemStack);
+		//----------------------------------------------------------------------------------------------------------------------------------------------------//
 	}
 }
