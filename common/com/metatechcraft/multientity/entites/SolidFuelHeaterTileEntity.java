@@ -268,9 +268,9 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		}
 		InfernosProxyEntityBase above = ProxyEntityUtils.getAbove(this.entity);
 		if (above != null) {
-			if (above instanceof IHeatContainer){
-				IHeatContainer heatContainer = (IHeatContainer)above;
-				heatContainer.addHeat(this.getHeat());
+			if (above instanceof IHeatContainer) {
+				IHeatContainer heatContainer = (IHeatContainer) above;
+				heatContainer.addHeat(getHeat());
 			}
 		}
 	}
@@ -293,7 +293,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 
 	@Override
 	public double getHeat() {
-		return HeatHandler.getEnvHeat(this.entity.worldObj, this.entity.xCoord, this.entity.yCoord-1, this.entity.zCoord);
+		return HeatHandler.getEnvHeat(this.entity.worldObj, this.entity.xCoord, this.entity.yCoord - 1, this.entity.zCoord);
 	}
 
 	@Override

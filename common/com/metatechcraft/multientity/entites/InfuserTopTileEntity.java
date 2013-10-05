@@ -490,7 +490,7 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		this.rotation += heat;
 		return heat;
 	}
-	
+
 	@Override
 	public double getHeat() {
 		// TODO Auto-generated method stub
