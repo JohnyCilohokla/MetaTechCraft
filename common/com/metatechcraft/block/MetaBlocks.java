@@ -16,9 +16,11 @@ import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
 import com.metatechcraft.multientity.entites.InventoryLinkMk1;
 import com.metatechcraft.multientity.entites.InventoryLinkMk2;
 import com.metatechcraft.multientity.entites.SolidFuelHeaterTileEntity;
+import com.metatechcraft.multientity.entites.StrangeFrameTileEntity;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
 public class MetaBlocks {
@@ -97,38 +99,15 @@ public class MetaBlocks {
 
 	public static void registerTileEntities() {
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InfuserTopTileEntity.TYPE_NAME, InfuserTopTileEntity.class, InfernosMultiEntityType.BOTH);
-
-		ItemStack infuserTopItemStack = new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, InfernosMultiEntityType.BOTH.ordinal());
-		ItemStackUtilities.addStringTag(infuserTopItemStack, "MES", InfuserTopTileEntity.TYPE_NAME);
-
-		new DescriptorBlock().registerBlock("mes." + InfuserTopTileEntity.TYPE_NAME, InfuserTopTileEntity.TYPE_NAME, infuserTopItemStack);
-		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs, infuserTopItemStack);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InfuserTopTileEntity.TYPE_NAME, InfuserTopTileEntity.class, InfernosMultiEntityType.BOTH, MetaTechCraft.tabs);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(SolidFuelHeaterTileEntity.TYPE_NAME, SolidFuelHeaterTileEntity.class,
-				InfernosMultiEntityType.INVENTORY);
-
-		ItemStack solidFuelHeaterItemStack = new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, InfernosMultiEntityType.INVENTORY.ordinal());
-		ItemStackUtilities.addStringTag(solidFuelHeaterItemStack, "MES", SolidFuelHeaterTileEntity.TYPE_NAME);
-
-		new DescriptorBlock().registerBlock("mes." + SolidFuelHeaterTileEntity.TYPE_NAME, SolidFuelHeaterTileEntity.TYPE_NAME, solidFuelHeaterItemStack);
-		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs, solidFuelHeaterItemStack);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(SolidFuelHeaterTileEntity.TYPE_NAME, SolidFuelHeaterTileEntity.class, InfernosMultiEntityType.INVENTORY, MetaTechCraft.tabs);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk1.TYPE_NAME, InventoryLinkMk1.class, InfernosMultiEntityType.INVENTORY);
-
-		ItemStack inventoryLinkMk1ItemStack = new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, InfernosMultiEntityType.INVENTORY.ordinal());
-		ItemStackUtilities.addStringTag(inventoryLinkMk1ItemStack, "MES", InventoryLinkMk1.TYPE_NAME);
-
-		new DescriptorBlock().registerBlock("mes." + InventoryLinkMk1.TYPE_NAME, InventoryLinkMk1.TYPE_NAME, inventoryLinkMk1ItemStack);
-		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs, inventoryLinkMk1ItemStack);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk1.TYPE_NAME, InventoryLinkMk1.class, InfernosMultiEntityType.INVENTORY, MetaTechCraft.tabs);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk2.TYPE_NAME, InventoryLinkMk2.class, InfernosMultiEntityType.INVENTORY);
-
-		ItemStack inventoryLinkMk2ItemStack = new ItemStack(MultiEntitySystem.infernosMultiBlockID, 1, InfernosMultiEntityType.INVENTORY.ordinal());
-		ItemStackUtilities.addStringTag(inventoryLinkMk2ItemStack, "MES", InventoryLinkMk2.TYPE_NAME);
-
-		new DescriptorBlock().registerBlock("mes." + InventoryLinkMk1.TYPE_NAME, InventoryLinkMk1.TYPE_NAME, inventoryLinkMk1ItemStack);
-		ForgeTutorialsRegistry.INSTANCE.addToCreativeTab(MetaTechCraft.tabs, inventoryLinkMk2ItemStack);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk2.TYPE_NAME, InventoryLinkMk2.class, InfernosMultiEntityType.INVENTORY, MetaTechCraft.tabs);
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(StrangeFrameTileEntity.TYPE_NAME, StrangeFrameTileEntity.class, InfernosMultiEntityType.BASIC, MetaTechCraft.tabs);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
 	}
 }

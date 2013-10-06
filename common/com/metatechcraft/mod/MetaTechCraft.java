@@ -68,6 +68,7 @@ public class MetaTechCraft {
 		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":inventorylink_mk2_side4");
 		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":inventorylink_mk2_front");
 		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":inventorylink_mk2_sideBack");
+
 	}
 
 	@EventHandler
@@ -83,6 +84,7 @@ public class MetaTechCraft {
 	public void postInit(FMLPostInitializationEvent event) {
 		System.out.println(">> MetaTechCraft: postInit");
 		MetaTechCraft.proxy.registerTileEntities();
+		MetaItems.registerCrafting();
 	}
 
 }

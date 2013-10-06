@@ -29,7 +29,6 @@ import com.forgetutorials.lib.renderers.BlockTessallator;
 import com.forgetutorials.lib.renderers.GLDisplayList;
 import com.forgetutorials.multientity.InfernosMultiEntity;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
-import com.metatechcraft.models.ModelFrameBox;
 import com.metatechcraft.tileentity.InventoryWithSide;
 
 public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
@@ -49,8 +48,6 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 	public boolean hasLiquids() {
 		return false;
 	}
-
-	private ModelFrameBox frameBox = new ModelFrameBox();
 
 	GLDisplayList frameBoxList = new GLDisplayList();
 
@@ -98,6 +95,7 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 			}
 		}
 		this.frameBoxList.render();
+		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
 	}
 

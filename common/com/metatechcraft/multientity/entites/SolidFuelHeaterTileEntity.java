@@ -210,8 +210,6 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		packet.addPacket(new SubPacketTileEntitySimpleItemUpdate(0, itemStack));
 	}
 
-	private ModelFrameBox frameBox = new ModelFrameBox();
-
 	GLDisplayList frameBoxList = new GLDisplayList();
 
 	@Override
@@ -223,7 +221,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		if (!this.frameBoxList.isGenerated()) {
 			this.frameBoxList.generate();
 			this.frameBoxList.bind();
-			this.frameBox.render();
+			ModelFrameBox.frameBox.render();
 			this.frameBoxList.unbind();
 		}
 		this.frameBoxList.render();
@@ -237,8 +235,8 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 
 		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
 		GL11.glEnable(GL11.GL_CULL_FACE);
-		GL11.glDisable(GL11.GL_LIGHTING);
 		ItemTessallator.renderItemStack(this.entity.worldObj, ghostStack);
+		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopAttrib();
 
 		GL11.glPopMatrix();
@@ -283,10 +281,11 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		if (!this.frameBoxList.isGenerated()) {
 			this.frameBoxList.generate();
 			this.frameBoxList.bind();
-			this.frameBox.render();
+			ModelFrameBox.frameBox.render();
 			this.frameBoxList.unbind();
 		}
 		this.frameBoxList.render();
+		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
 
 	}

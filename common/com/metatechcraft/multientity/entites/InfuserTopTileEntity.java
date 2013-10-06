@@ -355,8 +355,6 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		return 1;
 	}
 
-	private ModelFrameBox frameBox = new ModelFrameBox();
-
 	GLDisplayList frameBoxList = new GLDisplayList();
 
 	@Override
@@ -368,7 +366,7 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		if (!this.frameBoxList.isGenerated()) {
 			this.frameBoxList.generate();
 			this.frameBoxList.bind();
-			this.frameBox.render();
+			ModelFrameBox.frameBox.render();
 			this.frameBoxList.unbind();
 		}
 		this.frameBoxList.render();
@@ -477,10 +475,11 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		if (!this.frameBoxList.isGenerated()) {
 			this.frameBoxList.generate();
 			this.frameBoxList.bind();
-			this.frameBox.render();
+			ModelFrameBox.frameBox.render();
 			this.frameBoxList.unbind();
 		}
 		this.frameBoxList.render();
+		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
 
 	}
