@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
-public enum ModelFrameBox {
+public enum MetaTechCraftModels {
 	
 	frameBox("blocks/boxFrame.obj"),
 	squareFrame("blocks/squareFrame.obj");
@@ -21,12 +21,12 @@ public enum ModelFrameBox {
 	public final String MODEL_LOCATION;
 	public static final ResourceLocation boxFrameTexture = new ResourceLocation(ModInfo.MOD_ID.toLowerCase(), "models/blocks/" + "boxFrame.png");
 
-	ModelFrameBox(String location) {
+	MetaTechCraftModels(String location) {
 		this.MODEL_LOCATION = "/assets/metatechcraft/models/" + location;
 	}
 
 	public void render() {
-		render(ModelFrameBox.boxFrameTexture, null);
+		render(MetaTechCraftModels.boxFrameTexture, null);
 	}
 	public void render(ResourceLocation texture, EnumFacing facing) {
 		if (modelFrameBox==null){

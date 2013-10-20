@@ -15,7 +15,7 @@ import com.forgetutorials.multientity.InfernosMultiEntity;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.forgetutorials.multientity.extra.HeatHandler;
 import com.forgetutorials.multientity.extra.IHeatContainer;
-import com.metatechcraft.models.ModelFrameBox;
+import com.metatechcraft.models.MetaTechCraftModels;
 
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.entity.player.EntityPlayer;
@@ -221,7 +221,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		if (!this.frameBoxList.isGenerated()) {
 			this.frameBoxList.generate();
 			this.frameBoxList.bind();
-			ModelFrameBox.frameBox.render();
+			MetaTechCraftModels.frameBox.render();
 			this.frameBoxList.unbind();
 		}
 		this.frameBoxList.render();
@@ -241,11 +241,6 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
-
-	}
-
-	@Override
-	public void onBlockActivated(EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
 
 	}
 
@@ -281,7 +276,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		if (!this.frameBoxList.isGenerated()) {
 			this.frameBoxList.generate();
 			this.frameBoxList.bind();
-			ModelFrameBox.frameBox.render();
+			MetaTechCraftModels.frameBox.render();
 			this.frameBoxList.unbind();
 		}
 		this.frameBoxList.render();

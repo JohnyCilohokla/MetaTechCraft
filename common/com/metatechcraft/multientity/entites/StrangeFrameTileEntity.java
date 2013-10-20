@@ -16,7 +16,7 @@ import com.forgetutorials.lib.utilities.ItemStackUtilities;
 import com.forgetutorials.multientity.InfernosMultiEntity;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.forgetutorials.multientity.extra.IHeatContainer;
-import com.metatechcraft.models.ModelFrameBox;
+import com.metatechcraft.models.MetaTechCraftModels;
 
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -103,16 +103,12 @@ public class StrangeFrameTileEntity extends InfernosProxyEntityBase {
 		if (!this.frameBoxList[facing].isGenerated()) {
 			this.frameBoxList[facing].generate();
 			this.frameBoxList[facing].bind();
-			ModelFrameBox.squareFrame.render(ModelFrameBox.boxFrameTexture, facing==6?null:EnumFacing.getFront(facing));
+			MetaTechCraftModels.squareFrame.render(MetaTechCraftModels.boxFrameTexture, facing==6?null:EnumFacing.getFront(facing));
 			this.frameBoxList[facing].unbind();
 		}
 		this.frameBoxList[facing].render();
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
-	}
-
-	@Override
-	public void onBlockActivated(EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
 	}
 
 	@Override
@@ -138,7 +134,7 @@ public class StrangeFrameTileEntity extends InfernosProxyEntityBase {
 		if (!this.frameBoxList[facing].isGenerated()) {
 			this.frameBoxList[facing].generate();
 			this.frameBoxList[facing].bind();
-			ModelFrameBox.squareFrame.render();
+			MetaTechCraftModels.squareFrame.render();
 			this.frameBoxList[facing].unbind();
 		}
 		this.frameBoxList[facing].render();

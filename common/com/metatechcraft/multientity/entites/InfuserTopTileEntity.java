@@ -16,7 +16,8 @@ import com.forgetutorials.lib.utilities.ItemStackUtilities;
 import com.forgetutorials.multientity.InfernosMultiEntity;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.forgetutorials.multientity.extra.IHeatContainer;
-import com.metatechcraft.models.ModelFrameBox;
+import com.metatechcraft.mod.MetaTechCraft;
+import com.metatechcraft.models.MetaTechCraftModels;
 
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -24,6 +25,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -366,7 +368,7 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		if (!this.frameBoxList.isGenerated()) {
 			this.frameBoxList.generate();
 			this.frameBoxList.bind();
-			ModelFrameBox.frameBox.render();
+			MetaTechCraftModels.frameBox.render();
 			this.frameBoxList.unbind();
 		}
 		this.frameBoxList.render();
@@ -419,8 +421,10 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 	}
 
 	@Override
-	public void onBlockActivated(EntityPlayer entityplayer, int par6, float par7, float par8, float par9) {
+	public void onBlockActivated(EntityPlayer entityplayer, World world, int x, int y, int z, int par1, float par2, float par3, float par4) {
 		this.target = (this.target + 1) % 4;
+
+		entityplayer.openGui(MetaTechCraft.instance, 0, world, x, y, z);
 	}
 
 	@Override
@@ -475,7 +479,7 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		if (!this.frameBoxList.isGenerated()) {
 			this.frameBoxList.generate();
 			this.frameBoxList.bind();
-			ModelFrameBox.frameBox.render();
+			MetaTechCraftModels.frameBox.render();
 			this.frameBoxList.unbind();
 		}
 		this.frameBoxList.render();
