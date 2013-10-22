@@ -1,12 +1,8 @@
 package com.metatechcraft.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import com.forgetutorials.multientity.InfernosMultiEntity;
 import com.metatechcraft.block.MetaBlocks;
 import com.metatechcraft.lib.ModInfo;
-import com.metatechcraft.mod.MetaTechCraft;
-
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -16,37 +12,35 @@ import net.minecraft.util.StatCollector;
 
 public class GuiT extends GuiContainer {
 
-    public GuiT (InventoryPlayer inventoryPlayer,
-    		InfernosMultiEntity tileEntity) {
-            super(new ContainerT(inventoryPlayer, tileEntity));
-            this.xSize = 216;
-            this.ySize = 222;
-    }
+	public GuiT(InventoryPlayer inventoryPlayer, InfernosMultiEntity tileEntity) {
+		super(new ContainerT(inventoryPlayer, tileEntity));
+		this.xSize = 216;
+		this.ySize = 222;
+	}
 
-    @Override
-    protected void drawGuiContainerForegroundLayer(int param1, int param2) {
-            //draw text and stuff here
-            //the parameters for drawString are: string, x, y, color
-            fontRenderer.drawString("Tiny", 8, 6, 4210752);
-            //draws "Inventory" or your regional equivalent
-            fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
-            itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, this.mc.renderEngine, new ItemStack(MetaBlocks.metaPortalBlock), 20, 20);
-    }
+	@Override
+	protected void drawGuiContainerForegroundLayer(int param1, int param2) {
+		// draw text and stuff here
+		// the parameters for drawString are: string, x, y, color
+		this.fontRenderer.drawString("Tiny", 8, 6, 4210752);
+		// draws "Inventory" or your regional equivalent
+		this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, (this.ySize - 96) + 2, 4210752);
+		GuiContainer.itemRenderer.renderItemAndEffectIntoGUI(this.fontRenderer, this.mc.renderEngine, new ItemStack(MetaBlocks.metaPortalBlock), 20, 20);
+	}
 
-    private static final ResourceLocation field_110421_t = new ResourceLocation(ModInfo.MOD_ID.toLowerCase(), "gui/craftingChamber.png");
-    
-    @Override
-    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
-        this.mc.getTextureManager().bindTexture(field_110421_t);
-        int k = (this.width - this.xSize) / 2;
-        int l = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(k, l, 0, 0, 216, 222);
-    }
-    
-    @Override
-    protected void drawSlotInventory(Slot par1Slot) {
-    	super.drawSlotInventory(par1Slot);
-    }
-    
+	private static final ResourceLocation field_110421_t = new ResourceLocation(ModInfo.MOD_ID.toLowerCase(), "gui/craftingChamber.png");
+
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
+		this.mc.getTextureManager().bindTexture(GuiT.field_110421_t);
+		int k = (this.width - this.xSize) / 2;
+		int l = (this.height - this.ySize) / 2;
+		drawTexturedModalRect(k, l, 0, 0, 216, 222);
+	}
+
+	@Override
+	protected void drawSlotInventory(Slot par1Slot) {
+		super.drawSlotInventory(par1Slot);
+	}
 
 }

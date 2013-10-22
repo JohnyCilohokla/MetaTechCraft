@@ -3,12 +3,9 @@ package com.metatechcraft.block;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import com.forgetutorials.lib.network.MultiEntitySystem;
 import com.forgetutorials.lib.registry.DescriptorBlock;
 import com.forgetutorials.lib.registry.DescriptorOreBlock;
-import com.forgetutorials.lib.registry.ForgeTutorialsRegistry;
 import com.forgetutorials.lib.registry.InfernosRegisteryProxyEntity;
-import com.forgetutorials.lib.utilities.ItemStackUtilities;
 import com.forgetutorials.multientity.InfernosMultiEntityType;
 import com.metatechcraft.lib.MetaConfig;
 import com.metatechcraft.mod.MetaTechCraft;
@@ -20,7 +17,6 @@ import com.metatechcraft.multientity.entites.StrangeFrameTileEntity;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
 public class MetaBlocks {
@@ -99,15 +95,20 @@ public class MetaBlocks {
 
 	public static void registerTileEntities() {
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InfuserTopTileEntity.TYPE_NAME, InfuserTopTileEntity.class, InfernosMultiEntityType.BOTH, MetaTechCraft.tabs);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InfuserTopTileEntity.TYPE_NAME, InfuserTopTileEntity.class, InfernosMultiEntityType.BOTH,
+				MetaTechCraft.tabs);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(SolidFuelHeaterTileEntity.TYPE_NAME, SolidFuelHeaterTileEntity.class, InfernosMultiEntityType.INVENTORY, MetaTechCraft.tabs);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(SolidFuelHeaterTileEntity.TYPE_NAME, SolidFuelHeaterTileEntity.class,
+				InfernosMultiEntityType.INVENTORY, MetaTechCraft.tabs);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk1.TYPE_NAME, InventoryLinkMk1.class, InfernosMultiEntityType.INVENTORY, MetaTechCraft.tabs);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk1.TYPE_NAME, InventoryLinkMk1.class, InfernosMultiEntityType.INVENTORY,
+				MetaTechCraft.tabs);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk2.TYPE_NAME, InventoryLinkMk2.class, InfernosMultiEntityType.INVENTORY, MetaTechCraft.tabs);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk2.TYPE_NAME, InventoryLinkMk2.class, InfernosMultiEntityType.INVENTORY,
+				MetaTechCraft.tabs);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(StrangeFrameTileEntity.TYPE_NAME, StrangeFrameTileEntity.class, InfernosMultiEntityType.BASIC, MetaTechCraft.tabs);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(StrangeFrameTileEntity.TYPE_NAME, StrangeFrameTileEntity.class, InfernosMultiEntityType.BASIC,
+				MetaTechCraft.tabs);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
 	}
 }

@@ -36,7 +36,7 @@ public class MetaItems {
 		MetaItems.strangeIngot = new StrangeIngot(26003);
 		MetaItems.strangeClay = new StrangeClay(26004);
 		MetaItems.strangeBrick = new StrangeBrick(26005);
-		
+
 		MetaItems.strangeStick = new StrangeStick(26006);
 
 		MetaItems.strangeDustStack = new ItemStack(MetaItems.strangeDust);
@@ -72,16 +72,14 @@ public class MetaItems {
 
 		GameRegistry.addRecipe(new ItemStack(MetaBlocks.strangeObsidianBlock, 2), new Object[] { "sss", "ili", "sss", Character.valueOf('s'),
 				MetaItems.strangeIngot, Character.valueOf('i'), Block.ice, Character.valueOf('l'), Item.bucketLava });
-		
 
-		GameRegistry.addRecipe(new ItemStack(MetaItems.strangeStick, 2), new Object[] { "s", "s", Character.valueOf('s'),
-				MetaItems.strangeIngot });
+		GameRegistry.addRecipe(new ItemStack(MetaItems.strangeStick, 2), new Object[] { "s", "s", Character.valueOf('s'), MetaItems.strangeIngot });
 
 		GameRegistry.addSmelting(MetaItems.strangeDust.itemID, new ItemStack(MetaItems.strangeIngot), 10);
-		
-		ItemStack infuserTopStack = ((DescriptorBlock)ForgeTutorialsRegistry.INSTANCE.getObject("mes."+InfuserTopTileEntity.TYPE_NAME)).getItemStack(1);
-		infuserTopStack.stackSize=1;
-		GameRegistry.addRecipe(infuserTopStack, new Object[] { "sfs", "sfs", Character.valueOf('s'),
-				MetaItems.strangeIngot, Character.valueOf('f'), ((DescriptorBlock)ForgeTutorialsRegistry.INSTANCE.getObject("mes."+StrangeFrameTileEntity.TYPE_NAME)).getItemStack() });
+
+		ItemStack infuserTopStack = ((DescriptorBlock) ForgeTutorialsRegistry.INSTANCE.getObject("mes." + InfuserTopTileEntity.TYPE_NAME)).getItemStack(1);
+		infuserTopStack.stackSize = 1;
+		GameRegistry.addRecipe(infuserTopStack, new Object[] { "sfs", "sfs", Character.valueOf('s'), MetaItems.strangeIngot, Character.valueOf('f'),
+				((DescriptorBlock) ForgeTutorialsRegistry.INSTANCE.getObject("mes." + StrangeFrameTileEntity.TYPE_NAME)).getItemStack() });
 	}
 }

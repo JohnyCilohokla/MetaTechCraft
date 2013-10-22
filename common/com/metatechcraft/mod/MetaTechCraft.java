@@ -28,14 +28,12 @@ import com.metatechcraft.liquid.MetaLiquids;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkModHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 
@@ -57,9 +55,9 @@ public class MetaTechCraft implements IGuiHandler {
 
 	@Instance("MetaTechCraft")
 	public static MetaTechCraft instance;
-	
-	//crafting chamber
-	//rts storage
+
+	// crafting chamber
+	// rts storage
 
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
@@ -69,9 +67,9 @@ public class MetaTechCraft implements IGuiHandler {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		System.out.println(">> MetaTechCraft: preInit");
-		
-        NetworkRegistry.instance().registerGuiHandler(this, instance);
-        
+
+		NetworkRegistry.instance().registerGuiHandler(this, MetaTechCraft.instance);
+
 		MetaBlocks.initize();
 		MetaItems.initize();
 		MetaLiquids.initize();
@@ -110,27 +108,28 @@ public class MetaTechCraft implements IGuiHandler {
 		System.out.println(">> MetaTechCraft: postInit");
 		MetaTechCraft.proxy.registerTileEntities();
 		MetaItems.registerCrafting();
-		
-        EntityRegistry.registerModEntity(SnowZombie.class, "SnowZombie", 0, MetaTechCraft.instance, 64, 5, true);
-        EntityRegistry.addSpawn(SnowZombie.class, 28, 4, 6, EnumCreatureType.monster, BiomeGenBase.iceMountains, BiomeGenBase.icePlains, BiomeGenBase.sky, BiomeGenBase.taiga, BiomeGenBase.taigaHills);
+
+		EntityRegistry.registerModEntity(SnowZombie.class, "SnowZombie", 0, MetaTechCraft.instance, 64, 5, true);
+		EntityRegistry.addSpawn(SnowZombie.class, 28, 4, 6, EnumCreatureType.monster, BiomeGenBase.iceMountains, BiomeGenBase.icePlains, BiomeGenBase.sky,
+				BiomeGenBase.taiga, BiomeGenBase.taigaHills);
 	}
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-        if(tileEntity instanceof InfernosMultiEntity){
-                return new ContainerT(player.inventory, (InfernosMultiEntity) tileEntity);
-        }
-        return null;
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+		if (tileEntity instanceof InfernosMultiEntity) {
+			return new ContainerT(player.inventory, (InfernosMultiEntity) tileEntity);
+		}
+		return null;
 	}
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-        if(tileEntity instanceof InfernosMultiEntity){
-                return new GuiT(player.inventory, (InfernosMultiEntity) tileEntity);
-        }
-        return null;
+		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+		if (tileEntity instanceof InfernosMultiEntity) {
+			return new GuiT(player.inventory, (InfernosMultiEntity) tileEntity);
+		}
+		return null;
 	}
 
 }

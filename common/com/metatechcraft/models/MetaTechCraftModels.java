@@ -12,9 +12,8 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 
 public enum MetaTechCraftModels {
-	
-	frameBox("blocks/boxFrame.obj"),
-	squareFrame("blocks/squareFrame.obj");
+
+	frameBox("blocks/boxFrame.obj"), squareFrame("blocks/squareFrame.obj");
 
 	private IModelCustom modelFrameBox;
 
@@ -28,15 +27,16 @@ public enum MetaTechCraftModels {
 	public void render() {
 		render(MetaTechCraftModels.boxFrameTexture, null);
 	}
+
 	public void render(ResourceLocation texture, EnumFacing facing) {
-		if (modelFrameBox==null){
+		if (this.modelFrameBox == null) {
 			this.modelFrameBox = AdvancedModelLoader.loadModel(this.MODEL_LOCATION);
 		}
 		GL11.glPushMatrix();
 		GL11.glTranslated(0.5, 0.0, 0.5);
-		if (facing!=null){
+		if (facing != null) {
 			GL11.glTranslated(0.0, 0.5, 0.0);
-			switch(facing){
+			switch (facing) {
 			case DOWN:
 				break;
 			case UP:
@@ -56,7 +56,7 @@ public enum MetaTechCraftModels {
 				break;
 			default:
 				break;
-			
+
 			}
 			GL11.glTranslated(0.0, -0.5, 0.0);
 		}

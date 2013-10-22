@@ -10,7 +10,7 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void initizeRendering() {
-        RenderingRegistry.registerEntityRenderingHandler(SnowZombie.class, new SnowZombieRenderer());
+		RenderingRegistry.registerEntityRenderingHandler(SnowZombie.class, new SnowZombieRenderer());
 	}
 
 }

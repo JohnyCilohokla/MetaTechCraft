@@ -8,11 +8,10 @@ import net.minecraft.util.ResourceLocation;
 
 public class SnowZombieRenderer extends RenderZombie {
 
-    @Override
-    protected ResourceLocation getEntityTexture(Entity par1Entity)
-    {
-        return texture;
-    }
-    
-    static final ResourceLocation texture = new ResourceLocation(ModInfo.MOD_ID.toLowerCase(), "entity/zombie.png");
+	@Override
+	protected ResourceLocation getEntityTexture(Entity par1Entity) {
+		return SnowZombieRenderer.texture;
+	}
+
+	static final ResourceLocation texture = new ResourceLocation(ModInfo.MOD_ID.toLowerCase(), "entity/zombie.png");
 }
