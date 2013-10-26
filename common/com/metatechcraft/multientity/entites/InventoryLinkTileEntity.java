@@ -49,7 +49,7 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 		return false;
 	}
 
-	GLDisplayList frameBoxList = new GLDisplayList();
+	GLDisplayList itemDisplayList = new GLDisplayList();
 
 	@Override
 	public void renderItem(ItemRenderType type) {
@@ -58,16 +58,14 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 		}
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
-		if (!this.frameBoxList.isGenerated()) {
+		if (!this.itemDisplayList.isGenerated()) {
 			if (Tessellator.instance.isDrawing) {
 				int drawMode = Tessellator.instance.drawMode;
 				Tessellator.instance.draw();
 				// --------------------------
-				this.frameBoxList.generate();
-				this.frameBoxList.bind();
+				this.itemDisplayList.generate();
+				this.itemDisplayList.bind();
 
-				GL11.glTranslated(0, -0.1, 0);
-				GL11.glScaled(0.9, 0.9, 0.9);
 				Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 
 				Tessellator.instance.startDrawingQuads();
@@ -75,15 +73,13 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 						this.icons[0][4], this.icons[0][5]);
 				Tessellator.instance.draw();
 
-				this.frameBoxList.unbind();
+				this.itemDisplayList.unbind();
 				// --------------------------
 				Tessellator.instance.startDrawing(drawMode);
 			} else {
-				this.frameBoxList.generate();
-				this.frameBoxList.bind();
+				this.itemDisplayList.generate();
+				this.itemDisplayList.bind();
 
-				GL11.glTranslated(0, -0.1, 0);
-				GL11.glScaled(0.9, 0.9, 0.9);
 				Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 
 				Tessellator.instance.startDrawingQuads();
@@ -91,10 +87,17 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 						this.icons[0][4], this.icons[0][5]);
 				Tessellator.instance.draw();
 
-				this.frameBoxList.unbind();
+				this.itemDisplayList.unbind();
 			}
 		}
-		this.frameBoxList.render();
+		if (type == ItemRenderType.EQUIPPED){
+			GL11.glTranslated(0, 0, 1);
+			GL11.glRotated(90, 0, 1, 0);
+		}else{
+			GL11.glTranslated(0, -0.1, 0);
+			GL11.glScaled(0.9, 0.9, 0.9);
+		}
+		this.itemDisplayList.render();
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
 	}

@@ -4,6 +4,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.DimensionManager;
@@ -92,6 +93,11 @@ public class MetaTechCraft implements IGuiHandler {
 		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":inventorylink_mk2_side4");
 		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":inventorylink_mk2_front");
 		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":inventorylink_mk2_sideBack");
+		
+		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/side");
+		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/top");
+		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/on");
+		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/off");
 	}
 
 	@EventHandler

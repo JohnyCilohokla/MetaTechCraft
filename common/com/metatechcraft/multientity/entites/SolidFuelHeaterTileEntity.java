@@ -7,6 +7,8 @@ import org.lwjgl.opengl.GL11;
 import com.forgetutorials.lib.network.MultiEntitySystem;
 import com.forgetutorials.lib.network.PacketMultiTileEntity;
 import com.forgetutorials.lib.network.SubPacketTileEntitySimpleItemUpdate;
+import com.forgetutorials.lib.registry.InfernosRegisteryProxyEntity;
+import com.forgetutorials.lib.renderers.BlockTessallator;
 import com.forgetutorials.lib.renderers.GLDisplayList;
 import com.forgetutorials.lib.renderers.ItemTessallator;
 import com.forgetutorials.lib.utilities.ItemStackUtilities;
@@ -15,12 +17,18 @@ import com.forgetutorials.multientity.InfernosMultiEntity;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.forgetutorials.multientity.extra.HeatHandler;
 import com.forgetutorials.multientity.extra.IHeatContainer;
+import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.models.MetaTechCraftModels;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Icon;
+import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
 public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implements IHeatContainer {
@@ -215,38 +223,70 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 	@Override
 	public void renderTileEntityAt(double x, double y, double z) {
 
-		GL11.glPushMatrix();
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glTranslated(x, y, z);
-		if (!this.frameBoxList.isGenerated()) {
-			this.frameBoxList.generate();
-			this.frameBoxList.bind();
-			MetaTechCraftModels.frameBox.render();
-			this.frameBoxList.unbind();
+	}
+
+	int direction;
+
+	@Override
+	public void onBlockPlaced(World world, EntityPlayer player, int side, int direction, int x, int y, int z, float hitX, float hitY, float hitZ, int metadata) {
+		this.direction = direction;
+	}
+	/*
+	 * Working direction facing blocks (like furance)
+	public void registerIcons() {
+		Icon sideIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/side");
+		Icon onIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/on");
+		Icon topIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/top");
+		this.icons = new Icon[][] { //
+				{ topIcon, topIcon, onIcon, sideIcon, sideIcon, sideIcon }, //
+				{ topIcon, topIcon, sideIcon, sideIcon, sideIcon, onIcon },//
+				{ topIcon, topIcon, sideIcon, onIcon, sideIcon, sideIcon },//
+				{ topIcon, topIcon, sideIcon, sideIcon, onIcon, sideIcon },//
+		};
+	}
+	
+	@Override
+	public Icon getIconFromSide(int side) {
+		if (this.icons == null) {
+			registerIcons();
 		}
-		this.frameBoxList.render();
+		return this.icons[direction][side];
+	}
+	*/
+	
+	// TODO static?
+	protected Icon icons[][];
 
-		GL11.glPushMatrix();
-		GL11.glTranslated(0.5, 0.45, 0.5);
-		// GL11.glScalef(scale, scale, scale);
-		float rotationAngle = getRotation();
-		GL11.glRotatef(rotationAngle, 0f, 1f, 0f);
-		ItemStack ghostStack = getStackInSlot(0);
+	public void registerIcons() {
+		Icon sideIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/side");
+		Icon onIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/on");
+		Icon offIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/off");
+		Icon topIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/top");
+		this.icons = new Icon[][] { //
+				{ topIcon, topIcon, offIcon, sideIcon, sideIcon, sideIcon }, //
+				{ topIcon, topIcon, sideIcon, sideIcon, sideIcon, offIcon },//
+				{ topIcon, topIcon, sideIcon, offIcon, sideIcon, sideIcon },//
+				{ topIcon, topIcon, sideIcon, sideIcon, offIcon, sideIcon },//
+				{ topIcon, topIcon, onIcon, sideIcon, sideIcon, sideIcon }, //
+				{ topIcon, topIcon, sideIcon, sideIcon, sideIcon, onIcon },//
+				{ topIcon, topIcon, sideIcon, onIcon, sideIcon, sideIcon },//
+				{ topIcon, topIcon, sideIcon, sideIcon, onIcon, sideIcon },//
+		};
+	}
 
-		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
-		GL11.glEnable(GL11.GL_CULL_FACE);
-		ItemTessallator.renderItemStack(this.entity.worldObj, ghostStack);
-		GL11.glEnable(GL11.GL_LIGHTING);
-		GL11.glPopAttrib();
-
-		GL11.glPopMatrix();
-		GL11.glPopMatrix();
-
+	boolean on = false;
+	
+	@Override
+	public Icon getIconFromSide(int side) {
+		if (this.icons == null) {
+			registerIcons();
+		}
+		return this.icons[(on?4:0)+direction][side];
 	}
 
 	@Override
 	public void renderStaticBlockAt(RenderBlocks renderer, int x, int y, int z) {
-		// nothing for now
+		renderer.renderStandardBlock(MultiEntitySystem.infernosMultiBlock, x, y, z);
 	}
 
 	// int ticker = 10;
@@ -258,6 +298,8 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		this.ticker++;
 		if (this.ticker > 80) {
 			this.ticker = 0;
+			on=!on;
+			this.entity.markRenderUpdate();
 		}
 		InfernosProxyEntityBase above = ProxyEntityUtils.getAbove(this.entity);
 		if (above != null) {
@@ -268,21 +310,58 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		}
 	}
 
+	GLDisplayList itemDisplayList = new GLDisplayList();
+
+	// TODO handler! for normal renderItem
 	@Override
 	public void renderItem(ItemRenderType type) {
-
+		if (this.icons == null) {
+			registerIcons();
+		}
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
-		if (!this.frameBoxList.isGenerated()) {
-			this.frameBoxList.generate();
-			this.frameBoxList.bind();
-			MetaTechCraftModels.frameBox.render();
-			this.frameBoxList.unbind();
+		if (!this.itemDisplayList.isGenerated()) {
+			if (Tessellator.instance.isDrawing) {
+				int drawMode = Tessellator.instance.drawMode;
+				Tessellator.instance.draw();
+				// --------------------------
+				this.itemDisplayList.generate();
+				this.itemDisplayList.bind();
+
+				Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+
+				Tessellator.instance.startDrawingQuads();
+				BlockTessallator.addToTessallator(Tessellator.instance, 0, 0, 0, this.icons[2][0], this.icons[2][1], this.icons[2][2], this.icons[2][3],
+						this.icons[2][4], this.icons[2][5]);
+				Tessellator.instance.draw();
+
+				this.itemDisplayList.unbind();
+				// --------------------------
+				Tessellator.instance.startDrawing(drawMode);
+			} else {
+				this.itemDisplayList.generate();
+				this.itemDisplayList.bind();
+
+				Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+
+				Tessellator.instance.startDrawingQuads();
+				BlockTessallator.addToTessallator(Tessellator.instance, 0, 0, 0, this.icons[2][0], this.icons[2][1], this.icons[2][2], this.icons[2][3],
+						this.icons[2][4], this.icons[2][5]);
+				Tessellator.instance.draw();
+
+				this.itemDisplayList.unbind();
+			}
 		}
-		this.frameBoxList.render();
+		if (type == ItemRenderType.EQUIPPED){
+			GL11.glTranslated(0, 0, 1);
+			GL11.glRotated(90, 0, 1, 0);
+		}else{
+			GL11.glTranslated(0, -0.1, 0);
+			GL11.glScaled(0.9, 0.9, 0.9);
+		}
+		this.itemDisplayList.render();
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
-
 	}
 
 	@Override
