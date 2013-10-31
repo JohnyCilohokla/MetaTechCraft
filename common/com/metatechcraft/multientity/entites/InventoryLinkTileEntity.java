@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -90,10 +91,10 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 				this.itemDisplayList.unbind();
 			}
 		}
-		if (type == ItemRenderType.EQUIPPED){
+		if (type == ItemRenderType.EQUIPPED) {
 			GL11.glTranslated(0, 0, 1);
 			GL11.glRotated(90, 0, 1, 0);
-		}else{
+		} else {
 			GL11.glTranslated(0, -0.1, 0);
 			GL11.glScaled(0.9, 0.9, 0.9);
 		}
@@ -334,5 +335,11 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public int getComparatorInputOverride(int side) {
+		InventoryWithSide inv = getLinkedInventory();
+		return Container.calcRedstoneFromInventory(inv.getInventory());
 	}
 }

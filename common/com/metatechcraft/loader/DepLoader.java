@@ -82,6 +82,10 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
 
 	@SuppressWarnings("serial")
 	public static class Downloader extends JOptionPane implements IDownloadDisplay {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6504818327120325213L;
 		private JDialog container;
 		private JLabel currentActivity;
 		private JProgressBar progress;

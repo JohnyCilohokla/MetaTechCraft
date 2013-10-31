@@ -10,7 +10,6 @@ import com.forgetutorials.lib.network.SubPacketTileEntitySimpleItemUpdate;
 import com.forgetutorials.lib.registry.InfernosRegisteryProxyEntity;
 import com.forgetutorials.lib.renderers.BlockTessallator;
 import com.forgetutorials.lib.renderers.GLDisplayList;
-import com.forgetutorials.lib.renderers.ItemTessallator;
 import com.forgetutorials.lib.utilities.ItemStackUtilities;
 import com.forgetutorials.lib.utilities.ProxyEntityUtils;
 import com.forgetutorials.multientity.InfernosMultiEntity;
@@ -18,8 +17,6 @@ import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.forgetutorials.multientity.extra.HeatHandler;
 import com.forgetutorials.multientity.extra.IHeatContainer;
 import com.metatechcraft.lib.ModInfo;
-import com.metatechcraft.models.MetaTechCraftModels;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -231,6 +228,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 	public void onBlockPlaced(World world, EntityPlayer player, int side, int direction, int x, int y, int z, float hitX, float hitY, float hitZ, int metadata) {
 		this.direction = direction;
 	}
+
 	/*
 	 * Working direction facing blocks (like furance)
 	public void registerIcons() {
@@ -253,7 +251,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		return this.icons[direction][side];
 	}
 	*/
-	
+
 	// TODO static?
 	protected Icon icons[][];
 
@@ -263,7 +261,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		Icon offIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/off");
 		Icon topIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/top");
 		this.icons = new Icon[][] { //
-				{ topIcon, topIcon, offIcon, sideIcon, sideIcon, sideIcon }, //
+		{ topIcon, topIcon, offIcon, sideIcon, sideIcon, sideIcon }, //
 				{ topIcon, topIcon, sideIcon, sideIcon, sideIcon, offIcon },//
 				{ topIcon, topIcon, sideIcon, offIcon, sideIcon, sideIcon },//
 				{ topIcon, topIcon, sideIcon, sideIcon, offIcon, sideIcon },//
@@ -275,13 +273,13 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 	}
 
 	boolean on = false;
-	
+
 	@Override
 	public Icon getIconFromSide(int side) {
 		if (this.icons == null) {
 			registerIcons();
 		}
-		return this.icons[(on?4:0)+direction][side];
+		return this.icons[(this.on ? 4 : 0) + this.direction][side];
 	}
 
 	@Override
@@ -298,7 +296,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		this.ticker++;
 		if (this.ticker > 80) {
 			this.ticker = 0;
-			on=!on;
+			this.on = !this.on;
 			this.entity.markRenderUpdate();
 		}
 		InfernosProxyEntityBase above = ProxyEntityUtils.getAbove(this.entity);
@@ -352,10 +350,10 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 				this.itemDisplayList.unbind();
 			}
 		}
-		if (type == ItemRenderType.EQUIPPED){
+		if (type == ItemRenderType.EQUIPPED) {
 			GL11.glTranslated(0, 0, 1);
 			GL11.glRotated(90, 0, 1, 0);
-		}else{
+		} else {
 			GL11.glTranslated(0, -0.1, 0);
 			GL11.glScaled(0.9, 0.9, 0.9);
 		}
