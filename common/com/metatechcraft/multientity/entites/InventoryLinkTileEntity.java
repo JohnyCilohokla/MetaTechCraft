@@ -25,7 +25,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
-import com.forgetutorials.lib.network.MultiEntitySystem;
+import com.forgetutorials.lib.FTA;
 import com.forgetutorials.lib.renderers.BlockTessallator;
 import com.forgetutorials.lib.renderers.GLDisplayList;
 import com.forgetutorials.multientity.InfernosMultiEntity;
@@ -126,7 +126,7 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 
 	@Override
 	public void renderStaticBlockAt(RenderBlocks renderer, int x, int y, int z) {
-		renderer.renderStandardBlock(MultiEntitySystem.infernosMultiBlock, x, y, z);
+		renderer.renderStandardBlock(FTA.infernosMultiBlock, x, y, z);
 	}
 
 	/**

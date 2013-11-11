@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
 
-import com.forgetutorials.lib.network.MultiEntitySystem;
+import com.forgetutorials.lib.FTA;
 import com.forgetutorials.lib.network.PacketMultiTileEntity;
 import com.forgetutorials.lib.network.SubPacketTileEntityFluidUpdate;
 import com.forgetutorials.lib.network.SubPacketTileEntitySimpleItemUpdate;
@@ -59,7 +59,7 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 
 	@Override
 	public ItemStack getSilkTouchItemStack() {
-		ItemStack stack = new ItemStack(MultiEntitySystem.infernosMultiBlock, 1, 3);
+		ItemStack stack = new ItemStack(FTA.infernosMultiBlock, 1, 3);
 		ItemStackUtilities.addStringTag(stack, "MES", getTypeName());
 		return stack;
 	}
