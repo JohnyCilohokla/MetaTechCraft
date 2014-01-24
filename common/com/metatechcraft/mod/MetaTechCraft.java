@@ -51,7 +51,7 @@ public class MetaTechCraft implements IGuiHandler {
 
 	public static MetaTechOreGenerators metaGenerator;
 
-	public static ForgeRegistryUtilities registry = new ForgeRegistryUtilities("metatechcraft");
+	public static ForgeRegistryUtilities registry = new ForgeRegistryUtilities("metatechcraft", ModInfo.MOD_ID);
 
 	@Instance("MetaTechCraft")
 	public static MetaTechCraft instance;
@@ -97,6 +97,8 @@ public class MetaTechCraft implements IGuiHandler {
 		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/top");
 		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/on");
 		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/off");
+
+		InfernosRegisteryProxyEntity.INSTANCE.addIcon(ModInfo.MOD_ID.toLowerCase() + ":overlay/creeper");
 	}
 
 	@EventHandler

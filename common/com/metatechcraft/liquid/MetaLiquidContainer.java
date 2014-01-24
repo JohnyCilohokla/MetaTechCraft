@@ -24,7 +24,7 @@ public class MetaLiquidContainer extends Item {
 
 	public MetaLiquidContainer(int id) {
 		super(id);
-		setUnlocalizedName("liquidContainer");
+		MetaTechCraft.registry.registerItem(this, "liquidContainer", "Liquid Container");
 		setContainerItem(this);
 		setHasSubtypes(true);
 		setCreativeTab(MetaTechCraft.tabs);

@@ -4,10 +4,12 @@ import com.forgetutorials.multientity.InfernosMultiEntity;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
+
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
@@ -55,6 +57,10 @@ public class StrangeClay extends Item {
 				InfernosMultiEntity newEntity = (InfernosMultiEntity) world.getBlockTileEntity(x, y + i, z);
 				newEntity.newEntity(proxy.getTypeName());
 				newEntity.onBlockPlaced(world, par2EntityPlayer, side, x, y + i, z, hitX, hitY, hitZ, blockMeta);
+			} else if (entity != null) {
+				NBTTagCompound par1NBTTagCompound = new NBTTagCompound();
+				entity.writeToNBT(par1NBTTagCompound);
+				world.getBlockTileEntity(x, y + i, z).readFromNBT(par1NBTTagCompound);
 			}
 
 		}
