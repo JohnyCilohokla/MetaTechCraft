@@ -5,15 +5,14 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
 
-import com.forgetutorials.lib.FTA;
 import com.forgetutorials.lib.network.PacketMultiTileEntity;
 import com.forgetutorials.lib.network.SubPacketTileEntityFluidUpdate;
 import com.forgetutorials.lib.network.SubPacketTileEntitySimpleItemUpdate;
+import com.forgetutorials.lib.renderers.FTAOpenGL;
 import com.forgetutorials.lib.renderers.FluidTessallator;
 import com.forgetutorials.lib.renderers.GLDisplayList;
 import com.forgetutorials.lib.renderers.ItemTessallator;
-import com.forgetutorials.lib.utilities.ItemStackUtilities;
-import com.forgetutorials.multientity.InfernosMultiEntity;
+import com.forgetutorials.multientity.InfernosMultiEntityStatic;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.forgetutorials.multientity.extra.IHeatContainer;
 import com.metatechcraft.mod.MetaTechCraft;
@@ -58,10 +57,8 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 	}
 
 	@Override
-	public ItemStack getSilkTouchItemStack() {
-		ItemStack stack = new ItemStack(FTA.infernosMultiBlock, 1, 3);
-		ItemStackUtilities.addStringTag(stack, "MES", getTypeName());
-		return stack;
+	public boolean isDynamiclyRendered() {
+		return true;
 	}
 
 	@Override
@@ -71,7 +68,7 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		return droppedItems;
 	}
 
-	public InfuserTopTileEntity(InfernosMultiEntity entity) {
+	public InfuserTopTileEntity(InfernosMultiEntityStatic entity) {
 		super(entity);
 		this.rotation = 0;
 		this.lastTime = System.currentTimeMillis();
@@ -357,24 +354,28 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		return 1;
 	}
 
-	GLDisplayList frameBoxList = new GLDisplayList();
+	GLDisplayList frameBoxList[] = new GLDisplayList[7];
 
 	@Override
 	public void renderTileEntityAt(double x, double y, double z) {
-
+		int facing = this.entity.getFacingInt();
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glTranslated(x, y, z);
-		if (!this.frameBoxList.isGenerated()) {
-			this.frameBoxList.generate();
-			this.frameBoxList.bind();
-			MetaTechCraftModels.frameBox.render();
-			this.frameBoxList.unbind();
+		if (this.frameBoxList[facing]==null){
+			this.frameBoxList[facing] = new GLDisplayList();
 		}
-		this.frameBoxList.render();
+		if (!this.frameBoxList[facing].isGenerated()) {
+			this.frameBoxList[facing].generate();
+			this.frameBoxList[facing].bind();
+			MetaTechCraftModels.frameBox.render(MetaTechCraftModels.boxFrameTexture, facing);
+			this.frameBoxList[facing].unbind();
+		}
+		this.frameBoxList[facing].render();
 
 		GL11.glPushMatrix();
-		GL11.glTranslated(0.5, 0.45, 0.5);
+		FTAOpenGL.glRotate(facing, true);
+		GL11.glTranslated(0.0, 0.35, 0.0);
 		// GL11.glScalef(scale, scale, scale);
 		float rotationAngle = getRotation();
 		GL11.glRotatef(rotationAngle, 0f, 1f, 0f);
@@ -415,7 +416,7 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		Tessellator tessellator = Tessellator.instance;
 
 		FluidStack liquid = getFluid(0);
-		FluidTessallator.InfuserTank.renderFluidStack(tessellator, liquid, x, y, z);
+		FluidTessallator.InfuserTank.renderFluidStack(tessellator, liquid, x, y, z, facing);
 
 		GL11.glEnable(GL11.GL_LIGHTING);
 	}
@@ -471,20 +472,69 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 	}
 
 	@Override
-	public void renderItem(ItemRenderType type) {
+	public void renderItem(ItemRenderType type, ItemStack stack, Object[] data) {
 
-		GL11.glPushMatrix();
+		this.readFromNBT(stack.getTagCompound());
+		
 		GL11.glDisable(GL11.GL_LIGHTING);
 		// GL11.glTranslated(x, y, z);
-		if (!this.frameBoxList.isGenerated()) {
-			this.frameBoxList.generate();
-			this.frameBoxList.bind();
-			MetaTechCraftModels.frameBox.render();
-			this.frameBoxList.unbind();
+		if (this.frameBoxList[6]==null){
+			this.frameBoxList[6] = new GLDisplayList();
 		}
-		this.frameBoxList.render();
+		if (!this.frameBoxList[6].isGenerated()) {
+			this.frameBoxList[6].generate();
+			this.frameBoxList[6].bind();
+			MetaTechCraftModels.frameBox.render();
+			this.frameBoxList[6].unbind();
+		}
+		this.frameBoxList[6].render();
 		GL11.glEnable(GL11.GL_LIGHTING);
+		
+
+		GL11.glPushMatrix();
+		GL11.glTranslated(0.5, 0.45, 0.5);
+		// GL11.glScalef(scale, scale, scale);
+		float rotationAngle = getRotation();
+		GL11.glRotatef(rotationAngle, 0f, 1f, 0f);
+		ItemStack ghostStack = getStackInSlot(0);
+		if (this.target > 0) {
+			switch (this.target) {
+			case 1:
+				ghostStack = new ItemStack(Item.appleRed);
+				break;
+			case 2:
+				ghostStack = new ItemStack(Item.axeStone);
+				break;
+			case 3:
+				ghostStack = new ItemStack(Item.bread);
+				break;
+			}
+		}
+
+		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		if (this.target > 0) {
+			GL11.glEnable(GL11.GL_BLEND);
+			GL14.glBlendFuncSeparate(GL11.GL_CONSTANT_COLOR, GL11.GL_ZERO, GL11.GL_ZERO, GL11.GL_ZERO);
+			float color = ((this.ticker / 40) == 0) ? (this.ticker / 40f) * 0.4f : (1f - ((this.ticker - 40) / 40f)) * 0.4f;
+			GL14.glBlendColor(color, color, color, 1);
+			ItemTessallator.renderItemStack(this.entity.worldObj, ghostStack);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GL11.glDisable(GL11.GL_BLEND);
+		} else {
+			ItemTessallator.renderItemStack(this.entity.worldObj, ghostStack);
+		}
+		GL11.glPopAttrib();
+
 		GL11.glPopMatrix();
+
+		Tessellator tessellator = Tessellator.instance;
+
+		FluidStack liquid = getFluid(0);
+		FluidTessallator.InfuserTank.renderFluidStack(tessellator, liquid, 0, 0, 0);
+
+		GL11.glEnable(GL11.GL_LIGHTING);
 
 	}
 

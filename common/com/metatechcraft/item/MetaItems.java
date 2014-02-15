@@ -1,11 +1,6 @@
 package com.metatechcraft.item;
 
-import com.forgetutorials.lib.registry.DescriptorBlock;
-import com.forgetutorials.lib.registry.ForgeTutorialsRegistry;
 import com.metatechcraft.block.MetaBlocks;
-import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
-import com.metatechcraft.multientity.entites.StrangeFrameTileEntity;
-
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -77,9 +72,9 @@ public class MetaItems {
 
 		GameRegistry.addSmelting(MetaItems.strangeDust.itemID, new ItemStack(MetaItems.strangeIngot), 10);
 
-		ItemStack infuserTopStack = ((DescriptorBlock) ForgeTutorialsRegistry.INSTANCE.getObject("mes." + InfuserTopTileEntity.TYPE_NAME)).getItemStack(1);
+		/*ItemStack infuserTopStack = ((DescriptorBlock) ForgeTutorialsRegistry.INSTANCE.getObject("mes." + InfuserTopTileEntity.TYPE_NAME)).getItemStack(1);
 		infuserTopStack.stackSize = 1;
 		GameRegistry.addRecipe(infuserTopStack, new Object[] { "sfs", "sfs", Character.valueOf('s'), MetaItems.strangeIngot, Character.valueOf('f'),
-				((DescriptorBlock) ForgeTutorialsRegistry.INSTANCE.getObject("mes." + StrangeFrameTileEntity.TYPE_NAME)).getItemStack() });
+				((DescriptorBlock) ForgeTutorialsRegistry.INSTANCE.getObject("mes." + MobHarvester.TYPE_NAME)).getItemStack() });*/
 	}
 }

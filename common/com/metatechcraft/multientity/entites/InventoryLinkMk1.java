@@ -3,14 +3,14 @@ package com.metatechcraft.multientity.entites;
 import net.minecraft.util.Icon;
 
 import com.forgetutorials.lib.registry.InfernosRegisteryProxyEntity;
-import com.forgetutorials.multientity.InfernosMultiEntity;
+import com.forgetutorials.multientity.InfernosMultiEntityStatic;
 import com.metatechcraft.lib.ModInfo;
 
 public class InventoryLinkMk1 extends InventoryLinkTileEntity {
 
 	public final static String TYPE_NAME = "metatech.InventoryLink.Mk1";
 
-	public InventoryLinkMk1(InfernosMultiEntity entity) {
+	public InventoryLinkMk1(InfernosMultiEntityStatic entity) {
 		super(entity);
 	}
 

@@ -1,6 +1,6 @@
 package com.metatechcraft.item;
 
-import com.forgetutorials.multientity.InfernosMultiEntity;
+import com.forgetutorials.multientity.InfernosMultiEntityStatic;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
@@ -47,14 +47,14 @@ public class StrangeClay extends Item {
 		int blockMeta = world.getBlockMetadata(x, y, z);
 		TileEntity entity = world.getBlockTileEntity(x, y, z);
 		InfernosProxyEntityBase proxy = null;
-		if (entity instanceof InfernosMultiEntity) {
-			proxy = ((InfernosMultiEntity) entity).getProxyEntity();
+		if (entity instanceof InfernosMultiEntityStatic) {
+			proxy = ((InfernosMultiEntityStatic) entity).getProxyEntity();
 		}
 
 		for (int i = 1; i < 50; i++) {
 			world.setBlock(x, y + i, z, blockID, blockMeta, 3);
 			if (proxy != null) {
-				InfernosMultiEntity newEntity = (InfernosMultiEntity) world.getBlockTileEntity(x, y + i, z);
+				InfernosMultiEntityStatic newEntity = (InfernosMultiEntityStatic) world.getBlockTileEntity(x, y + i, z);
 				newEntity.newEntity(proxy.getTypeName());
 				newEntity.onBlockPlaced(world, par2EntityPlayer, side, x, y + i, z, hitX, hitY, hitZ, blockMeta);
 			} else if (entity != null) {

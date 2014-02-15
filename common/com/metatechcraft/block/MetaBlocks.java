@@ -13,7 +13,6 @@ import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
 import com.metatechcraft.multientity.entites.InventoryLinkMk1;
 import com.metatechcraft.multientity.entites.InventoryLinkMk2;
 import com.metatechcraft.multientity.entites.SolidFuelHeaterTileEntity;
-import com.metatechcraft.multientity.entites.StrangeFrameTileEntity;
 
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -95,20 +94,17 @@ public class MetaBlocks {
 
 	public static void registerTileEntities() {
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InfuserTopTileEntity.TYPE_NAME, InfuserTopTileEntity.class, InfernosMultiEntityType.BOTH,
-				MetaTechCraft.tabs);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InfuserTopTileEntity.TYPE_NAME, InfuserTopTileEntity.class, InfernosMultiEntityType.DYNAMIC_BOTH,
+				MetaTechCraft.tabs, false);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
 		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(SolidFuelHeaterTileEntity.TYPE_NAME, SolidFuelHeaterTileEntity.class,
-				InfernosMultiEntityType.INVENTORY, MetaTechCraft.tabs);
+				InfernosMultiEntityType.STATIC_INVENTORY, MetaTechCraft.tabs, false);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk1.TYPE_NAME, InventoryLinkMk1.class, InfernosMultiEntityType.INVENTORY,
-				MetaTechCraft.tabs);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk1.TYPE_NAME, InventoryLinkMk1.class, InfernosMultiEntityType.STATIC_INVENTORY,
+				MetaTechCraft.tabs, true);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk2.TYPE_NAME, InventoryLinkMk2.class, InfernosMultiEntityType.INVENTORY,
-				MetaTechCraft.tabs);
-		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
-		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(StrangeFrameTileEntity.TYPE_NAME, StrangeFrameTileEntity.class, InfernosMultiEntityType.BASIC,
-				MetaTechCraft.tabs);
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk2.TYPE_NAME, InventoryLinkMk2.class, InfernosMultiEntityType.STATIC_INVENTORY,
+				MetaTechCraft.tabs, true);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
 	}
 }

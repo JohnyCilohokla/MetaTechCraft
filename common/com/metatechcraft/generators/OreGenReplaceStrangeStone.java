@@ -23,4 +23,12 @@ public class OreGenReplaceStrangeStone extends OreGenReplace {
 		}
 		return false;
 	}
+	
+	/*
+			par1World.setBlock(var38, var41, var44, FTA.infernosMultiBlockOpaque.blockID,
+					InfernosMultiEntityType.STATIC_BASIC.ordinal(), 3);
+			InfernosMultiEntityStatic entity = (InfernosMultiEntityStatic) par1World.getBlockTileEntity(var38, var41, var44);
+			entity.newEntity("ftm.MobHarvester");
+			entity.onBlockPlaced(par1World, null, 0, var38, var41, var44, 0, 0, 0, InfernosMultiEntityType.STATIC_BASIC.ordinal());
+	 */
 }

@@ -1,5 +1,5 @@
 {
-	"repo": "http://forgetutorials.com/build",
+	"repo": "http://forgetutorials.com/builds",
 	"file": "ForgeTutorialsAPI-universal-@MCVERSION@-@VERSION@.jar",
 	"dev": "ForgeTutorialsAPI-universal-dev-@MCVERSION@-@VERSION@.jar",
 	"class": "com.forgetutorials.core.proxy.ClientProxy",

@@ -4,15 +4,13 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
-import com.forgetutorials.lib.FTA;
 import com.forgetutorials.lib.network.PacketMultiTileEntity;
 import com.forgetutorials.lib.network.SubPacketTileEntitySimpleItemUpdate;
 import com.forgetutorials.lib.registry.InfernosRegisteryProxyEntity;
 import com.forgetutorials.lib.renderers.BlockTessallator;
 import com.forgetutorials.lib.renderers.GLDisplayList;
-import com.forgetutorials.lib.utilities.ItemStackUtilities;
 import com.forgetutorials.lib.utilities.ProxyEntityUtils;
-import com.forgetutorials.multientity.InfernosMultiEntity;
+import com.forgetutorials.multientity.InfernosMultiEntityStatic;
 import com.forgetutorials.multientity.InfernosMultiEntityType;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.forgetutorials.multientity.extra.HeatHandler;
@@ -56,10 +54,8 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 	}
 
 	@Override
-	public ItemStack getSilkTouchItemStack() {
-		ItemStack stack = new ItemStack(FTA.infernosMultiBlock, 1, 3);
-		ItemStackUtilities.addStringTag(stack, "MES", getTypeName());
-		return stack;
+	public boolean isDynamiclyRendered() {
+		return false;
 	}
 
 	@Override
@@ -69,7 +65,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		return droppedItems;
 	}
 
-	public SolidFuelHeaterTileEntity(InfernosMultiEntity entity) {
+	public SolidFuelHeaterTileEntity(InfernosMultiEntityStatic entity) {
 		super(entity);
 		this.rotation = 0;
 		this.lastTime = System.currentTimeMillis();
@@ -230,8 +226,8 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 	public void onBlockPlaced(World world, EntityPlayer player, int side, int direction, int x, int y, int z, float hitX, float hitY, float hitZ, int metadata) {
 		this.direction = direction;
 		if (y > 10) {
-			world.setBlock(x, y - 1, z, FTA.infernosMultiBlockID, InfernosMultiEntityType.INVENTORY.ordinal(), 3);
-			InfernosMultiEntity entity = (InfernosMultiEntity) world.getBlockTileEntity(x, y - 1, z);
+			world.setBlock(x, y - 1, z, this.entity.getBlockType().blockID, InfernosMultiEntityType.STATIC_INVENTORY.ordinal(), 3);
+			InfernosMultiEntityStatic entity = (InfernosMultiEntityStatic) world.getBlockTileEntity(x, y - 1, z);
 			entity.newEntity(SolidFuelHeaterTileEntity.TYPE_NAME);
 			entity.onBlockPlaced(world, player, side, x, y - 1, z, hitX, hitY, hitZ, metadata);
 		}
@@ -292,7 +288,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 
 	@Override
 	public void renderStaticBlockAt(RenderBlocks renderer, int x, int y, int z) {
-		renderer.renderStandardBlock(FTA.infernosMultiBlock, x, y, z);
+		renderer.renderStandardBlock(this.entity.getBlockType(), x, y, z);
 	}
 
 	// int ticker = 10;
@@ -320,7 +316,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 
 	// TODO handler! for normal renderItem
 	@Override
-	public void renderItem(ItemRenderType type) {
+	public void renderItem(ItemRenderType type, ItemStack stack, Object[] data) {
 		if (this.icons == null) {
 			registerIcons();
 		}

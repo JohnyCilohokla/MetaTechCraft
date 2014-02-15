@@ -11,7 +11,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 import com.forgetutorials.lib.registry.InfernosRegisteryProxyEntity;
 import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
-import com.forgetutorials.multientity.InfernosMultiEntity;
+import com.forgetutorials.multientity.InfernosMultiEntityStatic;
 import com.metatechcraft.core.handlers.CoreHooks;
 import com.metatechcraft.core.proxy.CommonProxy;
 import com.metatechcraft.block.MetaBlocks;
@@ -124,8 +124,8 @@ public class MetaTechCraft implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof InfernosMultiEntity) {
-			return new ContainerT(player.inventory, (InfernosMultiEntity) tileEntity);
+		if (tileEntity instanceof InfernosMultiEntityStatic) {
+			return new ContainerT(player.inventory, (InfernosMultiEntityStatic) tileEntity);
 		}
 		return null;
 	}
@@ -133,8 +133,8 @@ public class MetaTechCraft implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (tileEntity instanceof InfernosMultiEntity) {
-			return new GuiT(player.inventory, (InfernosMultiEntity) tileEntity);
+		if (tileEntity instanceof InfernosMultiEntityStatic) {
+			return new GuiT(player.inventory, (InfernosMultiEntityStatic) tileEntity);
 		}
 		return null;
 	}

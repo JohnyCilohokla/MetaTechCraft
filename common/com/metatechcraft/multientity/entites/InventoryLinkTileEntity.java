@@ -25,10 +25,9 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
-import com.forgetutorials.lib.FTA;
 import com.forgetutorials.lib.renderers.BlockTessallator;
 import com.forgetutorials.lib.renderers.GLDisplayList;
-import com.forgetutorials.multientity.InfernosMultiEntity;
+import com.forgetutorials.multientity.InfernosMultiEntityStatic;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.metatechcraft.tileentity.InventoryWithSide;
 
@@ -36,7 +35,7 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 
 	static final int[] nullIntArray = {};
 
-	public InventoryLinkTileEntity(InfernosMultiEntity entity) {
+	public InventoryLinkTileEntity(InfernosMultiEntityStatic entity) {
 		super(entity);
 	}
 
@@ -50,10 +49,15 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 		return false;
 	}
 
+	@Override
+	public boolean isDynamiclyRendered() {
+		return false;
+	}
+
 	GLDisplayList itemDisplayList = new GLDisplayList();
 
 	@Override
-	public void renderItem(ItemRenderType type) {
+	public void renderItem(ItemRenderType type, ItemStack stack, Object[] data) {
 		if (this.icons == null) {
 			registerIcons();
 		}
@@ -126,7 +130,7 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 
 	@Override
 	public void renderStaticBlockAt(RenderBlocks renderer, int x, int y, int z) {
-		renderer.renderStandardBlock(FTA.infernosMultiBlock, x, y, z);
+		renderer.renderStandardBlock(this.entity.getBlockType(), x, y, z);
 	}
 
 	/**
@@ -176,8 +180,9 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 				(this.entity.yCoord + Facing.offsetsYForSide[direction]), (this.entity.zCoord + Facing.offsetsZForSide[direction]));
 		// int linkPass = 0;
 		int leftPass = getMaxPass();
-		while ((inventory instanceof InfernosMultiEntity) && (((InfernosMultiEntity) inventory).getProxyEntity() instanceof InventoryLinkTileEntity)) {
-			InventoryLinkTileEntity linkInventory = (InventoryLinkTileEntity) ((InfernosMultiEntity) inventory).getProxyEntity();
+		while ((inventory instanceof InfernosMultiEntityStatic)
+				&& (((InfernosMultiEntityStatic) inventory).getProxyEntity() instanceof InventoryLinkTileEntity)) {
+			InventoryLinkTileEntity linkInventory = (InventoryLinkTileEntity) ((InfernosMultiEntityStatic) inventory).getProxyEntity();
 			direction = linkInventory.entity.getSide();
 			if (direction < 0) {
 				return InventoryWithSide.NULL;

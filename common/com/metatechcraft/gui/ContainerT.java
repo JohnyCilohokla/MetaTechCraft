@@ -1,6 +1,6 @@
 package com.metatechcraft.gui;
 
-import com.forgetutorials.multientity.InfernosMultiEntity;
+import com.forgetutorials.multientity.InfernosMultiEntityStatic;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -9,9 +9,9 @@ import net.minecraft.inventory.Slot;
 
 public class ContainerT extends Container {
 
-	protected InfernosMultiEntity tileEntity;
+	protected InfernosMultiEntityStatic tileEntity;
 
-	public ContainerT(InventoryPlayer inventoryPlayer, InfernosMultiEntity tileEntity) {
+	public ContainerT(InventoryPlayer inventoryPlayer, InfernosMultiEntityStatic tileEntity) {
 		this.tileEntity = tileEntity;
 
 		// the Slot constructor takes the IInventory and the slot number in that

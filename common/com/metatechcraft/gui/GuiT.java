@@ -1,6 +1,6 @@
 package com.metatechcraft.gui;
 
-import com.forgetutorials.multientity.InfernosMultiEntity;
+import com.forgetutorials.multientity.InfernosMultiEntityStatic;
 import com.metatechcraft.block.MetaBlocks;
 import com.metatechcraft.lib.ModInfo;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -12,7 +12,7 @@ import net.minecraft.util.StatCollector;
 
 public class GuiT extends GuiContainer {
 
-	public GuiT(InventoryPlayer inventoryPlayer, InfernosMultiEntity tileEntity) {
+	public GuiT(InventoryPlayer inventoryPlayer, InfernosMultiEntityStatic tileEntity) {
 		super(new ContainerT(inventoryPlayer, tileEntity));
 		this.xSize = 216;
 		this.ySize = 222;
