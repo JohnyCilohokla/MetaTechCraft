@@ -1,0 +1,99 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.1-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+
+
+ext.buildProps = file ("../ForgeTutorialsAPI/build.properties")
+
+buildProps.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    ext.configFTA = new ConfigSlurper().parse prop
+}
+
+ext.buildProps = file ("build.properties")
+
+buildProps.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    ext.config = new ConfigSlurper().parse prop
+}
+version = "${config.build.version.number}.${config.build.patch.number}.${config.build.revision.number}"
+
+group= "FTA" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "MetaTechCraft"
+
+
+ dependencies {
+   compile files ("../ForgeTutorialsAPI/build/libs/ForgeTutorialsAPI-${configFTA.build.version.number}.${configFTA.build.patch.number}.${configFTA.build.revision.number}.jar")
+ }
+
+sourceSets.main{
+    java{
+		srcDirs 'common'//set the source folder as the /src subfolder
+	}
+	resources{
+		srcDirs 'resources'//set the resources folder as the /resources subfolder
+	}
+	manifest {
+		attributes FMLCorePlugin: "com.metatechcraft.loader.DepLoader"
+		attributes FMLCorePluginContainsFMLMod: "true"
+    }
+}
+
+
+minecraft {
+    version = "1.7.2-10.12.0.1029"
+    assetDir = "eclipse/assets"
+	
+	ext.versionMC = "1.7.2"
+	ext.versionForge = "10.12.0.1029"
+	
+	
+    replaceIn "com/metatechcraft/lib/ModInfo.java"
+	replace "@MCVERSION@", ext.versionMC
+	replace "@FORGEVERSION@", ext.versionForge
+	replace "@FTAVERSION@", configFTA.build.version.number
+	replace "@FTAPATCH@", configFTA.build.patch.number
+	replace "@FTAREVISION@", configFTA.build.revision.number
+	replace "@VERSION@", config.build.version.number
+	replace "@PATCH@", config.build.patch.number
+	replace "@REVISION@", config.build.revision.number
+}
+
+processResources
+{
+    from(sourceSets.main.resources.srcDirs) {
+		include '**/*.lang'
+        include '**/*.info'
+		filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [
+		MCVERSION: minecraft.versionMC,
+		FORGEVERSION: minecraft.versionForge,
+		FTAVERSION: configFTA.build.version.number,
+		FTAPATCH: configFTA.build.patch.number,
+		FTAREVISION: configFTA.build.revision.number,
+		VERSION: config.build.version.number,
+		PATCH: config.build.patch.number,
+		REVISION: config.build.revision.number
+		])
+	}
+	from(sourceSets.main.resources.srcDirs) {
+        exclude '**/*.lang'
+        exclude '**/*.info'
+    }
+}
