@@ -1,0 +1,75 @@
+itemGroup.MetaTechCraft=§5MetaTechCraft
+
+item.MetaTechCraft.StrangeStick.name=§5Strange Stick
+item.MetaTechCraft.StrangeStick.tooltip=§55t shines for in a strange way
+item.MetaTechCraft.StrangeHammer.name=§5Strange Hammer
+item.MetaTechCraft.StrangeHammer.tooltip=§5It shines for in a strange way
+item.MetaTechCraft.StrangeChisel.name=§5Strange Chisel
+item.MetaTechCraft.StrangeChisel.tooltip=§5It shines for in a strange way
+
+tile.MetaTechCraft.StrangeObsidianBlock.name=§5Strange Obsidian Block
+tile.MetaTechCraft.StrangeObsidianBlock.tooltip=§5Forged in hell
+
+item.MetaTechCraft.StrangeDust.name=§5Strange Dust
+item.MetaTechCraft.StrangeDust.tooltip=§5It shines for in a strange way
+item.MetaTechCraft.StrangeIngot.name=§5Strange Ingot
+item.MetaTechCraft.StrangeIngot.tooltip=§5It shines for in a strange way
+item.MetaTechCraft.StrangeClay.name=§5Strange Clay
+item.MetaTechCraft.StrangeClay.tooltip=§5It shines for in a strange way
+item.MetaTechCraft.StrangeBrick.name=§5Strange Brick
+item.MetaTechCraft.StrangeBrick.tooltip=§5It shines for in a strange way
+tile.MetaTechCraft.StrangeBricks.name=§5Strange Bricks
+item.MetaTechCraft.StrangeBricks.tooltip=§5It shines for in a strange way
+
+tile.MetaTechCraft.MetaBlack.name=§7Meta Liquid
+tile.MetaTechCraft.MetaBlack.tooltip=§7Really Dense
+tile.MetaTechCraft.MetaRed.name=§cMeta Liquid
+tile.MetaTechCraft.MetaRed.tooltip=§cReally Dense
+tile.MetaTechCraft.MetaWhite.name=§bMeta Liquid
+tile.MetaTechCraft.MetaWhite.tooltip=§bReally Dense
+tile.MetaTechCraft.MetaGreen.name=§aMeta Liquid
+tile.MetaTechCraft.MetaGreen.tooltip=§aReally Dense
+tile.MetaTechCraft.MetaBlue.name=§9Meta Liquid
+tile.MetaTechCraft.MetaBlue.tooltip=§9Really Dense
+
+item.MetaTechCraft.LiquidContainer.Empty.name=§5Container
+item.MetaTechCraft.LiquidContainer.Empty.tooltip=§5Empty
+item.MetaTechCraft.LiquidContainer.MetaBlack.name=§7Container
+item.MetaTechCraft.LiquidContainer.MetaBlack.tooltip=§7Black Meta Liquid
+item.MetaTechCraft.LiquidContainer.MetaRed.name=§cContainer
+item.MetaTechCraft.LiquidContainer.MetaRed.tooltip=§cRed Meta Liquid
+item.MetaTechCraft.LiquidContainer.MetaWhite.name=§bContainer
+item.MetaTechCraft.LiquidContainer.MetaWhite.tooltip=§bWhite Meta Liquid
+item.MetaTechCraft.LiquidContainer.MetaGreen.name=§aContainer
+item.MetaTechCraft.LiquidContainer.MetaGreen.tooltip=§aGreen Meta Liquid
+item.MetaTechCraft.LiquidContainer.MetaBlue.name=§9Container
+item.MetaTechCraft.LiquidContainer.MetaBlue.tooltip=§9Blue Meta Liquid
+
+tile.MetaTechCraft.MetaOreBlock.Empty.name=§5Meta Stone
+tile.MetaTechCraft.MetaOreBlock.Black.name=§7Meta Ore
+tile.MetaTechCraft.MetaOreBlock.Red.name=§cMeta Ore
+tile.MetaTechCraft.MetaOreBlock.White.name=§bMeta Ore
+tile.MetaTechCraft.MetaOreBlock.Green.name=§aMeta Ore
+tile.MetaTechCraft.MetaOreBlock.Blue.name=§9Meta Ore
+
+item.MetaTechCraft.MetaDust.Black.name=§7Meta Dust
+item.MetaTechCraft.MetaDust.Black.tooltip=§7It shines black
+item.MetaTechCraft.MetaDust.Red.name=§cMeta Dust
+item.MetaTechCraft.MetaDust.Red.tooltip=§cIt shines red
+item.MetaTechCraft.MetaDust.White.name=§bMeta Dust
+item.MetaTechCraft.MetaDust.White.tooltip=§bIt shines white
+item.MetaTechCraft.MetaDust.Green.name=§aMeta Dust
+item.MetaTechCraft.MetaDust.Green.tooltip=§aIt shines green
+item.MetaTechCraft.MetaDust.Blue.name=§9Meta Dust
+item.MetaTechCraft.MetaDust.Blue.tooltip=§9It shines blue
+
+item.MetaTechCraft.MetaChunk.Black.name=§7Meta Chunk
+item.MetaTechCraft.MetaChunk.Black.tooltip=§7It shines black
+item.MetaTechCraft.MetaChunk.Red.name=§cMeta Chunk
+item.MetaTechCraft.MetaChunk.Red.tooltip=§cIt shines red
+item.MetaTechCraft.MetaChunk.White.name=§bMeta Chunk
+item.MetaTechCraft.MetaChunk.White.tooltip=§bIt shines white
+item.MetaTechCraft.MetaChunk.Green.name=§aMeta Chunk
+item.MetaTechCraft.MetaChunk.Green.tooltip=§aIt shines green
+item.MetaTechCraft.MetaChunk.Blue.name=§9Meta Chunk
+item.MetaTechCraft.MetaChunk.Blue.tooltip=§9It shines blue
