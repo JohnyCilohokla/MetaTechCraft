@@ -1,29 +1,20 @@
 package com.metatechcraft.loader;
 
-import java.awt.Desktop;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.Dialog.ModalityType;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.InterruptedIOException;
+import java.io.*;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.net.URLConnection;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,14 +31,20 @@ import javax.swing.WindowConstants;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import argo.jdom.JdomParser;
-import argo.jdom.JsonNode;
-import argo.jdom.JsonRootNode;
-import argo.jdom.JsonStringNode;
-import argo.saj.InvalidSyntaxException;
+import com.forgetutorials.lib.FTA;
+import com.google.common.base.Throwables;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import net.minecraft.launchwrapper.LaunchClassLoader;
-
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.versioning.ComparableVersion;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 import cpw.mods.fml.relauncher.FMLLaunchHandler;
@@ -55,9 +52,9 @@ import cpw.mods.fml.relauncher.IFMLCallHook;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 /**
- * For autodownloading stuff.
- * This is really unoriginal, mostly ripped off FML, credits to cpw.
- */
+* For autodownloading stuff.
+* This is really unoriginal, mostly ripped off FML, credits to cpw.
+*/
 public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook
 {
     private static ByteBuffer downloadBuffer = ByteBuffer.allocateDirect(1 << 23);
@@ -198,9 +195,9 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook
         
         @Override
         public void showErrorDialog(String name, String url) {
-            JEditorPane ep = new JEditorPane("text/html", 
+            JEditorPane ep = new JEditorPane("text/html",
                     "<html>" +
-                    owner+" was unable to download required library "+name + 
+                    owner+" was unable to download required library "+name +
                     "<br>Check your internet connection and try restarting or download it manually from" +
                     "<br><a href=\""+url+"\">"+url+"</a> and put it in your mods folder" +
                     "</html>");
@@ -273,8 +270,8 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook
         
         public String existing;
         /**
-         * Flag set to add this dep to the classpath immediately because it is required for a coremod.
-         */
+* Flag set to add this dep to the classpath immediately because it is required for a coremod.
+*/
         public boolean coreLib;
         
         public Dependancy(String url, String[] filesplit, boolean coreLib)
@@ -326,6 +323,44 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook
             catch(MalformedURLException e)
             {
                 throw new RuntimeException(e);
+            }
+        }
+
+        private void deleteMod(File mod) {
+            if(mod.delete())
+                return;
+
+            try
+            {
+                ClassLoader cl = DepLoader.class.getClassLoader();
+                URL url = mod.toURI().toURL();
+                Field f_ucp = URLClassLoader.class.getDeclaredField("ucp");
+                //Field f_loaders = URLClassPath.class.getDeclaredField("loaders");
+                //Field f_lmap = URLClassPath.class.getDeclaredField("lmap");
+                f_ucp.setAccessible(true);
+                //f_loaders.setAccessible(true);
+                //f_lmap.setAccessible(true);
+
+                //URLClassPath ucp = (URLClassPath) f_ucp.get(cl);
+                //Closeable loader = ((Map<String, Closeable>)f_lmap.get(ucp)).remove(URLUtil.urlNoFragString(url));
+                //if(loader != null) {
+                //    loader.close();
+                   // ((List<?>)f_loaders.get(ucp)).remove(loader);
+                //}
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            if(!mod.delete()) {
+                mod.deleteOnExit();
+                String msg = owner+" was unable to delete file "+mod.getPath()+" the game will now try to delete it on exit. If this dialog appears again, delete it manually.";
+                System.err.println(msg);
+                if(!GraphicsEnvironment.isHeadless())
+                    JOptionPane.showMessageDialog(null, msg, "An update error has occured", JOptionPane.ERROR_MESSAGE);
+
+                System.exit(1);
             }
         }
 
@@ -405,8 +440,8 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook
             try
             {
                 /*String cksum = generateChecksum(downloadBuffer);
-                if (cksum.equals(validationHash))
-                {*/
+if (cksum.equals(validationHash))
+{*/
                     if(!target.exists())
                         target.createNewFile();
                 
@@ -416,10 +451,10 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook
                     fos.getChannel().write(downloadBuffer);
                     fos.close();
                 /*}
-                else
-                {
-                    throw new RuntimeException(String.format("The downloaded file %s has an invalid checksum %s (expecting %s). The download did not succeed correctly and the file has been deleted. Please try launching again.", target.getName(), cksum, validationHash));
-                }*/
+else
+{
+throw new RuntimeException(String.format("The downloaded file %s has an invalid checksum %s (expecting %s). The download did not succeed correctly and the file has been deleted. Please try launching again.", target.getName(), cksum, validationHash));
+}*/
             }
             catch (Exception e)
             {
@@ -427,45 +462,42 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook
             }
         }
 
-        private String checkExisting(String[] dependancy)
+        private String checkExisting(String[] dependency)
         {
             for(File f : modsDir.listFiles())
             {
                 String[] split = splitFileName(f.getName());
-                if(split == null || !split[0].equals(dependancy[0]))
+                if(split == null || !split[0].equals(dependency[0]))
                     continue;
 
                 if(f.renameTo(new File(v_modsDir, f.getName())))
                     continue;
                 
-                if(f.delete())
-                    continue;
-                
-                f.deleteOnExit();
+                deleteMod(f);
             }
             
             for(File f : v_modsDir.listFiles())
             {
                 String[] split = splitFileName(f.getName());
-                if(split == null || !split[0].equals(dependancy[0]))
+                if(split == null || !split[0].equals(dependency[0]))
                     continue;
                 
                 ComparableVersion found = new ComparableVersion(split[1]);
-                ComparableVersion requested = new ComparableVersion(dependancy[1]);
+                ComparableVersion requested = new ComparableVersion(dependency[1]);
                 
                 int cmp = found.compareTo(requested);
                 if(cmp < 0)
                 {
                     System.out.println("Deleted old version "+f.getName());
-                    f.delete();
+                    deleteMod(f);
                     return null;
                 }
                 if(cmp > 0)
                 {
-                    System.err.println("Warning: version of "+dependancy[0]+", "+split[1]+" is newer than request "+dependancy[1]);
+                    System.err.println("Warning: version of "+dependency[0]+", "+split[1]+" is newer than request "+dependency[1]);
                     return f.getName();
                 }
-                return f.getName();//found dependancy
+                return f.getName();//found dependency
             }
             return null;
         }
@@ -545,28 +577,54 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook
             {
                 ZipFile zip = new ZipFile(file);
                 ZipEntry e = zip.getEntry("dependancies.info");
+                if(e == null) e = zip.getEntry("dependencies.info");
                 if(e != null)
                     loadJSon(zip.getInputStream(e));
                 zip.close();
             }
             catch(Exception e)
             {
-                System.err.println("Failed to load dependancies.info from "+file.getName()+" as JSON");
+                System.err.println("Failed to load dependencies.info from "+file.getName()+" as JSON");
                 e.printStackTrace();
             }
         }
 
-        private void loadJSon(InputStream input) throws IOException, InvalidSyntaxException
+        private void loadJSon(InputStream inputStream) throws IOException
         {
-            InputStreamReader reader = new InputStreamReader(input);
-            JsonRootNode root = new JdomParser().parse(reader);
-            if(root.hasElements())
-                loadJSonArr(root);
-            else
-                loadJson(root);
-            reader.close();
-        }
+            if (inputStream == null)
+            {
+                return;
+            }
 
+            InputStreamReader reader = new InputStreamReader(inputStream);
+            try
+            {
+                //Gson gson = new GsonBuilder().registerTypeAdapter(ArtifactVersion.class, new ArtifactVersionAdapter()).create();
+                JsonParser parser = new JsonParser();
+                JsonElement rootElement = parser.parse(reader);
+            	FTA.out(rootElement.toString());
+                if (rootElement.isJsonArray())
+                {
+                    JsonArray jsonList = rootElement.getAsJsonArray();
+                    for (JsonElement element : jsonList)
+                    {
+                    	FTA.out(element.toString());
+                    }
+                }
+            }
+            catch (JsonParseException e)
+            {
+                e.printStackTrace();
+                return;
+            }
+            catch (Exception e)
+            {
+                throw Throwables.propagate(e);
+            } finally {
+                reader.close();
+            }
+        }
+/*
         private void loadJSonArr(JsonRootNode root) throws IOException
         {
             for(JsonNode node : root.getElements())
@@ -596,16 +654,16 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook
                 if(!e.getValue().hasText() || reserved.contains(s))
                     continue;
                 
-                file = file.replaceAll("@"+s.toUpperCase()+"@", e.getValue().getText());
+                file = file.replaceAll("@"+s.toUpperCase(Locale.ENGLISH)+"@", e.getValue().getText());
             }
             
             String[] split = splitFileName(file);
             if(split == null)
-                throw new RuntimeException("Invalid filename format for dependancy: "+file);
+                throw new RuntimeException("Invalid filename format for dependency: "+file);
             
             addDep(new Dependancy(repo, split, coreLib));
         }
-
+*/
         private void addDep(Dependancy newDep)
         {
             if(mergeNew(depMap.get(newDep.getName()), newDep))
@@ -675,10 +733,140 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook
         
         return null;
     }
-    
-    @Override
-    public String[] getLibraryRequestClass()
-    {
+
+    @Deprecated
+    public String[] getLibraryRequestClass() {
         return null;
     }
+
+	@Override
+	public String getAccessTransformerClass() {
+		return null;
+	}
 }
+
+/*
+ * Forge Mod Loader
+ * Copyright (c) 2012-2013 cpw.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Lesser Public License v2.1
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ *
+ * Contributors:
+ *     cpw - implementation
+ */
+/*
+package cpw.mods.fml.common;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Map;
+import org.apache.logging.log4j.Level;
+
+import com.google.common.base.Throwables;
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import cpw.mods.fml.common.versioning.ArtifactVersion;
+import cpw.mods.fml.common.versioning.VersionParser;
+
+public class MetadataCollection
+{
+    @SuppressWarnings("unused")
+    private String modListVersion;
+    private ModMetadata[] modList;
+    private Map<String, ModMetadata> metadatas = Maps.newHashMap();
+
+    public static MetadataCollection from(InputStream inputStream, String sourceName)
+    {
+        if (inputStream == null)
+        {
+            return new MetadataCollection();
+        }
+
+        InputStreamReader reader = new InputStreamReader(inputStream);
+        try
+        {
+            MetadataCollection collection;
+            Gson gson = new GsonBuilder().registerTypeAdapter(ArtifactVersion.class, new ArtifactVersionAdapter()).create();
+            JsonParser parser = new JsonParser();
+            JsonElement rootElement = parser.parse(reader);
+            if (rootElement.isJsonArray())
+            {
+                collection = new MetadataCollection();
+                JsonArray jsonList = rootElement.getAsJsonArray();
+                collection.modList = new ModMetadata[jsonList.size()];
+                int i = 0;
+                for (JsonElement mod : jsonList)
+                {
+                    collection.modList[i++]=gson.fromJson(mod, ModMetadata.class);
+                }
+            }
+            else
+            {
+                collection = gson.fromJson(rootElement, MetadataCollection.class);
+            }
+            collection.parseModMetadataList();
+            return collection;
+        }
+        catch (JsonParseException e)
+        {
+            FMLLog.log(Level.ERROR, e, "The mcmod.info file in %s cannot be parsed as valid JSON. It will be ignored", sourceName);
+            return new MetadataCollection();
+        }
+        catch (Exception e)
+        {
+            throw Throwables.propagate(e);
+        }
+    }
+
+
+    private void parseModMetadataList()
+    {
+        for (ModMetadata modMetadata : modList)
+        {
+            metadatas.put(modMetadata.modId, modMetadata);
+        }
+    }
+
+    public ModMetadata getMetadataForId(String modId, Map<String, Object> extraData)
+    {
+        if (!metadatas.containsKey(modId))
+        {
+            ModMetadata dummy = new ModMetadata();
+            dummy.modId = modId;
+            dummy.name = (String) extraData.get("name");
+            dummy.version = (String) extraData.get("version");
+            dummy.autogenerated = true;
+            metadatas.put(modId, dummy);
+        }
+        return metadatas.get(modId);
+    }
+
+    public static class ArtifactVersionAdapter extends TypeAdapter<ArtifactVersion>
+    {
+
+        @Override
+        public void write(JsonWriter out, ArtifactVersion value) throws IOException
+        {
+            // no op - we never write these out
+        }
+
+        @Override
+        public ArtifactVersion read(JsonReader in) throws IOException
+        {
+            return VersionParser.parseVersionReference(in.nextString());
+        }
+
+    }
+}
+*/

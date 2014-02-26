@@ -1,6 +1,8 @@
 package com.metatechcraft.lib;
 
 import com.forgetutorials.lib.registry.MetaMaterial;
+import com.forgetutorials.lib.utilities.ItemWithInfo;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -8,7 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class MetaTool extends Item {
+public class MetaTool extends ItemWithInfo {
 
 	Material material;
 	protected Item onDestroyItem;
@@ -16,7 +18,7 @@ public class MetaTool extends Item {
 	protected int onDestroyItemCount;
 
 	public MetaTool(int id, Material material) {
-		super(id);
+		super();
 		this.material = material;
 		setMaxStackSize(1);
 	}
@@ -40,12 +42,11 @@ public class MetaTool extends Item {
 	}
 
 	@Override
-	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase) {
-		double blockHardness = Block.blocksList[par3].getBlockHardness(par2World, par4, par5, par6);
-		if ((Block.blocksList[par3].blockMaterial == MetaMaterial.metaMaterial) && (blockHardness != 0.0D)) {
-			MetaItemUtilities.damageItemOrDestroy(par1ItemStack, par3, (int) (blockHardness * 10), par7EntityLivingBase);
+	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, Block block, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase) {
+		double blockHardness = block.getBlockHardness(par2World, par4, par5, par6);
+		if ((block.getMaterial() == MetaMaterial.metaMaterial) && (blockHardness != 0.0D)) {
+			MetaItemUtilities.damageItemOrDestroy(par1ItemStack, (int) (blockHardness * 10), par7EntityLivingBase);
 		}
-
 		return true;
 	}
 

@@ -1,35 +1,36 @@
 package com.metatechcraft.item;
 
+import com.forgetutorials.lib.utilities.ItemWithInfo;
 import com.forgetutorials.multientity.InfernosMultiEntityStatic;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class StrangeClay extends Item {
+public class StrangeClay extends ItemWithInfo {
 
 	@SideOnly(Side.CLIENT)
-	private Icon[] icons;
+	private IIcon[] icons;
 
 	public StrangeClay(int id) {
-		super(id);
+		super();
 		MetaTechCraft.registry.registerItem(this, "StrangeClay", "Strange Clay");
 		setCreativeTab(MetaTechCraft.tabs);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister iconRegister) {
+	public void registerIcons(IIconRegister iconRegister) {
 		this.itemIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "strangeClay");
 	}
 
@@ -43,24 +44,24 @@ public class StrangeClay extends Item {
 	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World world, int x, int y, int z, int side, float hitX, float hitY,
 			float hitZ) {
 
-		int blockID = world.getBlockId(x, y, z);
+		Block block = world.getBlock(x, y, z);
 		int blockMeta = world.getBlockMetadata(x, y, z);
-		TileEntity entity = world.getBlockTileEntity(x, y, z);
+		TileEntity entity = world.getTileEntity(x, y, z);
 		InfernosProxyEntityBase proxy = null;
 		if (entity instanceof InfernosMultiEntityStatic) {
 			proxy = ((InfernosMultiEntityStatic) entity).getProxyEntity();
 		}
 
 		for (int i = 1; i < 50; i++) {
-			world.setBlock(x, y + i, z, blockID, blockMeta, 3);
+			world.setBlock(x, y + i, z, block, blockMeta, 3);
 			if (proxy != null) {
-				InfernosMultiEntityStatic newEntity = (InfernosMultiEntityStatic) world.getBlockTileEntity(x, y + i, z);
+				InfernosMultiEntityStatic newEntity = (InfernosMultiEntityStatic) world.getTileEntity(x, y + i, z);
 				newEntity.newEntity(proxy.getTypeName());
 				newEntity.onBlockPlaced(world, par2EntityPlayer, side, x, y + i, z, hitX, hitY, hitZ, blockMeta);
 			} else if (entity != null) {
 				NBTTagCompound par1NBTTagCompound = new NBTTagCompound();
 				entity.writeToNBT(par1NBTTagCompound);
-				world.getBlockTileEntity(x, y + i, z).readFromNBT(par1NBTTagCompound);
+				world.getTileEntity(x, y + i, z).readFromNBT(par1NBTTagCompound);
 			}
 
 		}

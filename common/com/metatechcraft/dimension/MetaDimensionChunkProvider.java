@@ -3,8 +3,10 @@ package com.metatechcraft.dimension;
 import java.util.List;
 
 import com.forgetutorials.lib.dimension.ImprovedPerlin;
+import com.metatechcraft.block.MetaBlocks;
 
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
@@ -136,9 +138,9 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 										: 0)) > 0.4)
 								|| ((((y - 20) * 0.01) * (this.terrainArrayMapB[(y * 256) + (x * 16) + z] > 0 ? this.terrainArrayMapB[(y * 256) + (x * 16) + z]
 										: 0)) > 0.3)) {
-							extendedblockstorage.setExtBlockID(x, y & 15, z, 0);
+							extendedblockstorage.func_150818_a(x, y & 15, z, Blocks.air);
 						} else {
-							extendedblockstorage.setExtBlockID(x, y & 15, z, 2805);
+							extendedblockstorage.func_150818_a(x, y & 15, z, MetaBlocks.metaOreBlock);
 						}
 					}
 				}
@@ -271,13 +273,16 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 		return null;
 	}
 
-	/**
-	 * Returns the location of the closest structure of the specified type. If
-	 * not found returns null.
-	 */
+	@Override
+	public ChunkPosition func_147416_a(World var1, String var2, int var3, int var4, int var5) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
 	@Override
 	public ChunkPosition findClosestStructure(World par1World, String par2Str, int par3, int par4, int par5) {
-		/*if ("Stronghold".equals(par2Str)) {
+		if ("Stronghold".equals(par2Str)) {
 			Iterator<MapGenStructure> iterator = this.structureGenerators.iterator();
 
 			while (iterator.hasNext()) {
@@ -287,11 +292,11 @@ public class MetaDimensionChunkProvider implements IChunkProvider {
 					return mapgenstructure.getNearestInstance(par1World, par3, par4, par5);
 				}
 			}
-		}*/
+		}
 
 		return null;
 	}
-
+	*/
 	@Override
 	public int getLoadedChunkCount() {
 		return 0;

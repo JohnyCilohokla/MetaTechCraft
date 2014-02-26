@@ -1,8 +1,9 @@
 package com.metatechcraft.liquid;
 
+import java.util.IdentityHashMap;
+
 import com.forgetutorials.lib.registry.DescriptorFluid;
 
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
@@ -19,6 +20,7 @@ public class MetaLiquids {
 	public static final String[] metaFluidNames = new String[] { "MetaWhite", "MetaBlack", "MetaGreen", "MetaBlue", "MetaRed" };
 
 	public static DescriptorFluid[] metaFluids = new DescriptorFluid[32];
+	public static IdentityHashMap<Block, DescriptorFluid> blockToFluid = new IdentityHashMap<Block, DescriptorFluid>();
 
 	public static void initize() {
 
@@ -26,22 +28,28 @@ public class MetaLiquids {
 
 		// empty
 		ItemStack emptyLiquidContainerStack = new ItemStack(MetaLiquids.metaLiquidContainer, 1, 0);
-		LanguageRegistry.addName(emptyLiquidContainerStack, MetaLiquidContainer.getDisplayName(emptyLiquidContainerStack));
+		// LanguageRegistry.addName(emptyLiquidContainerStack,
+		// MetaLiquidContainer.getDisplayName(emptyLiquidContainerStack));
 
 		// liquids
 		for (int i = 0; i < MetaLiquids.metaFluidNames.length; i++) {
-			MetaLiquids.metaFluids[i] = DescriptorFluid.newFluid(MetaLiquids.metaFluidNames[i], 12, 3000, 6000);
-			Block liquid = new MetaLiquid(2701 + i, MetaLiquids.metaFluids[i], MetaLiquids.metaFluidNames[i]);
-			ItemStack metaLiquidStack = new ItemStack(liquid);
+			DescriptorFluid descriptorFluid = DescriptorFluid.newFluid(MetaLiquids.metaFluidNames[i], 12, 3000, 6000);
+			Block liquidBlock = new MetaLiquid(descriptorFluid, MetaLiquids.metaFluidNames[i]);
+			ItemStack metaLiquidStack = new ItemStack(liquidBlock);
 
 			String unlocalizedName = MetaLiquids.metaFluidNames[i].replaceAll("[^a-zA-Z]", "");
-			MetaLiquids.metaFluids[i].registerFluid("metatech.fluid." + unlocalizedName, metaLiquidStack);
+			descriptorFluid.registerFluid("metatech.fluid." + unlocalizedName, metaLiquidStack);
 
-			FluidContainerRegistry.registerFluidContainer(new FluidContainerData(new FluidStack(MetaLiquids.metaFluids[i].getFluid(), 125), new ItemStack(
+			FluidContainerRegistry.registerFluidContainer(new FluidContainerData(new FluidStack(descriptorFluid.getFluid(), 125), new ItemStack(
 					MetaLiquids.metaLiquidContainer, 1, i + 1), new ItemStack(MetaLiquids.metaLiquidContainer, 1, 0)));
 
 			ItemStack metaLiquidContainerStack = new ItemStack(MetaLiquids.metaLiquidContainer, 1, i + 1);
-			LanguageRegistry.addName(metaLiquidContainerStack, MetaLiquidContainer.getDisplayName(metaLiquidContainerStack));
+			// LanguageRegistry.addName(metaLiquidContainerStack,
+			// MetaLiquidContainer.getDisplayName(metaLiquidContainerStack));
+
+			descriptorFluid.setCustom("MetaLiquidUID", i + 1);
+			MetaLiquids.blockToFluid.put(liquidBlock, descriptorFluid);
+			MetaLiquids.metaFluids[i] = descriptorFluid;
 		}
 
 	}

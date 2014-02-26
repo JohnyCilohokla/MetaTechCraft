@@ -1,11 +1,11 @@
 package com.metatechcraft.item;
 
 import com.metatechcraft.block.MetaBlocks;
+
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 
 public class MetaItems {
 
@@ -42,11 +42,16 @@ public class MetaItems {
 
 		// hammer
 		MetaItems.strangeHammer = new StrangeHammer(26103);
-		MinecraftForge.setToolClass(MetaItems.strangeHammer, "metaHammer", 20);
+		// XXX
+		// MinecraftForge.setToolClass(MetaItems.strangeHammer, "metaHammer",
+		// 20);
 
 		// chisel
 		MetaItems.strangeChisel = new StrangeChisel(26104);
-		MinecraftForge.setToolClass(MetaItems.strangeChisel, "metaHammer", 20);
+
+		// XXX
+		// MinecraftForge.setToolClass(MetaItems.strangeChisel, "metaHammer",
+		// 20);
 		// MinecraftForge.setToolClass(MetaItems.strangeChisel, "metaChisel",
 		// 20);
 
@@ -55,22 +60,22 @@ public class MetaItems {
 	public static void registerCrafting() {
 
 		GameRegistry.addRecipe(new ItemStack(MetaItems.strangeDust, 8),
-				new Object[] { "rer", "gdg", "rer", Character.valueOf('r'), Item.redstone, Character.valueOf('d'), Item.diamond, Character.valueOf('g'),
-						Block.glowStone, Character.valueOf('e'), Item.enderPearl });
+				new Object[] { "rer", "gdg", "rer", Character.valueOf('r'), Items.redstone, Character.valueOf('d'), Items.diamond, Character.valueOf('g'),
+						Blocks.glowstone, Character.valueOf('e'), Items.ender_pearl });
 
 		GameRegistry.addRecipe(new ItemStack(MetaItems.strangeHammer, 1), new Object[] { "sss", "sss", "bib", Character.valueOf('s'), MetaItems.strangeIngot,
-				Character.valueOf('i'), Item.ingotIron, Character.valueOf('b'), Block.ice });
+				Character.valueOf('i'), Items.iron_ingot, Character.valueOf('b'), Blocks.ice });
 
 		// GameRegistry.addRecipe(new ItemStack(MetaBlocks.inventoryLinkBlock,
 		// 4), new Object[] { "iii", "isi", "iii", Character.valueOf('s'),
 		// MetaItems.strangeIngot, Character.valueOf('i'), Item.ingotIron });
 
 		GameRegistry.addRecipe(new ItemStack(MetaBlocks.strangeObsidianBlock, 2), new Object[] { "sss", "ili", "sss", Character.valueOf('s'),
-				MetaItems.strangeIngot, Character.valueOf('i'), Block.ice, Character.valueOf('l'), Item.bucketLava });
+				MetaItems.strangeIngot, Character.valueOf('i'), Blocks.ice, Character.valueOf('l'), Items.lava_bucket });
 
 		GameRegistry.addRecipe(new ItemStack(MetaItems.strangeStick, 2), new Object[] { "s", "s", Character.valueOf('s'), MetaItems.strangeIngot });
 
-		GameRegistry.addSmelting(MetaItems.strangeDust.itemID, new ItemStack(MetaItems.strangeIngot), 10);
+		GameRegistry.addSmelting(MetaItems.strangeDust, new ItemStack(MetaItems.strangeIngot), 10);
 
 		/*ItemStack infuserTopStack = ((DescriptorBlock) ForgeTutorialsRegistry.INSTANCE.getObject("mes." + InfuserTopTileEntity.TYPE_NAME)).getItemStack(1);
 		infuserTopStack.stackSize = 1;

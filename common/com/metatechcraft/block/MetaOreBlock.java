@@ -8,20 +8,16 @@ import com.metatechcraft.item.MetaItems;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -30,16 +26,14 @@ public class MetaOreBlock extends Block {
 
 	public static final String[] ORE_NAMES = new String[] { "Empty", "White", "Black", "Red", "Green", "Blue" };
 	public static final int ORE_COUNT = MetaOreBlock.ORE_NAMES.length;
-	private static final int ORE_SIZE = MetaOreBlock.ORE_COUNT - 1;
-	private Icon[] icons;
+	static final int ORE_SIZE = MetaOreBlock.ORE_COUNT - 1;
+	private IIcon[] icons;
 
 	protected MetaOreBlock(int par1) {
 		// make sure the material used can be broken by hand!
-		super(par1, MetaMaterial.metaMaterial);
-		setUnlocalizedName("MetaOreBlock");
+		super(MetaMaterial.metaMaterial);
 		setCreativeTab(MetaTechCraft.tabs);
-		GameRegistry.registerBlock(this, MetaOreItem.class, "MetaOreBlock");
-		LanguageRegistry.addName(this, "MetaOre Block");
+		MetaTechCraft.registry.registerBlock(this, "MetaOreBlock", "MetaOreBlock", MetaOreItem.class);
 	}
 
 	@Override
@@ -56,7 +50,9 @@ public class MetaOreBlock extends Block {
 	 */
 	@Override
 	public void harvestBlock(World par1World, EntityPlayer par2EntityPlayer, int par3, int par4, int par5, int par6) {
-		par2EntityPlayer.addStat(StatList.mineBlockStatArray[this.blockID], 1);
+		// TODO fix
+		// par2EntityPlayer.addStat(StatList.mineBlockStatArray[this.blockID],
+		// 1);
 		par2EntityPlayer.addExhaustion(0.025F);
 
 		if (this.canSilkHarvest(par1World, par2EntityPlayer, par3, par4, par5, par6)
@@ -64,7 +60,7 @@ public class MetaOreBlock extends Block {
 			ItemStack itemstack = createStackedBlock(par6);
 
 			if (itemstack != null) {
-				dropBlockAsItem_do(par1World, par3, par4, par5, itemstack);
+				dropBlockAsItem(par1World, par3, par4, par5, itemstack);
 			}
 		} else {
 			int i1 = EnchantmentHelper.getFortuneModifier(par2EntityPlayer);
@@ -73,7 +69,7 @@ public class MetaOreBlock extends Block {
 	}
 
 	@Override
-	public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune) {
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
 		ArrayList<ItemStack> droppedItems = new ArrayList<ItemStack>();
 		droppedItems.add(new ItemStack(this, 1, 0));
 		if (metadata != 0) {
@@ -84,8 +80,8 @@ public class MetaOreBlock extends Block {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister iconRegister) {
-		this.icons = new Icon[MetaOreBlock.ORE_NAMES.length];
+	public void registerBlockIcons(IIconRegister iconRegister) {
+		this.icons = new IIcon[MetaOreBlock.ORE_NAMES.length];
 		for (int i = 0; i < MetaOreBlock.ORE_NAMES.length; ++i) {
 			this.icons[i] = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "ore/meta" + MetaOreBlock.ORE_NAMES[i]);
 		}
@@ -99,7 +95,7 @@ public class MetaOreBlock extends Block {
 	// {"DOWN", "UP", "NORTH", "SOUTH", "WEST", "EAST"};
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Icon getIcon(int par1, int par2) {
+	public IIcon getIcon(int par1, int par2) {
 		int meta = MathHelper.clamp_int(par2, 0, MetaOreBlock.ORE_SIZE);
 		return this.icons[meta];
 	}
@@ -113,32 +109,15 @@ public class MetaOreBlock extends Block {
 		return super.getUnlocalizedName();
 	}
 
-	public static String getDisplayName(ItemStack itemStack) {
-		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaOreBlock.ORE_SIZE);
-		switch (meta) {
-		case 0:
-			return EnumChatFormatting.WHITE + "Meta Stone";
-		case 1:
-			return EnumChatFormatting.AQUA + "Meta Ore";
-		case 2:
-			return EnumChatFormatting.DARK_GRAY + "Meta Ore";
-		case 3:
-			return EnumChatFormatting.RED + "Meta Ore";
-		case 4:
-			return EnumChatFormatting.GREEN + "Meta Ore";
-		case 5:
-			return EnumChatFormatting.BLUE + "Meta Ore";
-		default:
-			return EnumChatFormatting.WHITE + "Meta Ore(undefined?)";
-		}
-	}
+	// public static String getDisplayName(ItemStack itemStack) {
+	// }
 
 	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(int id, CreativeTabs creativeTab, List list) {
+	public void getSubBlocks(Item item, CreativeTabs creativeTab, List list) {
 		for (int meta = 0; meta < (MetaOreBlock.ORE_SIZE + 1); meta++) {
-			list.add(new ItemStack(id, 1, meta));
+			list.add(new ItemStack(item, 1, meta));
 		}
 	}
 }

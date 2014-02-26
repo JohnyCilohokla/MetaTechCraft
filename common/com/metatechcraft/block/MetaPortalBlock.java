@@ -2,11 +2,13 @@ package com.metatechcraft.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
 import java.util.Random;
 
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -17,7 +19,7 @@ import net.minecraft.world.World;
 
 public class MetaPortalBlock extends BlockBreakable {
 	public MetaPortalBlock(int par1) {
-		super(par1, ModInfo.MOD_ID.toLowerCase() + ":" + "portal/meta", Material.portal, false);
+		super(ModInfo.MOD_ID.toLowerCase() + ":" + "portal/meta", Material.portal, false);
 		MetaTechCraft.registry.registerBlock(this, "MetaPortalBlock", "MetaPortal Block");
 		setTickRandomly(true);
 	}
@@ -48,7 +50,7 @@ public class MetaPortalBlock extends BlockBreakable {
 		float f;
 		float f1;
 
-		if ((par1IBlockAccess.getBlockId(par2 - 1, par3, par4) != this.blockID) && (par1IBlockAccess.getBlockId(par2 + 1, par3, par4) != this.blockID)) {
+		if ((par1IBlockAccess.getBlock(par2 - 1, par3, par4) != this) && (par1IBlockAccess.getBlock(par2 + 1, par3, par4) != this)) {
 			f = 0.125F;
 			f1 = 0.5F;
 			setBlockBounds(0.5F - f, 0.0F, 0.5F - f1, 0.5F + f, 1.0F, 0.5F + f1);
@@ -86,20 +88,20 @@ public class MetaPortalBlock extends BlockBreakable {
 		byte b0 = 0;
 		byte b1 = 0;
 
-		if ((par1World.getBlockId(par2 - 1, par3 + 1, par4) == MetaBlocks.strangeObsidianBlock.blockID)
-				|| (par1World.getBlockId(par2 + 1, par3 + 1, par4) == MetaBlocks.strangeObsidianBlock.blockID)) {
+		if ((par1World.getBlock(par2 - 1, par3 + 1, par4) == MetaBlocks.strangeObsidianBlock)
+				|| (par1World.getBlock(par2 + 1, par3 + 1, par4) == MetaBlocks.strangeObsidianBlock)) {
 			b0 = 1;
 		}
 
-		if ((par1World.getBlockId(par2, par3 + 1, par4 - 1) == MetaBlocks.strangeObsidianBlock.blockID)
-				|| (par1World.getBlockId(par2, par3 + 1, par4 + 1) == MetaBlocks.strangeObsidianBlock.blockID)) {
+		if ((par1World.getBlock(par2, par3 + 1, par4 - 1) == MetaBlocks.strangeObsidianBlock)
+				|| (par1World.getBlock(par2, par3 + 1, par4 + 1) == MetaBlocks.strangeObsidianBlock)) {
 			b1 = 1;
 		}
 
 		if (b0 == b1) {
 			return false;
 		} else {
-			if (par1World.getBlockId(par2 - b0, par3 + 1, par4 - b1) == 0) {
+			if (par1World.isAirBlock(par2 - b0, par3 + 1, par4 - b1)) {
 				par2 -= b0;
 				par4 -= b1;
 			}
@@ -112,10 +114,10 @@ public class MetaPortalBlock extends BlockBreakable {
 					boolean flag = (l == -1) || (l == 2) || (i1 == -1) || (i1 == 3);
 
 					if (((l != -1) && (l != 2)) || ((i1 != -1) && (i1 != 3))) {
-						int j1 = par1World.getBlockId(par2 + (b0 * l), par3 + 1 + i1, par4 + (b1 * l));
+						Block j1 = par1World.getBlock(par2 + (b0 * l), par3 + 1 + i1, par4 + (b1 * l));
 
 						if (flag) {
-							if (j1 != MetaBlocks.strangeObsidianBlock.blockID) {
+							if (j1 != MetaBlocks.strangeObsidianBlock) {
 								return false;
 							}
 						}/*
@@ -128,7 +130,7 @@ public class MetaPortalBlock extends BlockBreakable {
 
 			for (l = 0; l < 2; ++l) {
 				for (i1 = 0; i1 < 3; ++i1) {
-					par1World.setBlock(par2 + (b0 * l), par3 + 1 + i1, par4 + (b1 * l), MetaBlocks.metaPortalBlock.blockID, 0, 2);
+					par1World.setBlock(par2 + (b0 * l), par3 + 1 + i1, par4 + (b1 * l), MetaBlocks.metaPortalBlock, 0, 2);
 				}
 			}
 
@@ -142,41 +144,40 @@ public class MetaPortalBlock extends BlockBreakable {
 	 * neighbor blockID
 	 */
 	@Override
-	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5) {
+	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, Block block) {
 		byte b0 = 0;
 		byte b1 = 1;
 
-		if ((par1World.getBlockId(par2 - 1, par3, par4) == this.blockID) || (par1World.getBlockId(par2 + 1, par3, par4) == this.blockID)) {
+		if ((par1World.getBlock(par2 - 1, par3, par4) == this) || (par1World.getBlock(par2 + 1, par3, par4) == this)) {
 			b0 = 1;
 			b1 = 0;
 		}
 
 		int i1;
 
-		for (i1 = par3; par1World.getBlockId(par2, i1 - 1, par4) == this.blockID; --i1) {
+		for (i1 = par3; par1World.getBlock(par2, i1 - 1, par4) == this; --i1) {
 			;
 		}
 
-		if (par1World.getBlockId(par2, i1 - 1, par4) != MetaBlocks.strangeObsidianBlock.blockID) {
+		if (par1World.getBlock(par2, i1 - 1, par4) != MetaBlocks.strangeObsidianBlock) {
 			par1World.setBlockToAir(par2, par3, par4);
 		} else {
 			int j1;
 
-			for (j1 = 1; (j1 < 4) && (par1World.getBlockId(par2, i1 + j1, par4) == this.blockID); ++j1) {
+			for (j1 = 1; (j1 < 4) && (par1World.getBlock(par2, i1 + j1, par4) == this); ++j1) {
 				;
 			}
 
-			if ((j1 == 3) && (par1World.getBlockId(par2, i1 + j1, par4) == MetaBlocks.strangeObsidianBlock.blockID)) {
-				boolean flag = (par1World.getBlockId(par2 - 1, par3, par4) == this.blockID) || (par1World.getBlockId(par2 + 1, par3, par4) == this.blockID);
-				boolean flag1 = (par1World.getBlockId(par2, par3, par4 - 1) == this.blockID) || (par1World.getBlockId(par2, par3, par4 + 1) == this.blockID);
+			if ((j1 == 3) && (par1World.getBlock(par2, i1 + j1, par4) == MetaBlocks.strangeObsidianBlock)) {
+				boolean flag = (par1World.getBlock(par2 - 1, par3, par4) == this) || (par1World.getBlock(par2 + 1, par3, par4) == this);
+				boolean flag1 = (par1World.getBlock(par2, par3, par4 - 1) == this) || (par1World.getBlock(par2, par3, par4 + 1) == this);
 
 				if (flag && flag1) {
 					par1World.setBlockToAir(par2, par3, par4);
 				} else {
-					if (((par1World.getBlockId(par2 + b0, par3, par4 + b1) != MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2 - b0,
-							par3, par4 - b1) != this.blockID))
-							&& ((par1World.getBlockId(par2 - b0, par3, par4 - b1) != MetaBlocks.strangeObsidianBlock.blockID) || (par1World.getBlockId(par2
-									+ b0, par3, par4 + b1) != this.blockID))) {
+					if (((par1World.getBlock(par2 + b0, par3, par4 + b1) != MetaBlocks.strangeObsidianBlock) || (par1World.getBlock(par2 - b0, par3, par4 - b1) != this))
+							&& ((par1World.getBlock(par2 - b0, par3, par4 - b1) != MetaBlocks.strangeObsidianBlock) || (par1World.getBlock(par2 + b0, par3,
+									par4 + b1) != this))) {
 						par1World.setBlockToAir(par2, par3, par4);
 					}
 				}
@@ -193,17 +194,13 @@ public class MetaPortalBlock extends BlockBreakable {
 	 * coordinates.  Args: blockAccess, x, y, z, side
 	 */
 	public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
-		if (par1IBlockAccess.getBlockId(par2, par3, par4) == this.blockID) {
+		if (par1IBlockAccess.getBlock(par2, par3, par4) == this) {
 			return false;
 		} else {
-			boolean flag = (par1IBlockAccess.getBlockId(par2 - 1, par3, par4) == this.blockID)
-					&& (par1IBlockAccess.getBlockId(par2 - 2, par3, par4) != this.blockID);
-			boolean flag1 = (par1IBlockAccess.getBlockId(par2 + 1, par3, par4) == this.blockID)
-					&& (par1IBlockAccess.getBlockId(par2 + 2, par3, par4) != this.blockID);
-			boolean flag2 = (par1IBlockAccess.getBlockId(par2, par3, par4 - 1) == this.blockID)
-					&& (par1IBlockAccess.getBlockId(par2, par3, par4 - 2) != this.blockID);
-			boolean flag3 = (par1IBlockAccess.getBlockId(par2, par3, par4 + 1) == this.blockID)
-					&& (par1IBlockAccess.getBlockId(par2, par3, par4 + 2) != this.blockID);
+			boolean flag = (par1IBlockAccess.getBlock(par2 - 1, par3, par4) == this) && (par1IBlockAccess.getBlock(par2 - 2, par3, par4) != this);
+			boolean flag1 = (par1IBlockAccess.getBlock(par2 + 1, par3, par4) == this) && (par1IBlockAccess.getBlock(par2 + 2, par3, par4) != this);
+			boolean flag2 = (par1IBlockAccess.getBlock(par2, par3, par4 - 1) == this) && (par1IBlockAccess.getBlock(par2, par3, par4 - 2) != this);
+			boolean flag3 = (par1IBlockAccess.getBlock(par2, par3, par4 + 1) == this) && (par1IBlockAccess.getBlock(par2, par3, par4 + 2) != this);
 			boolean flag4 = flag || flag1;
 			boolean flag5 = flag2 || flag3;
 			return flag4 && (par5 == 4) ? true : (flag4 && (par5 == 5) ? true : (flag5 && (par5 == 2) ? true : flag5 && (par5 == 3)));
@@ -271,7 +268,7 @@ public class MetaPortalBlock extends BlockBreakable {
 			d4 = (par5Random.nextFloat() - 0.5D) * 0.5D;
 			d5 = (par5Random.nextFloat() - 0.5D) * 0.5D;
 
-			if ((par1World.getBlockId(par2 - 1, par3, par4) != this.blockID) && (par1World.getBlockId(par2 + 1, par3, par4) != this.blockID)) {
+			if ((par1World.getBlock(par2 - 1, par3, par4) != this) && (par1World.getBlock(par2 + 1, par3, par4) != this)) {
 				d0 = par2 + 0.5D + (0.25D * i1);
 				d3 = par5Random.nextFloat() * 2.0F * i1;
 			} else {
@@ -281,15 +278,6 @@ public class MetaPortalBlock extends BlockBreakable {
 
 			par1World.spawnParticle("portal", d0, d1, d2, d3, d4, d5);
 		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	/**
-	 * only called by clickMiddleMouseButton , and passed to inventory.setCurrentItem (along with isCreative)
-	 */
-	public int idPicked(World par1World, int par2, int par3, int par4) {
-		return 0;
 	}
 
 	@Override

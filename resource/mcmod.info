@@ -2,7 +2,7 @@
 {
   "modid": "MetaTechCraft",
   "name": "MetaTechCraft",
-  "description": "MetaTechCraft",
+  "description": "MetaTechCraft (MC: @MCVERSION@, Forge: @FORGEVERSION@, FTA: @FTAVERSION@.@FTAPATCH@.@FTAREVISION@)",
   "version": "@VERSION@.@PATCH@.@REVISION@",
   "url": "metatechcraft.com",
   "updateUrl": "",

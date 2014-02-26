@@ -2,6 +2,7 @@ package com.metatechcraft.entity;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -25,7 +26,7 @@ public class SnowZombie extends EntityZombie {
 				}
 			}
 		}
-		setCurrentItemOrArmor(0, new ItemStack(Item.swordIron));
+		setCurrentItemOrArmor(0, new ItemStack(Items.iron_sword));
 	}
 
 	@Override

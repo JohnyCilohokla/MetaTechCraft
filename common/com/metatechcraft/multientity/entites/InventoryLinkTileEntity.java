@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -18,10 +16,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Facing;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
@@ -54,6 +51,11 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 		return false;
 	}
 
+	@Override
+	public boolean isOpaque() {
+		return true;
+	}
+
 	GLDisplayList itemDisplayList = new GLDisplayList();
 
 	@Override
@@ -64,7 +66,7 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		if (!this.itemDisplayList.isGenerated()) {
-			if (Tessellator.instance.isDrawing) {
+			/*if (Tessellator.instance.isDrawing) {
 				int drawMode = Tessellator.instance.drawMode;
 				Tessellator.instance.draw();
 				// --------------------------
@@ -81,19 +83,19 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 				this.itemDisplayList.unbind();
 				// --------------------------
 				Tessellator.instance.startDrawing(drawMode);
-			} else {
-				this.itemDisplayList.generate();
-				this.itemDisplayList.bind();
+			} else {*/
+			this.itemDisplayList.generate();
+			this.itemDisplayList.bind();
 
-				Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 
-				Tessellator.instance.startDrawingQuads();
-				BlockTessallator.addToTessallator(Tessellator.instance, 0, 0, 0, this.icons[0][0], this.icons[0][1], this.icons[0][2], this.icons[0][3],
-						this.icons[0][4], this.icons[0][5]);
-				Tessellator.instance.draw();
+			Tessellator.instance.startDrawingQuads();
+			BlockTessallator.addToTessallator(Tessellator.instance, 0, 0, 0, this.icons[0][0], this.icons[0][1], this.icons[0][2], this.icons[0][3],
+					this.icons[0][4], this.icons[0][5]);
+			Tessellator.instance.draw();
 
-				this.itemDisplayList.unbind();
-			}
+			this.itemDisplayList.unbind();
+			// }
 		}
 		if (type == ItemRenderType.EQUIPPED) {
 			GL11.glTranslated(0, 0, 1);
@@ -112,16 +114,16 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 
 	}
 
-	protected Icon icons[][];
+	protected IIcon icons[][];
 
 	public void registerIcons() {
-		Icon icon = ((TextureMap) Minecraft.getMinecraft().renderEngine.getTexture(TextureMap.locationBlocksTexture)).registerIcon("missingno");
-		this.icons = new Icon[][] { { icon, icon, icon, icon, icon, icon }, { icon, icon, icon, icon, icon, icon }, { icon, icon, icon, icon, icon, icon },
+		IIcon icon = ((TextureMap) Minecraft.getMinecraft().renderEngine.getTexture(TextureMap.locationBlocksTexture)).registerIcon("missingno");
+		this.icons = new IIcon[][] { { icon, icon, icon, icon, icon, icon }, { icon, icon, icon, icon, icon, icon }, { icon, icon, icon, icon, icon, icon },
 				{ icon, icon, icon, icon, icon, icon }, { icon, icon, icon, icon, icon, icon }, { icon, icon, icon, icon, icon, icon } };
 	}
 
 	@Override
-	public Icon getIconFromSide(int side) {
+	public IIcon getIconFromSide(int side) {
 		if (this.icons == null) {
 			registerIcons();
 		}
@@ -140,19 +142,10 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 	 */
 	public static IInventory getLinkedInventory(World world, int x, int y, int z) {
 		IInventory iinventory = null;
-		TileEntity tileentity = world.getBlockTileEntity(x, y, z);
+		TileEntity tileentity = world.getTileEntity(x, y, z);
 
 		if ((tileentity != null) && (tileentity instanceof IInventory)) {
 			iinventory = (IInventory) tileentity;
-
-			if (iinventory instanceof TileEntityChest) {
-				int l = world.getBlockId(x, y, z);
-				Block block = Block.blocksList[l];
-
-				if (block instanceof BlockChest) {
-					iinventory = ((BlockChest) block).getInventory(world, x, y, z);
-				}
-			}
 		}
 
 		if (iinventory == null) {
@@ -204,10 +197,10 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 	}
 
 	@Override
-	public void closeChest() {
+	public void closeInventory() {
 		IInventory inventory = getLinkedInventory().getInventory();
 		if (inventory != null) {
-			inventory.closeChest();
+			inventory.closeInventory();
 		}
 	}
 
@@ -224,9 +217,9 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 	}
 
 	@Override
-	public String getInvName() {
+	public String getInventoryName() {
 		IInventory inventory = getLinkedInventory().getInventory();
-		return inventory != null ? inventory.getInvName() : null;
+		return inventory != null ? inventory.getInventoryName() : null;
 	}
 
 	@Override
@@ -248,9 +241,9 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 	}
 
 	@Override
-	public boolean isInvNameLocalized() {
+	public boolean hasCustomInventoryName() {
 		IInventory inventory = getLinkedInventory().getInventory();
-		return inventory != null ? inventory.isInvNameLocalized() : false;
+		return inventory != null ? inventory.hasCustomInventoryName() : false;
 	}
 
 	@Override
@@ -260,10 +253,10 @@ public abstract class InventoryLinkTileEntity extends InfernosProxyEntityBase {
 	}
 
 	@Override
-	public void openChest() {
+	public void openInventory() {
 		IInventory inventory = getLinkedInventory().getInventory();
 		if (inventory != null) {
-			inventory.openChest();
+			inventory.openInventory();
 		}
 	}
 

@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.Direction;
 import net.minecraft.util.LongHashMap;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
-import net.minecraft.world.PortalPosition;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
@@ -56,7 +57,7 @@ public class MetaTeleporter extends Teleporter {
 						boolean flag = j1 < 0;
 
 						/** change this block **/
-						this.worldServerInstance.setBlock(k1, l1, i2, flag ? MetaBlocks.strangeObsidianBlock.blockID : 0);
+						this.worldServerInstance.setBlock(k1, l1, i2, flag ? MetaBlocks.strangeObsidianBlock : null);
 					}
 				}
 			}
@@ -96,9 +97,9 @@ public class MetaTeleporter extends Teleporter {
 					double d6 = (l1 + 0.5D) - par1Entity.posZ;
 					for (int i2 = this.worldServerInstance.getActualHeight() - 1; i2 >= 0; --i2) {
 						/** change this block **/
-						if (this.worldServerInstance.getBlockId(k1, i2, l1) == MetaBlocks.metaPortalBlock.blockID) {
+						if (this.worldServerInstance.getBlock(k1, i2, l1) == MetaBlocks.metaPortalBlock) {
 							/** change this block **/
-							while (this.worldServerInstance.getBlockId(k1, i2 - 1, l1) == MetaBlocks.metaPortalBlock.blockID) {
+							while (this.worldServerInstance.getBlock(k1, i2 - 1, l1) == MetaBlocks.metaPortalBlock) {
 								--i2;
 							}
 							d4 = (i2 + 0.5D) - par1Entity.posY;
@@ -124,19 +125,19 @@ public class MetaTeleporter extends Teleporter {
 			d4 = k + 0.5D;
 			int j2 = -1;
 			/** change this block **/
-			if (this.worldServerInstance.getBlockId(i - 1, j, k) == MetaBlocks.metaPortalBlock.blockID) {
+			if (this.worldServerInstance.getBlock(i - 1, j, k) == MetaBlocks.metaPortalBlock) {
 				j2 = 2;
 			}
 			/** change this block **/
-			if (this.worldServerInstance.getBlockId(i + 1, j, k) == MetaBlocks.metaPortalBlock.blockID) {
+			if (this.worldServerInstance.getBlock(i + 1, j, k) == MetaBlocks.metaPortalBlock) {
 				j2 = 0;
 			}
 			/** change this block **/
-			if (this.worldServerInstance.getBlockId(i, j, k - 1) == MetaBlocks.metaPortalBlock.blockID) {
+			if (this.worldServerInstance.getBlock(i, j, k - 1) == MetaBlocks.metaPortalBlock) {
 				j2 = 3;
 			}
 			/** change this block **/
-			if (this.worldServerInstance.getBlockId(i, j, k + 1) == MetaBlocks.metaPortalBlock.blockID) {
+			if (this.worldServerInstance.getBlock(i, j, k + 1) == MetaBlocks.metaPortalBlock) {
 				j2 = 1;
 			}
 			int k2 = par1Entity.getTeleportDirection();
@@ -256,7 +257,7 @@ public class MetaTeleporter extends Teleporter {
 										k4 = i2 + ((i4 - 1) * l2) + (j3 * k3);
 										j4 = k2 + l3;
 										int l4 = (j2 + ((i4 - 1) * k3)) - (j3 * l2);
-										if (((l3 < 0) && !this.worldServerInstance.getBlockMaterial(k4, j4, l4).isSolid())
+										if (((l3 < 0) && !this.worldServerInstance.getBlock(k4, j4, l4).getMaterial().isSolid())
 												|| ((l3 >= 0) && !this.worldServerInstance.isAirBlock(k4, j4, l4))) {
 											continue label274;
 										}
@@ -295,7 +296,7 @@ public class MetaTeleporter extends Teleporter {
 										l3 = i2 + ((j3 - 1) * l2);
 										k4 = k2 + i4;
 										j4 = j2 + ((j3 - 1) * k3);
-										if (((i4 < 0) && !this.worldServerInstance.getBlockMaterial(l3, k4, j4).isSolid())
+										if (((i4 < 0) && !this.worldServerInstance.getBlock(l3, k4, j4).getMaterial().isSolid())
 												|| ((i4 >= 0) && !this.worldServerInstance.isAirBlock(l3, k4, j4))) {
 											continue label222;
 										}
@@ -343,7 +344,7 @@ public class MetaTeleporter extends Teleporter {
 						flag = l2 < 0;
 
 						/** change this block **/
-						this.worldServerInstance.setBlock(k3, j3, i4, flag ? MetaBlocks.strangeObsidianBlock.blockID : 0);
+						this.worldServerInstance.setBlock(k3, j3, i4, flag ? MetaBlocks.strangeObsidianBlock : Blocks.air);
 					}
 				}
 			}
@@ -357,7 +358,7 @@ public class MetaTeleporter extends Teleporter {
 					flag = (i3 == 0) || (i3 == 3) || (l2 == -1) || (l2 == 3);
 
 					/** change these blocks **/
-					this.worldServerInstance.setBlock(k3, j3, i4, flag ? MetaBlocks.strangeObsidianBlock.blockID : MetaBlocks.metaPortalBlock.blockID, 0, 2);
+					this.worldServerInstance.setBlock(k3, j3, i4, flag ? MetaBlocks.strangeObsidianBlock : MetaBlocks.metaPortalBlock, 0, 2);
 				}
 			}
 			for (i3 = 0; i3 < 4; ++i3) {
@@ -365,7 +366,7 @@ public class MetaTeleporter extends Teleporter {
 					k3 = i5 + ((i3 - 1) * k5);
 					j3 = j5 + l2;
 					i4 = j2 + ((i3 - 1) * l5);
-					this.worldServerInstance.notifyBlocksOfNeighborChange(k3, j3, i4, this.worldServerInstance.getBlockId(k3, j3, i4));
+					this.worldServerInstance.notifyBlocksOfNeighborChange(k3, j3, i4, this.worldServerInstance.getBlock(k3, j3, i4));
 				}
 			}
 		}

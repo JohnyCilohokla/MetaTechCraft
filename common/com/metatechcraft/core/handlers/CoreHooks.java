@@ -1,17 +1,17 @@
 package com.metatechcraft.core.handlers;
 
-import net.minecraftforge.event.ForgeSubscribe;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
 public class CoreHooks {
 
-	@ForgeSubscribe
+	@SubscribeEvent
 	public void onEntityLivingUpdate(LivingUpdateEvent event) {
 
 	}
 
-	@ForgeSubscribe
+	@SubscribeEvent
 	public void onEntityLivingDeath(LivingDeathEvent event) {
 		// TODO make enderman drop strange fragments (1-5)
 		// stone (or gold+iron[+diamond?]) infuser

@@ -1,2 +1,7 @@
 buildConfig.properties
 /temp/
+/build/
+/.gradle/
+/gradle/
+/eclipse/
+setup.bat

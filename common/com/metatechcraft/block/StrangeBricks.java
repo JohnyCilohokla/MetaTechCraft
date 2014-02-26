@@ -5,7 +5,7 @@ import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.relauncher.Side;
@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class StrangeBricks extends Block {
 
 	protected StrangeBricks(int par1) {
-		super(par1, MetaMaterial.metaMaterial);
+		super(MetaMaterial.metaMaterial);
 		MetaTechCraft.registry.registerBlock(this, "StrangeBricks", "Strange Bricks");
 		setCreativeTab(MetaTechCraft.tabs);
 	}
@@ -26,7 +26,7 @@ public class StrangeBricks extends Block {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister iconRegister) {
+	public void registerBlockIcons(IIconRegister iconRegister) {
 		this.blockIcon = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "strangeBricks");
 	}
 }

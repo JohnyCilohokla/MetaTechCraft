@@ -33,12 +33,10 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 
 @Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.VERSION, dependencies = "required-after:ForgeTutorialsAPI")
-@NetworkMod(serverSideRequired = false, clientSideRequired = true)
 public class MetaTechCraft implements IGuiHandler {
 
 	@SidedProxy(clientSide = ModInfo.CLIENT_PROXY_CLASS, serverSide = ModInfo.SERVER_PROXY_CLASS)
@@ -51,7 +49,7 @@ public class MetaTechCraft implements IGuiHandler {
 
 	public static MetaTechOreGenerators metaGenerator;
 
-	public static ForgeRegistryUtilities registry = new ForgeRegistryUtilities("metatechcraft", ModInfo.MOD_ID);
+	public static ForgeRegistryUtilities registry = new ForgeRegistryUtilities("MetaTechCraft", ModInfo.MOD_ID);
 
 	@Instance("MetaTechCraft")
 	public static MetaTechCraft instance;
@@ -68,7 +66,7 @@ public class MetaTechCraft implements IGuiHandler {
 	public void preInit(FMLPreInitializationEvent event) {
 		System.out.println(">> MetaTechCraft: preInit");
 
-		NetworkRegistry.instance().registerGuiHandler(this, MetaTechCraft.instance);
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, MetaTechCraft.instance);
 
 		MetaBlocks.initize();
 		MetaItems.initize();
@@ -123,7 +121,7 @@ public class MetaTechCraft implements IGuiHandler {
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		if (tileEntity instanceof InfernosMultiEntityStatic) {
 			return new ContainerT(player.inventory, (InfernosMultiEntityStatic) tileEntity);
 		}
@@ -132,7 +130,7 @@ public class MetaTechCraft implements IGuiHandler {
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		if (tileEntity instanceof InfernosMultiEntityStatic) {
 			return new GuiT(player.inventory, (InfernosMultiEntityStatic) tileEntity);
 		}

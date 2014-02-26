@@ -2,33 +2,32 @@ package com.metatechcraft.item;
 
 import java.util.List;
 
+import com.forgetutorials.lib.utilities.ItemWithInfo;
 import com.metatechcraft.lib.ModInfo;
 import com.metatechcraft.mod.MetaTechCraft;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class MetaChunk extends Item {
+public class MetaChunk extends ItemWithInfo {
 
 	private static final String[] CHUNK_NAMES = new String[] { "White", "Black", "Red", "Green", "Blue" };
 	private static final int CHUNK_NUMBER = MetaChunk.CHUNK_NAMES.length - 1;
 
 	@SideOnly(Side.CLIENT)
-	private Icon[] icons;
+	private IIcon[] icons;
 
 	public MetaChunk(int id) {
-		super(id);
+		super();
 		MetaTechCraft.registry.registerItem(this, "MetaChunk", "Meta Chunk");
 		setHasSubtypes(true);
 		this.maxStackSize = 64;
@@ -39,7 +38,7 @@ public class MetaChunk extends Item {
 	public String getUnlocalizedName(ItemStack itemStack) {
 
 		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaChunk.CHUNK_NUMBER);
-		return super.getUnlocalizedName() + MetaChunk.CHUNK_NAMES[meta];
+		return super.getUnlocalizedName() + "." + MetaChunk.CHUNK_NAMES[meta];
 	}
 
 	@Override
@@ -47,7 +46,7 @@ public class MetaChunk extends Item {
 	/**
 	 * Gets an icon index based on an item's damage value
 	 */
-	public Icon getIconFromDamage(int meta) {
+	public IIcon getIconFromDamage(int meta) {
 
 		int j = MathHelper.clamp_int(meta, 0, MetaChunk.CHUNK_NUMBER);
 		return this.icons[j];
@@ -55,9 +54,9 @@ public class MetaChunk extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister iconRegister) {
+	public void registerIcons(IIconRegister iconRegister) {
 
-		this.icons = new Icon[MetaChunk.CHUNK_NAMES.length];
+		this.icons = new IIcon[MetaChunk.CHUNK_NAMES.length];
 
 		for (int i = 0; i < MetaChunk.CHUNK_NAMES.length; ++i) {
 			this.icons[i] = iconRegister.registerIcon(ModInfo.MOD_ID.toLowerCase() + ":" + "chunk/meta" + MetaChunk.CHUNK_NAMES[i]);
@@ -78,32 +77,11 @@ public class MetaChunk extends Item {
 	}
 
 	@Override
-	public String getItemDisplayName(ItemStack itemStack) {
-
-		int meta = MathHelper.clamp_int(itemStack.getItemDamage(), 0, MetaChunk.CHUNK_NUMBER);
-
-		switch (meta) {
-		case 0:
-			return EnumChatFormatting.AQUA + "Meta Chunk";
-		case 1:
-			return EnumChatFormatting.DARK_GRAY + "Meta Chunk";
-		case 2:
-			return EnumChatFormatting.RED + "Meta Chunk";
-		case 3:
-			return EnumChatFormatting.GREEN + "Meta Chunk";
-		case 4:
-			return EnumChatFormatting.BLUE + "Meta Chunk";
-		default:
-			return EnumChatFormatting.WHITE + "Meta Chunk(undefined?)";
-		}
-	}
-
-	@Override
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(int id, CreativeTabs creativeTab, List list) {
+	public void getSubItems(Item item, CreativeTabs creativeTab, List list) {
 		for (int meta = 0; meta < (MetaChunk.CHUNK_NUMBER + 1); meta++) {
-			list.add(new ItemStack(id, 1, meta));
+			list.add(new ItemStack(item, 1, meta));
 		}
 	}
 

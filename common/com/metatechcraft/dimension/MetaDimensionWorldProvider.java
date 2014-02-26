@@ -17,7 +17,7 @@ import net.minecraft.world.chunk.IChunkProvider;
 
 public class MetaDimensionWorldProvider extends WorldProvider {
 
-	protected static final WorldType META_WORLD_TYPE = new WorldType(MetaTechCraft.metaDimID, "Meta Dimension");
+	protected static final WorldType META_WORLD_TYPE = new WorldType("Meta Dimension");
 
 	protected static final BiomeGenBase META_WORLD_BIOME = new BiomeGenFake(MetaTechCraft.metaBiomeID, "Blizzard", 0, 0);
 
@@ -101,8 +101,8 @@ public class MetaDimensionWorldProvider extends WorldProvider {
 
 	@Override
 	public boolean canCoordinateBeSpawn(int par1, int par2) {
-		int k = this.worldObj.getFirstUncoveredBlock(par1, par2);
-		return k == 0 ? false : Block.blocksList[k].blockMaterial.blocksMovement();
+		Block block = this.worldObj.getTopBlock(par1, par2);
+		return block == null ? false : block.getMaterial().blocksMovement();
 	}
 
 	@Override

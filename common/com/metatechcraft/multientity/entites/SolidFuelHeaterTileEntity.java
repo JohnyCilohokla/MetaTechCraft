@@ -11,7 +11,6 @@ import com.forgetutorials.lib.renderers.BlockTessallator;
 import com.forgetutorials.lib.renderers.GLDisplayList;
 import com.forgetutorials.lib.utilities.ProxyEntityUtils;
 import com.forgetutorials.multientity.InfernosMultiEntityStatic;
-import com.forgetutorials.multientity.InfernosMultiEntityType;
 import com.forgetutorials.multientity.base.InfernosProxyEntityBase;
 import com.forgetutorials.multientity.extra.HeatHandler;
 import com.forgetutorials.multientity.extra.IHeatContainer;
@@ -24,7 +23,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Icon;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 
@@ -55,6 +54,11 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 
 	@Override
 	public boolean isDynamiclyRendered() {
+		return false;
+	}
+
+	@Override
+	public boolean isOpaque() {
 		return false;
 	}
 
@@ -126,8 +130,8 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 	public ItemStack decrStackSize(int i, int j) {
 		if (this.stack != null) {
 			ItemStack itemstack;
-			if (!this.entity.worldObj.isRemote) {
-				this.entity.worldObj.markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
+			if (!this.entity.getWorldObj().isRemote) {
+				this.entity.getWorldObj().markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 			}
 			if (this.stack.stackSize <= j) {
 				itemstack = this.stack;
@@ -154,18 +158,18 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		this.stack = itemstack;
-		if (!this.entity.worldObj.isRemote) {
-			this.entity.worldObj.markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
+		if (!this.entity.getWorldObj().isRemote) {
+			this.entity.getWorldObj().markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 		}
 	}
 
 	@Override
-	public String getInvName() {
+	public String getInventoryName() {
 		return "InfuserTop";
 	}
 
 	@Override
-	public boolean isInvNameLocalized() {
+	public boolean hasCustomInventoryName() {
 		return false;
 	}
 
@@ -180,11 +184,11 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 	}
 
 	@Override
-	public void openChest() {
+	public void openInventory() {
 	}
 
 	@Override
-	public void closeChest() {
+	public void closeInventory() {
 	}
 
 	@Override
@@ -225,10 +229,10 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 	@Override
 	public void onBlockPlaced(World world, EntityPlayer player, int side, int direction, int x, int y, int z, float hitX, float hitY, float hitZ, int metadata) {
 		this.direction = direction;
-		if (y > 10) {
-			world.setBlock(x, y - 1, z, this.entity.getBlockType().blockID, InfernosMultiEntityType.STATIC_INVENTORY.ordinal(), 3);
-			InfernosMultiEntityStatic entity = (InfernosMultiEntityStatic) world.getBlockTileEntity(x, y - 1, z);
-			entity.newEntity(SolidFuelHeaterTileEntity.TYPE_NAME);
+		if (y > 5) {
+			world.setBlock(x, y - 1, z, this.entity.getBlockType(), validateTileEntity(null), 3);
+			InfernosMultiEntityStatic entity = (InfernosMultiEntityStatic) world.getTileEntity(x, y - 1, z);
+			entity.newEntity(getTypeName());
 			entity.onBlockPlaced(world, player, side, x, y - 1, z, hitX, hitY, hitZ, metadata);
 		}
 	}
@@ -257,14 +261,14 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 	*/
 
 	// TODO static?
-	protected Icon icons[][];
+	protected IIcon icons[][];
 
 	public void registerIcons() {
-		Icon sideIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/side");
-		Icon onIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/on");
-		Icon offIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/off");
-		Icon topIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/top");
-		this.icons = new Icon[][] { //
+		IIcon sideIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/side");
+		IIcon onIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/on");
+		IIcon offIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/off");
+		IIcon topIcon = InfernosRegisteryProxyEntity.INSTANCE.getIcon(ModInfo.MOD_ID.toLowerCase() + ":solidFuelHeater/top");
+		this.icons = new IIcon[][] { //
 		{ topIcon, topIcon, offIcon, sideIcon, sideIcon, sideIcon }, //
 				{ topIcon, topIcon, sideIcon, sideIcon, sideIcon, offIcon },//
 				{ topIcon, topIcon, sideIcon, offIcon, sideIcon, sideIcon },//
@@ -279,7 +283,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 	boolean on = false;
 
 	@Override
-	public Icon getIconFromSide(int side) {
+	public IIcon getIconFromSide(int side) {
 		if (this.icons == null) {
 			registerIcons();
 		}
@@ -323,7 +327,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		if (!this.itemDisplayList.isGenerated()) {
-			if (Tessellator.instance.isDrawing) {
+			/*if (Tessellator.instance.isDrawing) {
 				int drawMode = Tessellator.instance.drawMode;
 				Tessellator.instance.draw();
 				// --------------------------
@@ -340,19 +344,19 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 				this.itemDisplayList.unbind();
 				// --------------------------
 				Tessellator.instance.startDrawing(drawMode);
-			} else {
-				this.itemDisplayList.generate();
-				this.itemDisplayList.bind();
+			} else {*/
+			this.itemDisplayList.generate();
+			this.itemDisplayList.bind();
 
-				Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+			Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 
-				Tessellator.instance.startDrawingQuads();
-				BlockTessallator.addToTessallator(Tessellator.instance, 0, 0, 0, this.icons[2][0], this.icons[2][1], this.icons[2][2], this.icons[2][3],
-						this.icons[2][4], this.icons[2][5]);
-				Tessellator.instance.draw();
+			Tessellator.instance.startDrawingQuads();
+			BlockTessallator.addToTessallator(Tessellator.instance, 0, 0, 0, this.icons[2][0], this.icons[2][1], this.icons[2][2], this.icons[2][3],
+					this.icons[2][4], this.icons[2][5]);
+			Tessellator.instance.draw();
 
-				this.itemDisplayList.unbind();
-			}
+			this.itemDisplayList.unbind();
+			// }
 		}
 		if (type == ItemRenderType.EQUIPPED) {
 			GL11.glTranslated(0, 0, 1);
@@ -368,7 +372,7 @@ public class SolidFuelHeaterTileEntity extends InfernosProxyEntityBase implement
 
 	@Override
 	public double getHeat() {
-		return HeatHandler.getEnvHeat(this.entity.worldObj, this.entity.xCoord, this.entity.yCoord - 1, this.entity.zCoord);
+		return HeatHandler.getEnvHeat(this.entity.getWorldObj(), this.entity.xCoord, this.entity.yCoord - 1, this.entity.zCoord);
 	}
 
 	@Override

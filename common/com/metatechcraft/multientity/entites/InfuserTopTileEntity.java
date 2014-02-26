@@ -18,15 +18,16 @@ import com.forgetutorials.multientity.extra.IHeatContainer;
 import com.metatechcraft.mod.MetaTechCraft;
 import com.metatechcraft.models.MetaTechCraftModels;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -59,6 +60,11 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 	@Override
 	public boolean isDynamiclyRendered() {
 		return true;
+	}
+
+	@Override
+	public boolean isOpaque() {
+		return false;
 	}
 
 	@Override
@@ -140,8 +146,8 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 	public ItemStack decrStackSize(int i, int j) {
 		if (this.stack != null) {
 			ItemStack itemstack;
-			if (!this.entity.worldObj.isRemote) {
-				this.entity.worldObj.markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
+			if (!this.entity.getWorldObj().isRemote) {
+				this.entity.getWorldObj().markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 			}
 			if (this.stack.stackSize <= j) {
 				itemstack = this.stack;
@@ -168,18 +174,18 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
 		this.stack = itemstack;
-		if (!this.entity.worldObj.isRemote) {
-			this.entity.worldObj.markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
+		if (!this.entity.getWorldObj().isRemote) {
+			this.entity.getWorldObj().markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 		}
 	}
 
 	@Override
-	public String getInvName() {
+	public String getInventoryName() {
 		return "InfuserTop";
 	}
 
 	@Override
-	public boolean isInvNameLocalized() {
+	public boolean hasCustomInventoryName() {
 		return false;
 	}
 
@@ -194,11 +200,11 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 	}
 
 	@Override
-	public void openChest() {
+	public void openInventory() {
 	}
 
 	@Override
-	public void closeChest() {
+	public void closeInventory() {
 	}
 
 	@Override
@@ -297,8 +303,8 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 				this.fluid.amount += amountToFill;
 			}
 			resource.amount -= amountToFill;
-			if (!this.entity.worldObj.isRemote) {
-				this.entity.worldObj.markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
+			if (!this.entity.getWorldObj().isRemote) {
+				this.entity.getWorldObj().markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 			}
 		}
 		return amountToFill;
@@ -317,8 +323,8 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 			if (this.fluid.amount <= 0) {
 				this.fluid = null;
 			}
-			if (!this.entity.worldObj.isRemote) {
-				this.entity.worldObj.markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
+			if (!this.entity.getWorldObj().isRemote) {
+				this.entity.getWorldObj().markBlockForUpdate(this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 			}
 		}
 		return new FluidStack(currentFluid, amountDrained);
@@ -362,7 +368,7 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		GL11.glPushMatrix();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glTranslated(x, y, z);
-		if (this.frameBoxList[facing]==null){
+		if (this.frameBoxList[facing] == null) {
 			this.frameBoxList[facing] = new GLDisplayList();
 		}
 		if (!this.frameBoxList[facing].isGenerated()) {
@@ -383,13 +389,13 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		if (this.target > 0) {
 			switch (this.target) {
 			case 1:
-				ghostStack = new ItemStack(Item.appleRed);
+				ghostStack = new ItemStack(Items.apple);
 				break;
 			case 2:
-				ghostStack = new ItemStack(Item.axeStone);
+				ghostStack = new ItemStack(Items.redstone);
 				break;
 			case 3:
-				ghostStack = new ItemStack(Item.bread);
+				ghostStack = new ItemStack(Items.bread);
 				break;
 			}
 		}
@@ -402,11 +408,11 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 			GL14.glBlendFuncSeparate(GL11.GL_CONSTANT_COLOR, GL11.GL_ZERO, GL11.GL_ZERO, GL11.GL_ZERO);
 			float color = ((this.ticker / 40) == 0) ? (this.ticker / 40f) * 0.4f : (1f - ((this.ticker - 40) / 40f)) * 0.4f;
 			GL14.glBlendColor(color, color, color, 1);
-			ItemTessallator.renderItemStack(this.entity.worldObj, ghostStack);
+			ItemTessallator.renderItemStack(this.entity.getWorldObj(), ghostStack, this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glDisable(GL11.GL_BLEND);
 		} else {
-			ItemTessallator.renderItemStack(this.entity.worldObj, ghostStack);
+			ItemTessallator.renderItemStack(this.entity.getWorldObj(), ghostStack, this.entity.xCoord, this.entity.yCoord, this.entity.zCoord);
 		}
 		GL11.glPopAttrib();
 
@@ -426,6 +432,16 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		this.target = (this.target + 1) % 4;
 
 		entityplayer.openGui(MetaTechCraft.instance, 0, world, x, y, z);
+	}
+
+	@Override
+	public void onBlockPlaced(World world, EntityPlayer player, int side, int direction, int x, int y, int z, float hitX, float hitY, float hitZ, int metadata) {
+		if (y > 5) {
+			world.setBlock(x, y - 1, z, this.entity.getBlockType(), validateTileEntity(null), 3);
+			InfernosMultiEntityStatic entity = (InfernosMultiEntityStatic) world.getTileEntity(x, y - 1, z);
+			entity.newEntity(getTypeName());
+			entity.onBlockPlaced(world, player, side, x, y - 1, z, hitX, hitY, hitZ, metadata);
+		}
 	}
 
 	@Override
@@ -474,11 +490,11 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack stack, Object[] data) {
 
-		this.readFromNBT(stack.getTagCompound());
-		
+		readFromNBT(stack.getTagCompound());
+
 		GL11.glDisable(GL11.GL_LIGHTING);
 		// GL11.glTranslated(x, y, z);
-		if (this.frameBoxList[6]==null){
+		if (this.frameBoxList[6] == null) {
 			this.frameBoxList[6] = new GLDisplayList();
 		}
 		if (!this.frameBoxList[6].isGenerated()) {
@@ -489,7 +505,6 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		}
 		this.frameBoxList[6].render();
 		GL11.glEnable(GL11.GL_LIGHTING);
-		
 
 		GL11.glPushMatrix();
 		GL11.glTranslated(0.5, 0.45, 0.5);
@@ -500,13 +515,13 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 		if (this.target > 0) {
 			switch (this.target) {
 			case 1:
-				ghostStack = new ItemStack(Item.appleRed);
+				ghostStack = new ItemStack(Items.apple);
 				break;
 			case 2:
-				ghostStack = new ItemStack(Item.axeStone);
+				ghostStack = new ItemStack(Items.redstone);
 				break;
 			case 3:
-				ghostStack = new ItemStack(Item.bread);
+				ghostStack = new ItemStack(Items.bread);
 				break;
 			}
 		}
@@ -519,11 +534,13 @@ public class InfuserTopTileEntity extends InfernosProxyEntityBase implements IHe
 			GL14.glBlendFuncSeparate(GL11.GL_CONSTANT_COLOR, GL11.GL_ZERO, GL11.GL_ZERO, GL11.GL_ZERO);
 			float color = ((this.ticker / 40) == 0) ? (this.ticker / 40f) * 0.4f : (1f - ((this.ticker - 40) / 40f)) * 0.4f;
 			GL14.glBlendColor(color, color, color, 1);
-			ItemTessallator.renderItemStack(this.entity.worldObj, ghostStack);
+			ItemTessallator.renderItemStack(this.entity.getWorldObj(), ghostStack, Minecraft.getMinecraft().thePlayer.posX,
+					Minecraft.getMinecraft().thePlayer.posY, Minecraft.getMinecraft().thePlayer.posZ);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glDisable(GL11.GL_BLEND);
 		} else {
-			ItemTessallator.renderItemStack(this.entity.worldObj, ghostStack);
+			ItemTessallator.renderItemStack(this.entity.getWorldObj(), ghostStack, Minecraft.getMinecraft().thePlayer.posX,
+					Minecraft.getMinecraft().thePlayer.posY, Minecraft.getMinecraft().thePlayer.posZ);
 		}
 		GL11.glPopAttrib();
 

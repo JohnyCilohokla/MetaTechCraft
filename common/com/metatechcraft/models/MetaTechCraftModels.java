@@ -17,11 +17,11 @@ public enum MetaTechCraftModels {
 
 	private IModelCustom modelFrameBox;
 
-	public final String MODEL_LOCATION;
+	public final ResourceLocation MODEL_LOCATION;
 	public static final ResourceLocation boxFrameTexture = new ResourceLocation(ModInfo.MOD_ID.toLowerCase(), "models/blocks/" + "strangeTexture.png");
 
 	MetaTechCraftModels(String location) {
-		this.MODEL_LOCATION = "/assets/metatechcraft/models/" + location;
+		this.MODEL_LOCATION = new ResourceLocation(ModInfo.MOD_ID.toLowerCase(), "models/" + location);
 	}
 
 	public void render(ResourceLocation texture, EnumFacing facing) {
@@ -33,7 +33,7 @@ public enum MetaTechCraftModels {
 		GL11.glColor4f(1, 1, 1, 1);
 		FMLClientHandler.instance().getClient().renderEngine.bindTexture(texture);
 		this.modelFrameBox.renderAll();
-			GL11.glPopMatrix();
+		GL11.glPopMatrix();
 	}
 
 	public void render() {
