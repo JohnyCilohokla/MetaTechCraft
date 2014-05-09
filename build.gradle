@@ -11,7 +11,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.1-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
 }
 
@@ -36,11 +36,11 @@ buildProps.withReader {
 version = "${config.build.version.number}.${config.build.patch.number}.${config.build.revision.number}"
 
 group= "FTA" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "MetaTechCraft"
+archivesBaseName = "MetaTechCraft-universal-1.7.2"
 
 
  dependencies {
-   compile files ("../ForgeTutorialsAPI/build/libs/ForgeTutorialsAPI-${configFTA.build.version.number}.${configFTA.build.patch.number}.${configFTA.build.revision.number}.jar")
+   compile files ("../ForgeTutorialsAPI/build/libs/ForgeTutorialsAPI-universal-1.7.2-${configFTA.build.version.number}.${configFTA.build.patch.number}.${configFTA.build.revision.number}.jar")
  }
 
 sourceSets.main{
@@ -50,19 +50,21 @@ sourceSets.main{
 	resources{
 		srcDirs 'resources'//set the resources folder as the /resources subfolder
 	}
-	manifest {
-		attributes FMLCorePlugin: "com.metatechcraft.loader.DepLoader"
-		attributes FMLCorePluginContainsFMLMod: "true"
-    }
 }
 
-
+jar {
+	manifest {
+		attributes FMLCorePlugin: "com.metatechcraft.loader.FTACoreLoader"
+		attributes FMLCorePluginContainsFMLMod: "true"
+	}
+}
+	
 minecraft {
-    version = "1.7.2-10.12.0.1029"
+    version = "1.7.2-10.12.1.1060"
     assetDir = "eclipse/assets"
 	
 	ext.versionMC = "1.7.2"
-	ext.versionForge = "10.12.0.1029"
+	ext.versionForge = "10.12.1.1060"
 	
 	
     replaceIn "com/metatechcraft/lib/ModInfo.java"
@@ -74,6 +76,7 @@ minecraft {
 	replace "@VERSION@", config.build.version.number
 	replace "@PATCH@", config.build.patch.number
 	replace "@REVISION@", config.build.revision.number
+	
 }
 
 processResources

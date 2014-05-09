@@ -27,7 +27,7 @@ public class MetaLiquids {
 		MetaLiquids.metaLiquidContainer = new MetaLiquidContainer(26648);
 
 		// empty
-		ItemStack emptyLiquidContainerStack = new ItemStack(MetaLiquids.metaLiquidContainer, 1, 0);
+		//ItemStack emptyLiquidContainerStack = new ItemStack(MetaLiquids.metaLiquidContainer, 1, 0);
 		// LanguageRegistry.addName(emptyLiquidContainerStack,
 		// MetaLiquidContainer.getDisplayName(emptyLiquidContainerStack));
 
@@ -43,7 +43,7 @@ public class MetaLiquids {
 			FluidContainerRegistry.registerFluidContainer(new FluidContainerData(new FluidStack(descriptorFluid.getFluid(), 125), new ItemStack(
 					MetaLiquids.metaLiquidContainer, 1, i + 1), new ItemStack(MetaLiquids.metaLiquidContainer, 1, 0)));
 
-			ItemStack metaLiquidContainerStack = new ItemStack(MetaLiquids.metaLiquidContainer, 1, i + 1);
+			//ItemStack metaLiquidContainerStack = new ItemStack(MetaLiquids.metaLiquidContainer, 1, i + 1);
 			// LanguageRegistry.addName(metaLiquidContainerStack,
 			// MetaLiquidContainer.getDisplayName(metaLiquidContainerStack));
 

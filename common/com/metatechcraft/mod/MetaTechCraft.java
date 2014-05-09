@@ -1,5 +1,7 @@
 package com.metatechcraft.mod;
 
+import java.util.List;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,8 +9,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
+import com.forgetutorials.lib.FTA;
 import com.forgetutorials.lib.registry.InfernosRegisteryProxyEntity;
 import com.forgetutorials.lib.utilities.ForgeRegistryUtilities;
 import com.forgetutorials.multientity.InfernosMultiEntityStatic;
@@ -60,6 +66,12 @@ public class MetaTechCraft implements IGuiHandler {
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new CoreHooks());
+		ForgeChunkManager.setForcedChunkLoadingCallback(this, new LoadingCallback() {
+			@Override
+			public void ticketsLoaded(List<Ticket> tickets, World world) {
+				FTA.out(tickets.toString());
+			}
+		});
 	}
 
 	@EventHandler

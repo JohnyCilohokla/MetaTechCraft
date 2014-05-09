@@ -19,13 +19,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
-public class GuiT extends GuiContainer {
+public class PrototyperGui extends GuiContainer {
 
 	InfernosMultiEntityStatic entity;
 	private int mouseX;
 	private int mouseY;
 
-	public GuiT(InventoryPlayer inventoryPlayer, InfernosMultiEntityStatic tileEntity) {
+	public PrototyperGui(InventoryPlayer inventoryPlayer, InfernosMultiEntityStatic tileEntity) {
 		super(new ContainerT(inventoryPlayer, tileEntity));
 		this.xSize = 216;
 		this.ySize = 222;
@@ -35,7 +35,7 @@ public class GuiT extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int param1, int param2) {
 		//this.zLevel = 300.0F;
-		this.mc.getTextureManager().bindTexture(GuiT.field_110421_t);
+		this.mc.getTextureManager().bindTexture(PrototyperGui.field_110421_t);
 		int time = (int) ((System.currentTimeMillis()%2000)/500);
 		int o = (time>=3)?1-(time-3):time;
 		drawTexturedModalRect(7, 207, 7, 222+o*11, 33, 11);
@@ -71,7 +71,7 @@ public class GuiT extends GuiContainer {
 				GL11.glDisable(GL11.GL_DEPTH_TEST);
 				for (IncrementalBlock b : ((MetaMiner) proxyEntity).blocks) {
 					if (mouseX > 18 * (i / 6) + 8 && mouseX < 18 * (i / 6) + 26 && mouseY > (i % 6) * 18 + 22 && mouseY < (i % 6) * 18 + 40) {
-						this.mc.getTextureManager().bindTexture(GuiT.field_110421_t);
+						this.mc.getTextureManager().bindTexture(PrototyperGui.field_110421_t);
 						drawTexturedModalRect(26 + 18 * (i / 6), (i % 6) * 18 + 18, 0, 0, 216, 222);
 						this.fontRendererObj.drawString("" + b.current, 30 + 18 * (i / 6), (i % 6) * 18 + 22, 0);
 					}
@@ -102,7 +102,7 @@ public class GuiT extends GuiContainer {
 				GL11.glDisable(GL11.GL_DEPTH_TEST);
 				for (IncrementalItemStack b : ((MetaMiner) proxyEntity).stacks) {
 					if (mouseX > 18 * (i / 6) + 8 && mouseX < 18 * (i / 6) + 26 && mouseY > (i % 6) * 18 + 22 && mouseY < (i % 6) * 18 + 40) {
-						this.mc.getTextureManager().bindTexture(GuiT.field_110421_t);
+						this.mc.getTextureManager().bindTexture(PrototyperGui.field_110421_t);
 						drawTexturedModalRect(26 + 18 * (i / 6), (i % 6) * 18 + 18, 0, 0, 216, 222);
 						this.fontRendererObj.drawString("" + b.current, 30 + 18 * (i / 6), (i % 6) * 18 + 22, 0);
 					}
@@ -117,11 +117,11 @@ public class GuiT extends GuiContainer {
 		}
 	}
 
-	private static final ResourceLocation field_110421_t = new ResourceLocation(ModInfo.MOD_ID.toLowerCase(), "gui/craftingChamber.png");
+	private static final ResourceLocation field_110421_t = new ResourceLocation(ModInfo.MOD_ID.toLowerCase(), "gui/prototyper.png");
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
-		this.mc.getTextureManager().bindTexture(GuiT.field_110421_t);
+		this.mc.getTextureManager().bindTexture(PrototyperGui.field_110421_t);
 		int k = (this.width - this.xSize) / 2;
 		int l = (this.height - this.ySize) / 2;
 		drawTexturedModalRect(k, l, 0, 0, 250, 222);

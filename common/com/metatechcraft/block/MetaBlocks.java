@@ -12,6 +12,7 @@ import com.metatechcraft.mod.MetaTechCraft;
 import com.metatechcraft.multientity.entites.InfuserTopTileEntity;
 import com.metatechcraft.multientity.entites.InventoryLinkMk1;
 import com.metatechcraft.multientity.entites.InventoryLinkMk2;
+import com.metatechcraft.multientity.entites.MetaMiner;
 import com.metatechcraft.multientity.entites.SolidFuelHeaterTileEntity;
 
 import net.minecraft.item.ItemStack;
@@ -103,6 +104,9 @@ public class MetaBlocks {
 				MetaTechCraft.tabs);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
 		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(InventoryLinkMk2.TYPE_NAME, InventoryLinkMk2.class, InfernosMultiEntityType.STATIC_INVENTORY,
+				MetaTechCraft.tabs);
+		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
+		InfernosRegisteryProxyEntity.INSTANCE.addMultiEntity(MetaMiner.TYPE_NAME, MetaMiner.class, InfernosMultiEntityType.STATIC_BASIC,
 				MetaTechCraft.tabs);
 		// ----------------------------------------------------------------------------------------------------------------------------------------------------//
 	}

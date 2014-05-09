@@ -4,4 +4,6 @@ buildConfig.properties
 /.gradle/
 /gradle/
 /eclipse/
+/oldLoaderSrc/
 setup.bat
+*.bat
