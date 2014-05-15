@@ -14,12 +14,15 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class MetaOreBlock extends Block {
@@ -28,12 +31,35 @@ public class MetaOreBlock extends Block {
 	public static final int ORE_COUNT = MetaOreBlock.ORE_NAMES.length;
 	static final int ORE_SIZE = MetaOreBlock.ORE_COUNT - 1;
 	private IIcon[] icons;
+	
+	 @SuppressWarnings("unchecked")
+	@Override
+	public void addCollisionBoxesToList(World p_149743_1_, int p_149743_2_, int p_149743_3_, int p_149743_4_, AxisAlignedBB p_149743_5_, List p_149743_6_,
+			Entity p_149743_7_) {
+	        AxisAlignedBB axisalignedbb1 = this.getCollisionBoundingBoxFromPool(p_149743_1_, p_149743_2_, p_149743_3_, p_149743_4_);
 
+	        if (p_149743_7_ instanceof EntityPlayer && axisalignedbb1 != null && p_149743_5_.intersectsWith(axisalignedbb1))
+	        {
+	            p_149743_6_.add(axisalignedbb1);
+	        }
+	}
+	 
+    @Override
+    public boolean isNormalCube() {
+    	return false;
+    }
+    
+    @Override
+    public boolean isNormalCube(IBlockAccess world, int x, int y, int z) {
+    	return false;
+    }
+    
 	protected MetaOreBlock(int par1) {
 		// make sure the material used can be broken by hand!
 		super(MetaMaterial.metaMaterial);
 		setCreativeTab(MetaTechCraft.tabs);
 		MetaTechCraft.registry.registerBlock(this, "MetaOreBlock", "MetaOreBlock", MetaOreItem.class);
+		//setBlockBounds(0, 0, 0, 0, 0, 0);
 	}
 
 	@Override

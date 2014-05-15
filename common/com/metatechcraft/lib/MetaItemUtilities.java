@@ -14,7 +14,7 @@ public class MetaItemUtilities {
 		Item item = itemStack.getItem();
 		if (item instanceof MetaTool) {
 			MetaTool tool = (MetaTool) item;
-			ItemUtilities.damageItemOrDestroy(itemStack, damage, entity, world, x, y, z, tool.onDestroyItem, tool.onDestroyItemCount, tool.onDestroyItemMeta);
+			ItemUtilities.damageItemOrDestroy(itemStack, damage, entity, world, x, y, z, tool.getOnDestroyStack());
 		} else {
 			ItemUtilities.damageItemOrDestroy(itemStack, damage, entity, world, x, y, z, null, 0, 1);
 		}

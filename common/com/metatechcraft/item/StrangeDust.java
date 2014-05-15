@@ -15,7 +15,7 @@ public class StrangeDust extends ItemWithInfo {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
 
-	public StrangeDust(int id) {
+	public StrangeDust() {
 		super();
 		MetaTechCraft.registry.registerItem(this, "StrangeDust", "Strange Dust");
 		setCreativeTab(MetaTechCraft.tabs);

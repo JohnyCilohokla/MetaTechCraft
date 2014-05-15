@@ -22,12 +22,13 @@ public class StrangeHammer extends MetaTool {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
 
-	public StrangeHammer(int id) {
-		super(id, MetaMaterial.metaMaterial);
+	public StrangeHammer() {
+		super(MetaMaterial.metaMaterial);
 		MetaTechCraft.registry.registerItem(this, "StrangeHammer", "Strange Hammer");
 		setCreativeTab(MetaTechCraft.tabs);
 		setMaxDamage(5000);
 		setOnDestroyItem(MetaItems.strangeDust);
+		setHarvestLevel("metaHammer", 20);
 	}
 
 	@Override

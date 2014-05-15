@@ -15,7 +15,7 @@ public class StrangeBrick extends ItemWithInfo {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
 
-	public StrangeBrick(int id) {
+	public StrangeBrick() {
 		super();
 		MetaTechCraft.registry.registerItem(this, "StrangeBrick", "Strange Brick");
 		setCreativeTab(MetaTechCraft.tabs);

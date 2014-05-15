@@ -26,7 +26,7 @@ public class MetaChunk extends ItemWithInfo {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
 
-	public MetaChunk(int id) {
+	public MetaChunk() {
 		super();
 		MetaTechCraft.registry.registerItem(this, "MetaChunk", "Meta Chunk");
 		setHasSubtypes(true);

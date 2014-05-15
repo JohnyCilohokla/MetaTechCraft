@@ -21,12 +21,14 @@ public class StrangeChisel extends MetaTool {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
 
-	public StrangeChisel(int id) {
-		super(id, MetaMaterial.metaMaterial);
+	public StrangeChisel() {
+		super(MetaMaterial.metaMaterial);
 		MetaTechCraft.registry.registerItem(this, "StrangeChisel", "Strange Chisel");
 		setCreativeTab(MetaTechCraft.tabs);
 		setMaxDamage(5000);
 		setOnDestroyItem(MetaItems.strangeDust);
+		setHarvestLevel("metaHammer", 20);
+		setHarvestLevel("metaChisel", 20);
 	}
 
 	@Override

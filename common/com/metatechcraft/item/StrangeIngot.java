@@ -15,7 +15,7 @@ public class StrangeIngot extends ItemWithInfo {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
 
-	public StrangeIngot(int id) {
+	public StrangeIngot() {
 		super();
 		MetaTechCraft.registry.registerItem(this, "StrangeIngot", "Strange Ingot");
 		setCreativeTab(MetaTechCraft.tabs);

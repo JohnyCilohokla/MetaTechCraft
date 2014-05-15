@@ -22,7 +22,7 @@ public class StrangeClay extends ItemWithInfo {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
 
-	public StrangeClay(int id) {
+	public StrangeClay() {
 		super();
 		MetaTechCraft.registry.registerItem(this, "StrangeClay", "Strange Clay");
 		setCreativeTab(MetaTechCraft.tabs);

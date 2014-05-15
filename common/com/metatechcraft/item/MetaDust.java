@@ -26,7 +26,7 @@ public class MetaDust extends ItemWithInfo {
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
 
-	public MetaDust(int id) {
+	public MetaDust() {
 		super();
 		MetaTechCraft.registry.registerItem(this, "MetaDust", "Meta Dust");
 		setHasSubtypes(true);

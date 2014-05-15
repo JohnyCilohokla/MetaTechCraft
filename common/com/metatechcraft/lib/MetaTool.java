@@ -13,11 +13,12 @@ import net.minecraft.world.World;
 public class MetaTool extends ItemWithInfo {
 
 	Material material;
+	protected ItemStack onDestroyItemStack;
 	protected Item onDestroyItem;
 	protected int onDestroyItemMeta;
 	protected int onDestroyItemCount;
 
-	public MetaTool(int id, Material material) {
+	public MetaTool(Material material) {
 		super();
 		this.material = material;
 		setMaxStackSize(1);
@@ -33,6 +34,10 @@ public class MetaTool extends ItemWithInfo {
 		this.onDestroyItem = onDestroyItem;
 		this.onDestroyItemMeta = onDestroyItemMeta;
 		this.onDestroyItemCount = onDestroyItemCount;
+	}
+	
+	public void setOnDestroyItemStack(ItemStack onDestroyItemStack) {
+		this.onDestroyItemStack = onDestroyItemStack;
 	}
 
 	@Override
@@ -55,5 +60,9 @@ public class MetaTool extends ItemWithInfo {
 	 */
 	public String getToolMaterialName() {
 		return this.material.toString();
+	}
+
+	public ItemStack getOnDestroyStack() {
+		return onDestroyItemStack!=null?onDestroyItemStack.copy():(onDestroyItem!=null?new ItemStack(onDestroyItem, onDestroyItemCount, onDestroyItemMeta):null);
 	}
 }

@@ -22,17 +22,17 @@ public class MetaItems {
 	public static ItemStack strangeDustStack;
 
 	public static void initize() {
-		MetaItems.metaChunk = new MetaChunk(26000);
+		MetaItems.metaChunk = new MetaChunk();
 
-		MetaItems.metaDust = new MetaDust(26001);
+		MetaItems.metaDust = new MetaDust();
 
-		MetaItems.strangeDust = new StrangeDust(26002);
+		MetaItems.strangeDust = new StrangeDust();
 
-		MetaItems.strangeIngot = new StrangeIngot(26003);
-		MetaItems.strangeClay = new StrangeClay(26004);
-		MetaItems.strangeBrick = new StrangeBrick(26005);
+		MetaItems.strangeIngot = new StrangeIngot();
+		MetaItems.strangeClay = new StrangeClay();
+		MetaItems.strangeBrick = new StrangeBrick();
 
-		MetaItems.strangeStick = new StrangeStick(26006);
+		MetaItems.strangeStick = new StrangeStick();
 
 		MetaItems.strangeDustStack = new ItemStack(MetaItems.strangeDust);
 
@@ -41,19 +41,19 @@ public class MetaItems {
 		 */
 
 		// hammer
-		MetaItems.strangeHammer = new StrangeHammer(26103);
+		MetaItems.strangeHammer = new StrangeHammer();
 		// XXX
 		// MinecraftForge.setToolClass(MetaItems.strangeHammer, "metaHammer",
 		// 20);
 
 		// chisel
-		MetaItems.strangeChisel = new StrangeChisel(26104);
+		MetaItems.strangeChisel = new StrangeChisel();
 
 		// XXX
-		// MinecraftForge.setToolClass(MetaItems.strangeChisel, "metaHammer",
-		// 20);
-		// MinecraftForge.setToolClass(MetaItems.strangeChisel, "metaChisel",
-		// 20);
+		 /*MinecraftForge.setToolClass(MetaItems.strangeChisel, "metaHammer",
+		 20);
+		 MinecraftForge.setToolClass(MetaItems.strangeChisel, "metaChisel",
+		 20);*/
 
 	}
 
